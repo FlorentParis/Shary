@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {MessageInterface} from "./interfaces/MessageInterface";
+import Auth from './pages/authentification/Auth';
 
 function App() {
 
@@ -19,8 +20,9 @@ function App() {
   }, [message]);
 
   return (
-    <div className="App">
-      {msg}
+    <div>
+      {/* {msg} */}
+      <Auth />
     </div>
   );
 }
