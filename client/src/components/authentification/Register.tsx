@@ -1,6 +1,6 @@
 
 
-const Register = () => {
+const Register: React.FC = () => {
 
     return (
         <>
