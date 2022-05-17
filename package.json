@@ -13,7 +13,7 @@
     "node": "17.7.x"
   },
   "repository": {
-    "type": "git",
+    "type": "git", 
     "url": "git+https://github.com/FlorentParis/Shary.git"
   },
   "author": "",
