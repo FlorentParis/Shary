@@ -1,18 +1,38 @@
-const express = require('express');
-require('dotenv').config();
-
-const PORT = process.env.PORT || 3001;
-
+require('dotenv').config()
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
-
-app.use(express.json())
-
-app.get('/api', (req, res) => {
-    res.send({
-        msg: 'Hello World'
-    })
+//base de donnée
+const mongoose = require("mongoose");
+mongoose.Promise = global.Promise;
+var corsOptions = {
+    origin: "http://localhost:3031"
+};
+app.use(cors(corsOptions));
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+// simple route
+app.get("/", (req, res) => {
+    res.json({ message: "Welcome to Shary server" });
+});
+// set port, listen for requests
+const PORT = process.env.PORT || 3030;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
 });
 
-app.listen(PORT, () => {
-    console.log(`Le serveur est lancé sur le port: ${PORT}`)
-})
+mongoose
+    .connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => {
+        console.log("Connected to the database!");
+    })
+    .catch(err => {
+        console.log("Cannot connect to the database!", err);
+        process.exit();
+    });
