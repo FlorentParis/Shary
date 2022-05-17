@@ -3,9 +3,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
+const user_routes = require('./routes/UserRoute.js')
+
 //base de donnée
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
+
+
 var corsOptions = {
     origin: "http://localhost:3031"
 };
@@ -23,6 +27,9 @@ const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
+
+app.use(express.json())
+app.use('/api/user', user_routes)
 
 mongoose
     .connect(process.env.MONGO_URL, {
