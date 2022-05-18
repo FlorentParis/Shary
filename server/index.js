@@ -11,7 +11,8 @@ mongoose.Promise = global.Promise;
 
 
 var corsOptions = {
-    origin: "http://localhost:3031"
+    origin: "http://localhost:3000",
+    credentials: true
 };
 app.use(cors(corsOptions));
 // parse requests of content-type - application/json

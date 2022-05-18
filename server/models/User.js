@@ -8,7 +8,11 @@ const UserSchema = new mongoose.Schema({
     phone:String,
     birthday:Date,
     role:String,
-   /*  photo:File, */
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 })
 //commentaire
 const User = mongoose.model('User', UserSchema)
