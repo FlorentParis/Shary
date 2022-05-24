@@ -8,6 +8,11 @@ const UserSchema = new mongoose.Schema({
     phone:String,
     birthday:Date,
     role:String,
+    status: {
+        type: String, 
+        enum: ['Pending', 'Active'],
+        default: 'Pending'
+    },
     img:
     {
         data: Buffer,

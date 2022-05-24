@@ -2,9 +2,13 @@ const express = require('express')
 const router = express.Router()
 
 const  { 
-    createUserCollection
+    createUser,
+    getUsers,
+    EmailVerification
 } = require('../controllers/UserController.js')
 
-router.post('/', createUserCollection) 
+router.post('/createUser', createUser)
+router.get('/emailVerification', EmailVerification) 
+router.get('/', getUsers)
 
 module.exports = router

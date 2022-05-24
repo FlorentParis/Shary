@@ -17,6 +17,7 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
         setForm([name])
         console.log('123')
     }
+
     const buttonHandler = (e:any) => {
         e.preventDefault()
 
@@ -27,15 +28,11 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                 firstname : "test",                 
                 password: "test",
                 img:{
-                    data: "test",
+                    data: file,
                     contentType:"test"
                 }          
             },             
-            withCredentials: true,             
-            /* auth: {                 
-                username: username,                 
-                password: password             
-            }  */        
+            withCredentials: true,                   
         }).then((res:any)=>res.data)   
     }
     const nameHandler = (e: any) => {
@@ -43,14 +40,13 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
     }
 
     const fileHandler = (e: any) => {
-        setFile(e.target)
+        setFile(e.target.value)
         console.log(e.target.value)
     }
 
 
     return (
         <div className={styles.container}>
-            {/* <form  onSubmit="localhost:3030/api/createUserCollection" method='POST'> */}
             <form  onSubmit={formHandler}>
                 <div className={styles.title}>
                     <h2>Inscrivez-vous</h2>
@@ -81,7 +77,8 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                         <input type="text" name="" id="" placeholder='Confirmation du mot de passe'/>
                     </div>
                     <div>
-                        <input type="file" onChange={fileHandler} />
+                    <label htmlFor="image">Upload Image</label>
+                        <input type="file" id="image" name="value" onChange={fileHandler} required/>
                     </div>
 
                 </div>

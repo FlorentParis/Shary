@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const user_routes = require('./routes/UserRoute.js')
+app.use(express.json())
+app.use('/', user_routes)
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -28,9 +30,6 @@ const PORT = process.env.PORT || 3030;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
-
-app.use(express.json())
-app.use('/api/user', user_routes)
 
 mongoose
     .connect(process.env.MONGO_URL, {
