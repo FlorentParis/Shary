@@ -13,7 +13,6 @@ const createUser = ((req, res) => {
         if (!userFound) {
             bcrypt.hash(data.password, 5, function( err, bcryptedPassword){
                 data.password = bcryptedPassword
-                console.log(data)
                 User.create(req.body)
                 .then(result => res.status(200).json({ result }))
                 .catch((error) => res.status(500).json({msg:  error }))
@@ -26,7 +25,7 @@ const createUser = ((req, res) => {
                     type: "OAuth2",
                     user: "symchowiczbenji@gmail.com",  
                     clientId: "828571010780-5qkqqvb2d0ensbl7qqtq8scsi967r6cc.apps.googleusercontent.com",  
-                    clientSecret: process.env.GOOGLE_OAUTH2_KEYS,  
+                    clientSecret: process.env.GOOGLE_OAUTH2_KEYS,
                     refreshToken: "1//04u-kOoe01-kBCgYIARAAGAQSNwF-L9IrnCfP21UpZPBSnWO7jKEjZYfFbu-EqrN9Cv1ht-6FM_eRzCWibjEpr4J-uJXTv6Tg2sE"  
                 }  
             });  
@@ -35,7 +34,7 @@ const createUser = ((req, res) => {
                 to: data.email, // list of receivers  
                 subject: "Verfication de votre compte Shary !", // Subject line  
                 text: "data.contenu", // plaintext body  
-                html: "Salut a toi <b>" + data.firstname + " " + data.lastname + "</b><br/>Pourrais tu nous confirmer qu'il s'agit bien de ton mail : " + data.email + "<br/>Si c'est bien le cas, cliques ici pour nous le confirmer : <a href='http://localhost:3030/emailVerification/?lastname=" + data.lastname + "&firstname=" + data.firstname + "'> CLIQUES ICI POTO !!!</a><br/> Merci et a bientot !<br/>Shary" // html body  
+                html: "Salut a toi <b>" + data.firstname + " " + data.lastname + "</b><br/>Pourrais tu nous confirmer qu'il s'agit bien de ton mail : " + data.email + "<br/>Si c'est bien le cas, cliques ici pour nous le confirmer : <a href='http://localhost:3030/emailVerification/?email=" + data.email + "'> CLIQUES ICI POTO !!!</a><br/> Merci et a bientot !<br/>Shary" // html body  
             }  
             transporter.sendMail(message, function(error, info){  
                 if(error){  
