@@ -8,7 +8,16 @@ const UserSchema = new mongoose.Schema({
     phone:Number,
     birthday:Date,
     role:String,
-   /*  photo:File, */
+    status: {
+        type: String, 
+        enum: ['Pending', 'Active'],
+        default: 'Pending'
+    },
+    img:
+    {
+        data: Buffer,
+        contentType: String
+    }
 })
 //commentaire
 const User = mongoose.model('Users', UserSchema)
