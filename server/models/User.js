@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    Create_at: { 
+    createAt: { 
         type: Date,
         default: Date.now
     }
