@@ -4,8 +4,10 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const user_routes = require('./routes/UserRoute.js')
+const event_routes = require('./routes/EventRoute.js')
 app.use(express.json())
 app.use('/', user_routes)
+app.use('/', event_routes)
 
 //base de donnée
 const mongoose = require("mongoose");
