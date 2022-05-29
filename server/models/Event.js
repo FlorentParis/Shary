@@ -4,32 +4,37 @@ const validator = require('validator')
 
 const EventSchema = new mongoose.Schema({
 
-    Name : String, 
-    Participants : {
-        ids : { 
-            type : Map,
-            of: {
-                email : {
-                    type : String, 
-                    required: [true, "Please provide your email!"],
-                },
-
-                id : Object, 
-                
-                role : {
-                    type: String,
-                    required: [true, 'Please define a user role'] 
-                },
-
-                status: {
-                    type: String, 
-                    enum: ['Pending', 'Active'],
-                    default: 'Pending'
-                },
+    name : String,      
+    participants : {
+        type : Map,
+        of: {
+            user_id: {
+                type:Number,
+                unique:true
             },
-        },
+            email: {
+                type: String,
+                required: [true, "Please provide your email!"],
+                unique: true,
+                lowercase: true,
+                validate: [validator.isEmail, "Please provide a valid Email!"]
+            },
+            role: {
+                type: String, 
+                enum: ['Admin', 'User', 'Moderator'],
+                default: 'User'
+            },
+            status: {
+                type: String, 
+                enum: ['Pending', 'Active'],
+                default: 'Pending'
+            }
+        }
     },
-    Modules : Array
+    modules : {
+        photos: Boolean,
+        livre_d_or: Boolean
+    },
 
 })
 //commentaire
