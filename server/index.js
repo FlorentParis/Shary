@@ -5,7 +5,6 @@ const cors = require("cors");
 const app = express();
 const user_routes = require('./routes/UserRoute.js')
 app.use(express.json())
-app.use('/', user_routes)
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -36,7 +35,8 @@ app.listen(PORT, () => {
 mongoose
     .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        autoIndex: true
     })
     .then(() => {
         console.log("Connected to the database!");
