@@ -3,8 +3,68 @@ const validator = require('validator')
 
 
 const EventSchema = new mongoose.Schema({
-
-    name : String,      
+    name : {
+        type:String,
+        required:[true, "Please provide the event's name"]
+    },
+    start: {
+        type:Date,
+        required:[true, "Please provide the event's start"]
+    },
+    end: {
+        type:Date,
+        required:[true, "Please provide the event's end"]
+    },
+    dresscode: {
+        type:String,
+        default:null
+    },
+    place:{
+        address:{
+            type:String,
+            required:[true, "Please provide the event's address"]
+        },
+        zipcode:{
+            type:Number,
+            required:[true, "Please provide the event's zip code"]
+        },
+        city:{
+            type:String,
+            required:[true, "Please provide your the event's city"]
+        },
+        access:{
+            transport:{
+                type:Boolean,
+                default:false
+            },
+            parking:{
+                type:Boolean,
+                default:false
+            },
+            pedestrian:{
+                type:Boolean,
+                default:false
+            }
+        }
+    },
+    contacts:{
+        type:Map,
+        of: {
+            firstname:{
+                type:String,
+                required:[true, "Please provide the contact's firstname"]
+            },
+            phone:{
+                type:String,
+                required:[true, "Please provide your contact's phone"]
+            },
+            contactBy:{
+                    type: String, 
+                    enum: ['call', 'SMS', 'all'],
+                    default: 'all'
+            }
+        }
+    },
     participants : {
         type : Map,
         of: {
@@ -32,10 +92,31 @@ const EventSchema = new mongoose.Schema({
         }
     },
     modules : {
-        photos: Boolean,
-        livre_d_or: Boolean
-    },
-
+        photoVideo: {
+            type: Boolean, 
+            default: false
+        },
+        chat: {
+            type: Boolean, 
+            default: false
+        },
+        livre: {
+            type: Boolean, 
+            default: false
+        },
+        artifice: {
+            type: Boolean, 
+            default: false
+        },
+        fresque: {
+            type: Boolean, 
+            default: false
+        },
+        playlist: {
+            type: Boolean, 
+            default: false
+        }
+    }
 })
 //commentaire
 const Event = mongoose.model('Events', EventSchema)
