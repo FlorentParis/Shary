@@ -65,6 +65,20 @@ const EventSchema = new mongoose.Schema({
             }
         }
     },
+    notifications:{
+        inviteAccepted:{
+            type:Boolean,
+            default:false
+        },
+        inviteRefused:{
+            type:Boolean,
+            default:false
+        },
+        announcement:{
+            type:Boolean,
+            default:false
+        }
+    },
     participants : {
         type : Map,
         of: {
