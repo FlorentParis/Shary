@@ -13,18 +13,20 @@ const createUser = catchAsync(async(req, res, next) => {
 
     //const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
 
+    // Send email with a link to activate the account
+    const mailSent = await sendMailActivation(data);
+    console.log(mailSent);
+
     // Send result json if success else catch error with catch Async and send error name
     res.status(200).json({
             status: 'success',
             data: {
                 newUser
-            }
+            },
+            message : "Email nodemailer sent"
         }
     );
 
-    // Send email with a link to activate the account
-    const mailSent = await sendMailActivation(data);
-    console.log(mailSent);
 })
 
 // Doc : https://nodemailer.com/usage/
@@ -38,7 +40,7 @@ const sendMailActivation = async (data)=> {
             user: "symchowiczbenji@gmail.com",
             clientId: "828571010780-5qkqqvb2d0ensbl7qqtq8scsi967r6cc.apps.googleusercontent.com",
             clientSecret: process.env.GOOGLE_OAUTH2_KEYS, //Key to configure
-            refreshToken: "1//04u-kOoe01-kBCgYIARAAGAQSNwF-L9IrnCfP21UpZPBSnWO7jKEjZYfFbu-EqrN9Cv1ht-6FM_eRzCWibjEpr4J-uJXTv6Tg2sE"
+            refreshToken: "1//04Xq2X3b-NsYbCgYIARAAGAQSNwF-L9IrYZkIO6cNd8ERMuWJJArLPXplJM7xv-0s4Z2Z-vGV2zih2VGU2Dlq0hrHjC7E1iKQ41M"
         }
     });
 
