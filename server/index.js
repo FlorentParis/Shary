@@ -4,13 +4,15 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const user_routes = require('./routes/UserRoute.js')
+
 app.use(express.json())
-app.use('/', user_routes)
 
 //base de donnée
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/ErrorController');
 
 var corsOptions = {
     origin: "http://localhost:3000",
@@ -34,7 +36,8 @@ app.listen(PORT, () => {
 mongoose
     .connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        autoIndex: true
     })
     .then(() => {
         console.log("Connected to the database!");
@@ -43,3 +46,18 @@ mongoose
         console.log("Cannot connect to the database!", err);
         process.exit();
     });
+
+// ROUTES
+app.use('/api/user', user_routes);
+
+
+//  AFFICHAGE ERREUR JSON
+app.all('*', (req, res, next)=>{
+    //res.status(404).json({
+    //    status : 'fail',
+    //    message: `Can't find ${req.originalUrl} on this server!`
+    //})
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+})
+
+app.use(globalErrorHandler);
