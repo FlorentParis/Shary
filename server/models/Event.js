@@ -3,6 +3,10 @@ const validator = require('validator')
 
 
 const EventSchema = new mongoose.Schema({
+    userId: {
+        type:String,
+        required:true
+    },
     name : {
         type:String,
         required:[true, "Please provide the event's name"]
@@ -50,13 +54,9 @@ const EventSchema = new mongoose.Schema({
     contacts:{
         type:Map,
         of: {
-            firstname:{
+            _id:{
                 type:String,
-                required:[true, "Please provide the contact's firstname"]
-            },
-            phone:{
-                type:String,
-                required:[true, "Please provide your contact's phone"]
+                required:[true, "id not found"]
             },
             contactBy:{
                     type: String, 
@@ -83,15 +83,8 @@ const EventSchema = new mongoose.Schema({
         type : Map,
         of: {
             user_id: {
-                type:Number,
+                type:String,
                 unique:true
-            },
-            email: {
-                type: String,
-                required: [true, "Please provide your email!"],
-                unique: true,
-                lowercase: true,
-                validate: [validator.isEmail, "Please provide a valid Email!"]
             },
             role: {
                 type: String, 
@@ -102,7 +95,8 @@ const EventSchema = new mongoose.Schema({
                 type: String, 
                 enum: ['Pending', 'Active'],
                 default: 'Pending'
-            }
+            },
+            _id : false 
         }
     },
     modules : {
