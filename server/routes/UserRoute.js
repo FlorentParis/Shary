@@ -5,12 +5,21 @@ const  {
     createUser,
     getAllUsers,
     activateAccount,
-    UpdateUser
+    UpdateUser,
+    getUserConnexion
 } = require('../controllers/UserController.js')
 
+
+function isConnected(){
+    var token = new Cookies(req,res).get('access_token');
+    // Verifier ce qu'on veut.
+    next;
+}
+
 router.post('/createUser', createUser)
-router.post('/modifyUserInfo', UpdateUser)
+router.post('/modifyUserInfo',isConnected, UpdateUser)
 router.get('/emailVerification', activateAccount)
-router.get('/', getAllUsers)
+router.get('/',isConnected, getAllUsers),
+router.post('/getUserConnexion', isConnected, getUserConnexion)
 
 module.exports = router

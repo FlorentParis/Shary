@@ -99,9 +99,27 @@ const UpdateUser = catchAsync(async (req, res) => {
     });
 })
 
+const getUserConnexion = ((req, res) => {
+
+
+    User.findOne({email: req.query.email, password: req.query.pw})
+        .then(result => 
+            res.status(200).json(result == null ? 
+                'Mot de passe ou Email incorrect': 
+                new jwt_token = jwt.sign({ id: result.id }),
+                new Cookies(req,res).set('access_token',jwt_token , {
+                    httpOnly: true,
+                    secure: true
+                }),
+                 'Tu es connecté')
+            )
+        .catch(() => res.status(404).json({msg: 'Not Found'}))
+})
+
 module.exports = {
     createUser,
     getAllUsers,
     activateAccount,
-    UpdateUser
+    UpdateUser,
+    getUserConnexion
 }
