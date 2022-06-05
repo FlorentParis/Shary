@@ -1,4 +1,3 @@
-import styles from '../../style/pages/authentification/Login.module.scss'
 import registerLogin from '../../interfaces/RegisterLogin'
 
 const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
@@ -8,11 +7,11 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
     }
 
     return (
-        <div className={styles.container}>
-                <div className={styles.title}>
+        <div >
+                <div >
                     <h2>Inscrivez-vous</h2>
                 </div>
-                <div className={styles.form}>
+                <div >
                     <div>
                         <label htmlFor=""></label>
                         <input type="text" name="" id="" placeholder='Nom' />
@@ -39,7 +38,7 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                     </div>
 
                 </div>
-                <div className={styles.connection}>
+                <div>
                     <button>Inscription</button>
                     <p>Vous avez déjà un compte ? <span onClick={stateHandler}>Connectez-vous</span></p>
                 </div>

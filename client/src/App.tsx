@@ -1,45 +1,50 @@
 import React, {useEffect, useState} from 'react';
 import {MessageInterface} from "./interfaces/MessageInterface";
 import Auth from './pages/authentification/Auth';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {Routes, Route} from 'react-router-dom';
+import HideIfLogged from './components/common/HideIfLogged';
+import HideIfNotLogged from './components/common/HideIfNotLogged';
 
 /* Pages */
 import Homepage from './pages/homepage';
+import Profil from './pages/profil';
+
+/* Components */
+import NavbarLeft from './components/navbar/vertical/NavbarVertical';
+import NavbarTop from './components/navbar/top/NavbarTop';
+
+/* Interfaces */
 import UserInterface from './interfaces/UserInterface';
 
 function App() {
 
   const [message, setMessage] = useState<MessageInterface>({msg: ''});
   const [msg, setMsg] = useState<string>("loading...");
-  const [user, setUser] = useState<UserInterface>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    telephone: 0,
-    password: "",
-    passwordConfirm: ""
+  const [loggedUser, setLoggedUser] = useState<UserInterface>({
+    status: 'error',
+    mail: '',
+    token: 'dzadz'
   });
-
-  useEffect(() => {
-    fetch("http://localhost:3001/api")
-    .then(res => res.json())
-    .then(data => setMessage(data))
-  }, [])
-
-  useEffect(() => {
-    if(message.msg != ''){
-      setMsg(message.msg);
-    }
-  }, [message]);
 
   return (
     <>
-      <Router>
+      <HideIfLogged loggedUser={loggedUser}>
         <Routes>
-          <Route path="/" element={<Homepage />} />
           <Route path="/auth" element={<Auth />} />
         </Routes>
-      </Router>
+      </HideIfLogged>
+      <HideIfNotLogged loggedUser={loggedUser}>
+        <NavbarTop />
+        <div className="content-layout">
+          <NavbarLeft />
+          <div className="main-layout">
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/profil" element={<Profil />} />
+            </Routes>
+          </div>
+        </div>
+      </HideIfNotLogged>
     </>
   );
 }
