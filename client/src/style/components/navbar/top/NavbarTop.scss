@@ -79,3 +79,15 @@
         }
     }
 }
+
+@media only screen and (max-width: 600px) {
+    #btn-add-event {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 425px) {
+    .navbar-top-container {
+        display: none;
+    }
+}

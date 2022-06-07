@@ -15,6 +15,7 @@ import NavbarTop from './components/navbar/top/NavbarTop';
 
 /* Interfaces */
 import UserInterface from './interfaces/UserInterface';
+import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
               <Route path="/profil" element={<Profil />} />
             </Routes>
           </div>
+          <NavbarBottomMobile />
         </div>
       </HideIfNotLogged>
     </>
