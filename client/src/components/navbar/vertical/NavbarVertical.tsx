@@ -13,19 +13,19 @@ export default function NavbarVertical() {
                 <img src="./icons/event-pass.svg" alt="" />
             </Link>
             <span className="line"></span>
-            <Link to="/profil">
+            <Link to="/information">
                 <img src="./icons/params.svg" alt="" />
             </Link>
             <Link to="/guest-list">
                 <img src="./icons/guest.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <Link to="/alert">
                 <img src="./icons/alert.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <Link to="/modules">
                 <img src="./icons/modules.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <Link to="/moderation">
                 <img src="./icons/moderation.svg" alt="" />
             </Link>
         </nav>

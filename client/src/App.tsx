@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {MessageInterface} from "./interfaces/MessageInterface";
 import Auth from './pages/authentification/Auth';
 import {Routes, Route} from 'react-router-dom';
 import HideIfLogged from './components/common/HideIfLogged';
@@ -19,16 +18,24 @@ import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMob
 import EventToCome from './pages/event-to-come';
 import EventPass from './pages/event-pass';
 import GuestList from './pages/guest-list';
+import Modules from './pages/modules';
+import Alert from './pages/alert';
+import Information from './pages/information';
+import Moderation from './pages/moderation';
+import MenuProfil from './components/navbar/top/MenuProfil';
 
 function App() {
 
-  const [message, setMessage] = useState<MessageInterface>({msg: ''});
-  const [msg, setMsg] = useState<string>("loading...");
+  const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<UserInterface>({
     status: 'error',
     mail: '',
     token: 'dzadz'
   });
+
+  useEffect(() => {
+    console.log(displayMenuProfil);
+  }, [displayMenuProfil])
 
   return (
     <>
@@ -39,7 +46,8 @@ function App() {
       </HideIfLogged>
       <HideIfNotLogged loggedUser={loggedUser}>
         <>
-          <NavbarTop />
+          <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
+          {displayMenuProfil ? <MenuProfil /> : ''}
           <div className="content-layout">
             <NavbarLeft />
             <div className="main-layout">
@@ -48,7 +56,11 @@ function App() {
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="event-pass" element={<EventPass />} />
+                <Route path="information" element={<Information />} />
                 <Route path="guest-list" element={<GuestList />} />
+                <Route path="alert" element={<Alert />} />
+                <Route path="modules" element={<Modules />} />
+                <Route path="moderation" element={<Moderation />} />
               </Routes>
             </div>
             <NavbarBottomMobile />

@@ -1,5 +1,4 @@
 import PageBanner from "../../components/common/PageBanner";
-import PageContainer from "../../components/common/PageContainer";
 
 export default function EventToCome() {
     return (
