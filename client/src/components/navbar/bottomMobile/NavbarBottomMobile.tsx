@@ -7,7 +7,7 @@ export default function NavbarBottomMobile() {
                 <img src="./icons/home.svg" alt="" />
             </Link>
             <Link to="/profil">
-                <img src="./icons/event-list.svg" alt="" />
+                <img src="./icons/event-to-come.svg" alt="" />
             </Link>
             <button>
                 +
