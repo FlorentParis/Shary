@@ -1,12 +1,12 @@
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 
-export default function Profil() {
+export default function EventPass() {
     return (
         <>
-            <PageBanner imgSrc="./icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
+            <PageBanner imgSrc="./icons/event-pass.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
             <PageContainer>
-                Profil
+                Event pass
             </PageContainer>
         </>
     )

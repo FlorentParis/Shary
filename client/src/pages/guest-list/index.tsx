@@ -1,12 +1,12 @@
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 
-export default function Profil() {
+export default function GuestList() {
     return (
         <>
-            <PageBanner imgSrc="./icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
+            <PageBanner imgSrc="./icons/guest.svg" title="Liste des invités" desc="Liste des invités de votre évènement" />
             <PageContainer>
-                Profil
+                Guest List
             </PageContainer>
         </>
     )

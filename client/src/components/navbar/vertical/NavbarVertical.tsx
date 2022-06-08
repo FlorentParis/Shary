@@ -6,17 +6,17 @@ export default function NavbarVertical() {
             <button>
                 +
             </button>
-            <Link to="/profil">
-                <img src="./icons/event-list.svg" alt="" />
+            <Link to="/event-to-come">
+                <img src="./icons/event-to-come.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <Link to="/event-pass">
                 <img src="./icons/event-pass.svg" alt="" />
             </Link>
             <span className="line"></span>
             <Link to="/profil">
                 <img src="./icons/params.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <Link to="/guest-list">
                 <img src="./icons/guest.svg" alt="" />
             </Link>
             <Link to="/profil">

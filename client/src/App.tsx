@@ -16,6 +16,9 @@ import NavbarTop from './components/navbar/top/NavbarTop';
 /* Interfaces */
 import UserInterface from './interfaces/UserInterface';
 import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
+import EventToCome from './pages/event-to-come';
+import EventPass from './pages/event-pass';
+import GuestList from './pages/guest-list';
 
 function App() {
 
@@ -35,17 +38,22 @@ function App() {
         </Routes>
       </HideIfLogged>
       <HideIfNotLogged loggedUser={loggedUser}>
-        <NavbarTop />
-        <div className="content-layout">
-          <NavbarLeft />
-          <div className="main-layout">
-            <Routes>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/profil" element={<Profil />} />
-            </Routes>
+        <>
+          <NavbarTop />
+          <div className="content-layout">
+            <NavbarLeft />
+            <div className="main-layout">
+              <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/profil" element={<Profil />} />
+                <Route path="/event-to-come" element={<EventToCome />} />
+                <Route path="event-pass" element={<EventPass />} />
+                <Route path="guest-list" element={<GuestList />} />
+              </Routes>
+            </div>
+            <NavbarBottomMobile />
           </div>
-          <NavbarBottomMobile />
-        </div>
+        </>
       </HideIfNotLogged>
     </>
   );
