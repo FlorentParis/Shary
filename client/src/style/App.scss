@@ -2,17 +2,14 @@
 
 /* Pages */
 @import "./pages/homepage";
+@import "./pages/event-to-come";
+@import "./pages/event-pass";
 @import "./pages/settings";
 
 /* Components Common */
-@import "./components/common/PageBanner.scss";
-@import "./components/common/PageContainer.scss";
-
-/* Components Navbar */
-@import "./components/navbar/top/NavbarTop.scss";
-@import "./components/navbar/top/MenuProfil.scss";
-@import "./components/navbar/left/NavbarLeft.scss";
-@import "./components/navbar/bottomMobile/bottomMobile.scss";
+@import "./components/common";
+@import "./components/navbar";
+@import "./components/event-pages";
 
 /* Fonts */
 @import "./fonts/Montserrat.scss";

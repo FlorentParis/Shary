@@ -19,6 +19,7 @@ export default function NavbarTop({displayMenuProfil, setDisplayMenuProfil}: Nav
                     </div>
                     <button id="btn-pp" onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
                         <img src="./prov/pp.png" alt="profil picture" />
+                        {displayMenuProfil ? <span></span> : ""}
                     </button>
                 </div>
             </div>
