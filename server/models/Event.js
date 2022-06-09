@@ -54,9 +54,13 @@ const EventSchema = new mongoose.Schema({
     contacts:{
         type:Map,
         of: {
-            _id:{
+            name:{
                 type:String,
-                required:[true, "id not found"]
+                required:[true, "Please provide a name"]
+            },
+            phone:{
+                type:String,
+                required:[true, "Please provide the phone number"]
             },
             contactBy:{
                     type: String, 
@@ -82,7 +86,11 @@ const EventSchema = new mongoose.Schema({
     participants : {
         type : Map,
         of: {
-            user_id: {
+            userId: {
+                type:String,
+                unique:true
+            },
+            email: {
                 type:String,
                 unique:true
             },
@@ -95,8 +103,7 @@ const EventSchema = new mongoose.Schema({
                 type: String, 
                 enum: ['Pending', 'Active'],
                 default: 'Pending'
-            },
-            _id : false 
+            }
         }
     },
     modules : {

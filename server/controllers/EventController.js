@@ -4,10 +4,9 @@ var nodemailer = require('nodemailer');
 const e = require('express');
 require('dotenv').config()
 
-
-
-async function createEvent(req, res) {
+const createEvent = async (req, res) => {
     var data = req.body
+    /* 
     data.participants = {}
     for(contact in data.contacts){
         try {
@@ -24,18 +23,38 @@ async function createEvent(req, res) {
         } catch (err) {
             return res.status(500).send("you're contacts need to create them account")
         }
-    }
+    } 
+    */
 
     try {
         const event = await Event.create(data)
-        res.status(200).json({event})
+        return res.status(200).json({event})
     } catch (err) {
-        return res.status(500).send("Crash on the request Event.create")
+        return res.status(500).send(err)
     }  
 }
 
-async function addParticipant(req, res) {
+const getEvents = async (req, res) => {
+    data = req.query
+    let events = ''
+    try{
+        if(data.idEvent){
+            events = await Event.find({_id: data.idEvent})
+        }else{
+            events = await Event.find({})
+        }
+        res.status(200).json({ events })
+    }catch (err) {
+        return res.status(500).send(err)
+    
+    }
+    
+}
+
+const addParticipant = async (req, res) => {
+
     var data = req.body
+
     let event = await Event.find(
         {
             _id: data.idEvent,
@@ -45,44 +64,108 @@ async function addParticipant(req, res) {
     if (!event)
         return res.status(500).send("Event not found")
 
-    try {
+    
+    let userInfo = await User.find({
+        firstname: data.user.firstname,
+        name: data.user.name,
+        email: data.user.email
+    })
 
-        let userInfo = await User.find({
-            firstname: data.user.firstname,
-            name: data.user.name,
-            email: data.user.email
-        })
+    let userInfoObject = {}
 
-        let object = {
-            user_id: userInfo[0]._id,
+    if(userInfo[0]._id){
+        userInfoObject = {
+            userId: userInfo[0]._id,
+            email: userInfo[0].email,
             role: data.user.role
         }
-        console.log("avant")
-        console.log(event[0].participants)
-        console.log("apres")
-        if(!event[0].participants){
-            event[0].participants[0] = object
-            const result = Event.replaceOne({_id: data.idEvent},event[0])
-
-        } else {
-            let count = Object.keys(event[0].participants).length / 3 
-            console.log("numero du participant:", count)
-            event[0].participants[count] = object
-            console.log('l ajout : ', event[0].participants[count])
-            console.log(event[0].participants[0])
-            const result = await Event.replaceOne({_id: data.idEvent},event[0])
-            console.log("resultat")
-            console.log(result)
+    }else{
+        userInfoObject = {
+            email: userInfo[0].email,
+            role: data.user.role
+        } 
+    }
+    
+    
+    if(!event[0].participants){
+        event[0].participants = {
+            "0": userInfoObject
         }
+        const result = await Event.replaceOne({_id: event[0]._id},event[0])
+        await sendMail(userInfoObject,event[0])
         return res.status(200).json({result})
-    } catch (err) {
-        return res.status(500).send("Crash create participant")
-    }  
+
+    } else {
+        let count = event[0].participants.size
+        console.log(count)
+        object = {}
+        string = 'participants.' + count
+        object['participants.'+count] = userInfoObject
+        const result = await Event.update({ _id: data.idEvent}, { "$set": object })
+        await sendMail(userInfoObject,event[0])
+        return res.status(200).json({result, userInfoObject})
+
+    }
 
 }
 
+const sendMail = async (userInfo,event) =>{
+    const userEvent = await User.find({
+        _id: event.userId,
+    })
+    console.log(event)
+    const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
+    const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
+    console.log(html)
+    if(userInfo.email){
+        var transporter = nodemailer.createTransport({  
+            service: 'gmail',  
+            auth: {  
+                type: "OAuth2",
+                user: "symchowiczbenji@gmail.com",  
+                clientId: "828571010780-5qkqqvb2d0ensbl7qqtq8scsi967r6cc.apps.googleusercontent.com",  
+                clientSecret: process.env.GOOGLE_OAUTH2_KEYS,
+                refreshToken: "1//04Xq2X3b-NsYbCgYIARAAGAQSNwF-L9IrYZkIO6cNd8ERMuWJJArLPXplJM7xv-0s4Z2Z-vGV2zih2VGU2Dlq0hrHjC7E1iKQ41M"  
+            }  
+        });  
+        var message = {  
+            from: "symchowiczbenji@gmail.com", // sender address  
+            to: userInfo.email, // list of receivers  
+            subject: subject, // Subject line  
+            text: "data.contenu", // plaintext body  
+            html:html
+        }  
+        transporter.sendMail(message, function(error, info){  
+                if(error){  
+                    console.log(error);  
+                    res.status(400);  
+                    res.json(data);        
+                    next();  
+                }    
+                else{  
+                    res.json(data);        
+                    next();  
+                }     
+            }
+        );  
+    }
+}
+
+const cookieInvitation = async (req, res) => {
+
+    const data = req.query
+    res.cookie('eventInvitation', data.eventId, {
+        expires: new Date(Date.now() + 600000),
+        httpOnly: true
+    })    
+    res.send("create cookie eventInvitation")
+    res.redirect("http://localhost:3000/")
+    
+}
 
 module.exports = {
     createEvent,
-    addParticipant
+    getEvents,
+    addParticipant,
+    cookieInvitation
 }
