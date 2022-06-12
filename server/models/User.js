@@ -1,18 +1,15 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const bcrypt = require('bcryptjs')
 
 const UserSchema = new mongoose.Schema({
     lastname:{
         type: String,
-        required: [true, "Please provide your lastname"]
+        required: [true, "Please tell us your name!"]
     },
     firstname:{
         type: String,
-        required: [true, "Please provide your firstname"]
-    },
-    password:{
-        type: String,
-        required: [true, "Please provide your password"]
+        required: [true, "Please tell us your name!"]
     },
     email:{
         type: String,
@@ -21,17 +18,28 @@ const UserSchema = new mongoose.Schema({
         lowercase: true,
         validate: [validator.isEmail, "Please provide a valid Email!"]
     },
-    phone:{
-        type: Number,
-        required: [true, "Please provide your phone"]
+    password:{
+        type: String,
+        required: [true, "Please provide a password"],
     },
-    birthday: {
+    passwordConfirm: {
+        type: String,
+        required : [true, "Please confirm your password"],
+        //this only works on save or create
+        validate:{
+            validator: function (el){
+                return el === this.password;
+            },
+            message : 'Password are not the same'
+        }
+    },
+    createdAt:{
         type: Date,
-        required: [true, "Please provide your birthdate"]
+        default: Date.now()
     },
     /* role: String, */
     status: {
-        type: String, 
+        type: String,
         enum: ['Pending', 'Active'],
         default: 'Pending'
     },
@@ -45,7 +53,20 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-//commentaire
-const User = mongoose.model('Users', UserSchema)
 
+//  Password hash
+UserSchema.pre('save', async function(next){
+    console.log("******** Password hash middleware");
+    //only run this function if password was actually modified
+    if(!this.isModified('password')) return next();
+
+    //hash the password with cost of 12
+    this.password = await bcrypt.hash(this.password, 12);
+    //console.log(this.password);
+    //Delete password confirm
+    this.passwordConfirm = undefined;
+    next();
+})
+
+const User = mongoose.model('Users', UserSchema)
 module.exports = User

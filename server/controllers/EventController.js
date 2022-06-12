@@ -1,10 +1,11 @@
-const Event = require('../models/Event.js')
-const User = require('../models/User.js')
+const Event = require('../models/Event.js');
+const User = require('../models/User.js');
 var nodemailer = require('nodemailer');
+const catchAsync = require('../utils/catchAsync');
 const e = require('express');
-require('dotenv').config()
+require('dotenv').config();
 
-const createEvent = async (req, res) => {
+const createEvent = catchAsync(async(req, res) => {
     var data = req.body
     /* 
     data.participants = {}
@@ -26,74 +27,74 @@ const createEvent = async (req, res) => {
     } 
     */
 
-    try {
-        const event = await Event.create(data)
-        return res.status(200).json({event})
-    } catch (err) {
-        return res.status(500).send(err)
-    }  
-}
+    const event = await Event.create(data)
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            event
+        },
+        message : ""
+    })
 
-const getAllEvents = async (req, res) => {
+})
+
+const getAllEvents = catchAsync(async(req, res) => {
     data = req.query
-    try{
-        console.log(data)
-        let events = await Event.find(data)
-        res.status(200).json({ events })
-    }catch (err) {
-        return res.status(500).send(err)
-    }
+    console.log(data)
+    let events = await Event.find(data)
+    res.status(200).json({
+        status: 'success',
+        data: {
+            events
+        },
+        message : ""
+    })
+
     
-}
+})
 
-const getAllEventsByUser = async (req, res) => {
-    data = req.query
+const getAllEventsByUser = catchAsync(async(req, res) => {
+    let data = req.query
     console.log(data._id)
+    let events = await Event.find({})
+    let userEvent = []
 
-    try{
-
-        let events = await Event.find({})
-        let userEvent = []
-
-        for(let elt = 0; elt < events.length; elt++){
-            console.log("EVENTS PARTICIPANTS !!!!!!!!!!")
-
-            for(let elt2 = 0; elt2 < events[elt].participants; elt2++){
-                console.log(events[elt].participants)
-
-                if(events[elt].participants[elt2].userId == data._id){
-                    console.log("PUSHHHHHHHHHHHHHHHHHHHHH")
-                    userEvent.push(events[elt])
-                    break
-                }
-
+    events.forEach(event => 
+        event.participants.forEach(function(participant){
+            if(participant.userId == data._id){
+                return userEvent.push(event)
             }
+        })
+    );
+    console.log(userEvent.length)
 
-        }
 
-        console.log(userEvent.length)
-        res.status(200).json({userEvent})
+    res.status(200).json({
+        status: 'success',
+        data: {
+            userEvent
+        },
+        message : ""
+    })
+})
 
-    }catch (err) {
-        console.log(err)
-        return res.status(500).send(err)
-    }
-}
-
-const updateEvent = async (req, res) => {
+const updateEvent = catchAsync(async(req, res) => {
     data = req.body
     let events = ''
-    try{
-        console.log(data)
-        events = await Event.updateOne({_id:data._id}, data);
-        res.status(200).json({ events })
-    }catch (err) {
-        return res.status(500).send(err)
-    }
-    
-}
+    console.log(data)
+    events = await Event.updateOne({_id:data._id}, data);
+    res.status(200).json({
+        status: 'success',
+        data: {
+           events
+        },
+        message : "Une personne a été ajouté a la liste des participants"
+    })
 
-const addParticipant = async (req, res) => {
+    
+})
+
+const addParticipant = catchAsync(async(req, res) => {
 
     var data = req.body
 
@@ -135,7 +136,14 @@ const addParticipant = async (req, res) => {
         }
         const result = await Event.replaceOne({_id: event[0]._id},event[0])
         await sendMail(userInfoObject,event[0])
-        return res.status(200).json({result})
+        res.status(200).json({
+            status: 'success',
+            data: {
+                result, 
+                userInfoObject
+            },
+            message : "Une personne a été ajouté a la liste des participants"
+        })
 
     } else {
         let count = event[0].participants.size
@@ -145,13 +153,18 @@ const addParticipant = async (req, res) => {
         object['participants.'+count] = userInfoObject
         const result = await Event.update({ _id: data.idEvent}, { "$set": object })
         await sendMail(userInfoObject,event[0])
-        return res.status(200).json({result, userInfoObject})
-
+        res.status(200).json({
+            status: 'success',
+            data: {
+                result, 
+                userInfoObject
+            },
+            message : "Une personne a été ajouté a la liste des participants"
+        })
     }
+})
 
-}
-
-const sendMail = async (userInfo,event) =>{
+const sendMail = catchAsync(async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
     })
@@ -185,15 +198,21 @@ const sendMail = async (userInfo,event) =>{
                     next();  
                 }    
                 else{  
-                    res.json(data);        
+                    res.status(200).json({
+                        status: 'success',
+                        data: {
+                            data
+                        },
+                        message : "Un mail a été envoyé, le destinataire est :" + userInfo.email
+                    })
                     next();  
                 }     
             }
         );  
     }
-}
+})
 
-const cookieInvitation = async (req, res) => {
+const cookieInvitation = catchAsync(async(req, res) => {
 
     const data = req.query
     res.cookie('eventInvitation', data.eventId, {
@@ -203,16 +222,23 @@ const cookieInvitation = async (req, res) => {
     res.send("create cookie eventInvitation")
     res.redirect("http://localhost:3000/")
     
-}
+})
 
-const deleteEvent = async (req, res) => {
+const deleteEvent = catchAsync(async(req, res) => {
     data = req.body
     let result = await Event.deleteOne(
         {_id:data.eventId}
     )
-    return res.status(500).send(result)
+    res.status(200).json({
+        status: 'success',
+        data: {
+            result
+        },
+        message : "L'event ayant pour iD" + data.eventId + "a été supprimé"
+    }
+);
 
-}
+})
 
 module.exports = {
     createEvent,

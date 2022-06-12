@@ -3,14 +3,14 @@ const router = express.Router()
 
 const  { 
     createUser,
-    getUsers,
-    EmailVerification,
-    modifyUserInfo
+    getAllUsers,
+    activateAccount,
+    UpdateUser
 } = require('../controllers/UserController.js')
 
 router.post('/createUser', createUser)
-router.post('/modifyUserInfo', modifyUserInfo)
-router.get('/emailVerification', EmailVerification) 
-router.get('/', getUsers)
+router.post('/modifyUserInfo', UpdateUser)
+router.get('/emailVerification', activateAccount)
+router.get('/', getAllUsers)
 
 module.exports = router
