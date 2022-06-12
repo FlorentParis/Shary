@@ -36,15 +36,48 @@ const createEvent = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
     data = req.query
-    let events = ''
     try{
         console.log(data)
-        events = await Event.find(data)
+        let events = await Event.find(data)
         res.status(200).json({ events })
     }catch (err) {
         return res.status(500).send(err)
     }
     
+}
+
+const getAllEventsByUser = async (req, res) => {
+    data = req.query
+    console.log(data._id)
+
+    try{
+
+        let events = await Event.find({})
+        let userEvent = []
+
+        for(let elt = 0; elt < events.length; elt++){
+            console.log("EVENTS PARTICIPANTS !!!!!!!!!!")
+
+            for(let elt2 = 0; elt2 < events[elt].participants; elt2++){
+                console.log(events[elt].participants)
+
+                if(events[elt].participants[elt2].userId == data._id){
+                    console.log("PUSHHHHHHHHHHHHHHHHHHHHH")
+                    userEvent.push(events[elt])
+                    break
+                }
+
+            }
+
+        }
+
+        console.log(userEvent.length)
+        res.status(200).json({userEvent})
+
+    }catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
 }
 
 const updateEvent = async (req, res) => {
@@ -185,6 +218,7 @@ module.exports = {
     createEvent,
     updateEvent,
     deleteEvent,
+    getAllEventsByUser,
     getAllEvents,
     addParticipant,
     cookieInvitation
