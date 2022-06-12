@@ -6,7 +6,9 @@ export default function GuestList() {
         <>
             <PageBanner imgSrc="./icons/guest.svg" title="Liste des invités" desc="Liste des invités de votre évènement" />
             <PageContainer>
-                Guest List
+                <div>
+                    Guest List
+                </div>
             </PageContainer>
         </>
     )
