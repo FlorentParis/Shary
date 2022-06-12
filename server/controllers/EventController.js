@@ -34,19 +34,28 @@ const createEvent = async (req, res) => {
     }  
 }
 
-const getEvents = async (req, res) => {
+const getAllEvents = async (req, res) => {
     data = req.query
     let events = ''
     try{
-        if(data.idEvent){
-            events = await Event.find({_id: data.idEvent})
-        }else{
-            events = await Event.find({})
-        }
+        console.log(data)
+        events = await Event.find(data)
         res.status(200).json({ events })
     }catch (err) {
         return res.status(500).send(err)
+    }
     
+}
+
+const updateEvent = async (req, res) => {
+    data = req.body
+    let events = ''
+    try{
+        console.log(data)
+        events = await Event.updateOne({_id:data._id}, data);
+        res.status(200).json({ events })
+    }catch (err) {
+        return res.status(500).send(err)
     }
     
 }
@@ -163,9 +172,20 @@ const cookieInvitation = async (req, res) => {
     
 }
 
+const deleteEvent = async (req, res) => {
+    data = req.body
+    let result = await Event.deleteOne(
+        {_id:data.eventId}
+    )
+    return res.status(500).send(result)
+
+}
+
 module.exports = {
     createEvent,
-    getEvents,
+    updateEvent,
+    deleteEvent,
+    getAllEvents,
     addParticipant,
     cookieInvitation
 }
