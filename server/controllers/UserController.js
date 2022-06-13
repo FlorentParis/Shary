@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError');
 var Cookies = require( "cookies" );
+const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
-const {promisify} = require("util");
 
 
 const createUser = catchAsync(async(req, res, next) => {
@@ -137,6 +137,15 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
 
 })
 
+const getUserDeconnexion = catchAsync(async (req, res, next) => {
+    id = await getUserID(req, res, next);
+    res.clearCookie('access_token');
+    res.status(200).json({
+        status:"succes",
+        message:"deconnecté"
+    }) 
+    }
+)
 
 module.exports = {
     createUser,
@@ -144,5 +153,6 @@ module.exports = {
     getAllUsers,
     activateAccount,
     UpdateUser,
-    getUserConnexion
+    getUserConnexion,
+    getUserDeconnexion
 }
