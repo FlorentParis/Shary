@@ -81,6 +81,80 @@ export default function Information() {
                             </div>
                         </form>
                     </div>
+                    <div className="grid-card gc-3 contact-card">
+                        <span>Personne(s) à contacter</span>
+                        <form>
+                            <p>Définissez les personnes que pourront contacter vos invités.</p>
+                            <div>
+                                <label>contact n°1</label>
+                                <input placeholder="Prénom" />
+                                <input placeholder="Téléphone" />
+                                <label>Privilégier le contact par</label>
+                                <div className="options-select">
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label>Appel</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label>SMS</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>contact n°2</label>
+                                <input placeholder="Prénom" />
+                                <input placeholder="Téléphone" />
+                                <label>Privilégier le contact par</label>
+                                <div className="options-select">
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label>Appel</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" />
+                                        <label>SMS</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="grid-card gc-3 place-card">
+                        <span>Dresscode / Thème</span>
+                        <form>
+                            <p>Communiquez un thème ou un dresscode à vos invités</p>
+                            <textarea placeholder="Dresscode"></textarea>
+                        </form>
+                    </div>
+                    <div className="grid-card gc-4 notifs-card">
+                        <span>Notifications</span>
+                        <form>
+                            <p>Définissez les évènements pour lesquels vous souhaitez recevoir une notification</p>
+                            <div>
+                                <input type="checkbox" />
+                                <label>Invitation acceptée</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" />
+                                <label>Invitation déclinée</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" />
+                                <label>Nouvelle annonce créée</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="grid-card gc-3 remainder-card">
+                        <span>Alertes / Rappels</span>
+                        <form>
+                            <p>Envoyer un rappel aux invités</p>
+                            <div>
+                                <input type="time" name="" id="" />
+                                <input type="date" name="" id="" />
+                            </div>
+                            <textarea placeholder="Message personnalisé"></textarea>
+                        </form>
+                    </div>
                 </div>
             </GridContainer>
         </>

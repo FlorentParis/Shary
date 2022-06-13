@@ -2,7 +2,7 @@
     padding: 0!important;
 
     > div {
-        padding: 40px;
+        padding: 60px 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -48,7 +48,16 @@
 
 .place-card {
     form {
-        > div {
+        > div:first-of-type {
+            display: flex;
+            column-gap: 20px;
+
+            input {
+                width: 100%;
+            }
+        }
+
+        > div:last-of-type {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -72,6 +81,59 @@
             font-weight: 400;
             font-size: 12px;
             color: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
+.contact-card {
+    grid-row: span 2;
+    height: min-content;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        font-family: "Montserrat";
+        font-weight: 300;
+        font-size: 11px;
+        color: #636363;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            row-gap: 20px;
+
+            > label:first-of-type {
+                font-weight: 500;
+            }
+
+            > div {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    }
+}
+
+.notifs-card {
+    height: min-content;
+
+    form {
+        div {
+            font-family: 'Montserrat';
+            font-weight: 300;
+            font-size: 11px;
+            display: flex;
+            column-gap: 20px;
+            align-items: center;
+        }
+    }
+}
+
+.remainder-card {
+    form {
+        div {
+            display: flex;
+            column-gap: 20px;
         }
     }
 }
