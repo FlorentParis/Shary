@@ -33,8 +33,6 @@ function App() {
     token: 'dzadz'
   });
 
-<<<<<<< HEAD
-=======
   const closeProfile = () => {
     if (displayMenuProfil == true) {
       setDisplayMenuProfil(false)
@@ -42,7 +40,6 @@ function App() {
   }
 
 
->>>>>>> 6d2db10ad2ab214b3c32fe5a41fb678935378fb2
   return (
     <>
       <HideIfLogged loggedUser={loggedUser}>
