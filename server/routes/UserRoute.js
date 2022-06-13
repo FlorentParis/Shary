@@ -9,15 +9,16 @@ const  {
     getAllUsers,
     activateAccount,
     UpdateUser,
-    getUserConnexion
+    getUserConnexion,
+    getUserDeconnexion
 } = require('../controllers/UserController.js')
 const { nextTick } = require('process')
 
 
-function isConnected(req, res, next){
+async function isConnected(req, res, next){
     var token = new Cookies(req,res).get('access_token');
-    const decoded = promisify(jwt.verify)(token, process.env.JWT_SECRET)
-    console.log(decoded);
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+    console.log(decoded.id);
     next();
 }
 
@@ -25,6 +26,7 @@ router.post('/createUser', createUser)
 router.post('/modifyUserInfo',isConnected, UpdateUser)
 router.get('/emailVerification', activateAccount)
 router.get('/',isConnected, getAllUsers),
-router.post('/getUserConnexion', getUserConnexion)
+router.post('/getUserConnexion', getUserConnexion),
+router.post('/getUserDeconnexion', getUserDeconnexion)
 
 module.exports = router
