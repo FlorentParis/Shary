@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Auth from './pages/authentification/Auth';
 import {Routes, Route} from 'react-router-dom';
 import HideIfLogged from './components/common/HideIfLogged';
@@ -32,10 +32,6 @@ function App() {
     mail: '',
     token: 'dzadz'
   });
-
-  useEffect(() => {
-    console.log(displayMenuProfil);
-  }, [displayMenuProfil])
 
   return (
     <>

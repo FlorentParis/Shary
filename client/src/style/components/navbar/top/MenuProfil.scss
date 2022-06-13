@@ -16,13 +16,19 @@
     flex-direction: column;
     justify-content: space-between;
 
-    > div {
+    > div, a {
         display: flex;
         align-items: center;
+        text-decoration: none;
 
         > img {
             padding-right: 25px;
             width: 35px;
+        }
+
+        > span {
+            color: #000;
+            
         }
     }
 

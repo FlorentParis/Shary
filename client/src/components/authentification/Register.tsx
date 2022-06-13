@@ -1,10 +1,10 @@
 import registerLogin from '../../interfaces/RegisterLogin'
 import { useState } from 'react'
-import axios from 'axios';
+/* import axios from 'axios'; */
 
 const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
 
-    const axios = require('axios')
+    /* const axios = require('axios')
     const [form, setForm] = useState<any>([])
     const [name, setName] = useState('')
     const [file, setFile] = useState()
@@ -104,6 +104,10 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                 <p>Vous avez déjà un compte ? <span onClick={stateHandler}>Connectez-vous</span></p>
             </div>
         </div>
+    ) */
+
+    return (
+        <div>Bla</div>
     )
 }
 
