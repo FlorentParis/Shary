@@ -1,46 +1,36 @@
 @import "./reset.scss";
 
 /* Pages */
-@import "./pages/homepage/homepage.scss";
-@import "./pages/settings/settings.scss";
+@import "./pages/homepage";
+@import "./pages/event-to-come";
+@import "./pages/event-pass";
+@import "./pages/informations";
+@import "./pages/settings";
 
-// font 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Components Common */
+@import "./components/common";
+@import "./components/navbar";
+@import "./components/event-pages";
 
+/* Fonts */
+@import "./fonts/Montserrat.scss";
+
+/* General */
 body {
-    font-family: 'Montserrat';
+    background-color: #F3F3F3;
 }
 
-h2 {
-    font-size: 28px;
-    color: #4669E3;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 28px;
-    line-height: 34px;
-}
+.content-layout {
+    display: flex;
 
-p {
-    font-size: 14px;
-    line-height: 17px;
+    > .main-layout {
+        width: 100%;
+        position: relative;
+        overflow-y: scroll;
+        height: calc(100vh - 60px);
 
-
-}
-
-button {
-    border-style: none;
-    width: 250px;
-    height: 50px;
-    background: #4669E3;
-    border-radius: 3px;
-    font-weight: 100 !important;
-    font-size: 20px;
-    line-height: 24px;
-    text-align: center;
-    color: #FFFFFF;
-    letter-spacing: 1.2px;
-
-    &:hover {
-        cursor: pointer;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }

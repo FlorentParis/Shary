@@ -1,4 +1,3 @@
-import styles from '../../style/pages/authentification/Login.module.scss'
 import registerLogin from '../../interfaces/RegisterLogin'
 import { useState } from 'react'
 import axios from 'axios';
@@ -46,12 +45,11 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
 
 
     return (
-        <div className={styles.container}>
-            <form  onSubmit={formHandler}>
-                <div className={styles.title}>
+        <div >
+                <div >
                     <h2>Inscrivez-vous</h2>
                 </div>
-                <div className={styles.form}>
+                <div >
                     <div>
                         <label htmlFor=""></label>
                         <input onChange={nameHandler} type="text" name="" id="" placeholder='Nom' />
@@ -82,8 +80,8 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                     </div>
 
                 </div>
-                <div className={styles.connection}>
-                    <button onClick={buttonHandler}>Inscription</button>
+                <div>
+                    <button>Inscription</button>
                     <p>Vous avez déjà un compte ? <span onClick={stateHandler}>Connectez-vous</span></p>
                 </div>
             </form>
