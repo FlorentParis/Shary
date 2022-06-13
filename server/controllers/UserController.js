@@ -8,7 +8,6 @@ const AppError = require('../utils/appError');
 var Cookies = require( "cookies" );
 const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
-const {promisify} = require("util");
 
 
 const createUser = catchAsync(async(req, res, next) => {
