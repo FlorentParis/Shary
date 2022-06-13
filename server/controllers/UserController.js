@@ -101,22 +101,41 @@ const UpdateUser = catchAsync(async (req, res) => {
     });
 })
 
-const getUserConnexion = catchAsync(async (req, res) => {
+const getUserConnexion = catchAsync(async (req, res, next) => {
     if (req.body?.email && req.body?.pw){
         const email = req.body.email;
         const pw = req.body.pw;
-    User.findOne({email: email, password: pw})
-        .then(result => 
-            res.status(200).json(result == null ? 
-                'Mot de passe ou Email incorrect': 
-                console.log("TON ID = ", result.id),
-                token = jwt.sign({ id: result.id }, process.env.JWT_SECRET),
-                res.cookie('access_token', token , {
-                    httpOnly: true
-                })
-                ,
-                res.json({ token }))
-            )
+    const user = await User.findOne({email: email, password: pw})
+    if (!user) { 
+     return next(new AppError("MDP ou Email incorrect", 404)) }
+    else {
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        res.cookie('access_token', token , {
+            httpOnly: true
+            })
+
+        res.status(200).json({
+            status:"succes",
+            message:"connecté"
+        })      
+        
+    
+    }
+
+
+        // .then(result => 
+            // res.status(200).json(result ? 
+            //     console.log("c'est null") : 
+            //     console.log("value de result", result),
+            //     console.log("c'est pas null"),
+            //     res.json({a:"a", b:"b"}))
+            //     token = jwt.sign({ id: result.id }, process.env.JWT_SECRET),
+            //     res.cookie('access_token', token , {
+            //         httpOnly: true
+            //     })
+            //     ,
+            //     res.json({ token }))
+            // )
             
     }else {
         return new AppError("Il manque le mdp ou le mail", 400);
