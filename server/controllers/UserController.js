@@ -5,6 +5,8 @@ const { json } = require('body-parser');
 const bcrypt = require('bcrypt')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError');
+var Cookies = require( "cookies" );
+var jwt  = require('jsonwebtoken');
 
 const createUser = catchAsync(async(req, res, next) => {
     let data = req.body;
@@ -99,9 +101,33 @@ const UpdateUser = catchAsync(async (req, res) => {
     });
 })
 
+const getUserConnexion = catchAsync(async (req, res) => {
+    if (req.body?.email && req.body?.pw){
+        const email = req.body.email;
+        const pw = req.body.pw;
+    User.findOne({email: email, password: pw})
+        .then(result => 
+            res.status(200).json(result == null ? 
+                'Mot de passe ou Email incorrect': 
+                console.log("TON ID = ", result.id),
+                token = jwt.sign({ id: result.id }, process.env.JWT_SECRET),
+                res.cookie('access_token', token , {
+                    httpOnly: true
+                })
+                ,
+                res.json({ token }))
+            )
+            
+    }else {
+        return new AppError("Il manque le mdp ou le mail", 400);
+    }
+
+})
+
 module.exports = {
     createUser,
     getAllUsers,
     activateAccount,
-    UpdateUser
+    UpdateUser,
+    getUserConnexion
 }
