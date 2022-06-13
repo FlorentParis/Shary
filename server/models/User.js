@@ -54,7 +54,7 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-//  Password hash
+/*  Password hash
 UserSchema.pre('save', async function(next){
     console.log("******** Password hash middleware");
     //only run this function if password was actually modified
@@ -66,7 +66,7 @@ UserSchema.pre('save', async function(next){
     //Delete password confirm
     this.passwordConfirm = undefined;
     next();
-})
+})*/
 
 const User = mongoose.model('Users', UserSchema)
 module.exports = User
