@@ -8,6 +8,8 @@ const AppError = require('../utils/appError');
 var Cookies = require( "cookies" );
 const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
+const {promisify} = require("util");
+
 
 const createUser = catchAsync(async(req, res, next) => {
     let data = req.body;
@@ -58,6 +60,13 @@ const sendMailActivation = async (data)=> {
     return await transporter.sendMail(message);
 }
 
+async function getUserID(req,res, next) {
+    const token = new Cookies(req,res).get('access_token');
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    console.log("**DECODED : ", decoded);
+    return decoded.id;
+}
+
 const getAllUsers = catchAsync(async(req, res, next)=> {
     const users = await User.find();
     res.status(200).json({
@@ -69,6 +78,9 @@ const getAllUsers = catchAsync(async(req, res, next)=> {
         }
     )
 })
+
+
+
 
 //  TODO : Activate account with user_ID from cookies, session or token, faire un findByIdAndUpdate
 const activateAccount = ((req, res) => {
@@ -118,9 +130,7 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
         res.status(200).json({
             status:"succes",
             message:"connecté"
-        })      
-        
-    
+        })
     }          
     }else {
         return new AppError("Il manque le mdp ou le mail", 400);
@@ -140,6 +150,7 @@ const getUserDeconnexion = catchAsync(async (req, res, next) => {
 
 module.exports = {
     createUser,
+    getUserID,
     getAllUsers,
     activateAccount,
     UpdateUser,
