@@ -14,10 +14,9 @@ const  {
 const { nextTick } = require('process')
 
 
-function isConnected(req, res, next){
+async function isConnected(req, res, next){
     var token = new Cookies(req,res).get('access_token');
-    const decoded = promisify(jwt.verify)(token, process.env.JWT_SECRET)
-    console.log(decoded);
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
     next();
 }
 
