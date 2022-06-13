@@ -84,7 +84,6 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
                     <button>Inscription</button>
                     <p>Vous avez déjà un compte ? <span onClick={stateHandler}>Connectez-vous</span></p>
                 </div>
-            </form>
         </div>
     )
 }
