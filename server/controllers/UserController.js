@@ -102,19 +102,25 @@ const UpdateUser = catchAsync(async (req, res) => {
 })
 
 const getUserConnexion = catchAsync(async (req, res) => {
-    User.findOne({email: req.query.email, password: req.query.pw})
+    if (req.body?.email && req.body?.pw){
+        const email = req.body.email;
+        const pw = req.body.pw;
+    User.findOne({email: email, password: pw})
         .then(result => 
             res.status(200).json(result == null ? 
                 'Mot de passe ou Email incorrect': 
-                console.log(result.id),
-                token = jwt.sign({ id: result.id }, '123abc'),
+                console.log("TON ID = ", result.id),
+                token = jwt.sign({ id: result.id }, process.env.JWT_SECRET),
                 res.cookie('access_token', token , {
                     httpOnly: true
                 })
                 ,
-                res.json({ token }),
-                 'Tu es connecté')
+                res.json({ token }))
             )
+            
+    }else {
+        return new AppError("Il manque le mdp ou le mail", 400);
+    }
 
 })
 
