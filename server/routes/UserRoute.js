@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
+var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
 
 const  { 
-    createUser,
+    createUser, 
     getAllUsers,
     activateAccount,
     UpdateUser,
@@ -12,7 +14,7 @@ const  {
 
 function isConnected(){
     var token = new Cookies(req,res).get('access_token');
-    // Verifier ce qu'on veut.
+    console.log(token)
     next;
 }
 
@@ -20,6 +22,6 @@ router.post('/createUser', createUser)
 router.post('/modifyUserInfo',isConnected, UpdateUser)
 router.get('/emailVerification', activateAccount)
 router.get('/',isConnected, getAllUsers),
-router.post('/getUserConnexion', isConnected, getUserConnexion)
+router.post('/getUserConnexion', getUserConnexion)
 
 module.exports = router

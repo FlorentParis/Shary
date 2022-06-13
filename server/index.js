@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const user_routes = require('./routes/UserRoute.js')
+var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
 
 app.use(express.json())
 

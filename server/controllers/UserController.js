@@ -5,6 +5,8 @@ const { json } = require('body-parser');
 const bcrypt = require('bcrypt')
 const catchAsync = require('../utils/catchAsync')
 const AppError = require('../utils/appError');
+var Cookies = require( "cookies" );
+var jwt  = require('jsonwebtoken');
 
 const createUser = catchAsync(async(req, res, next) => {
     let data = req.body;
@@ -99,21 +101,21 @@ const UpdateUser = catchAsync(async (req, res) => {
     });
 })
 
-const getUserConnexion = ((req, res) => {
-
-
+const getUserConnexion = catchAsync(async (req, res) => {
     User.findOne({email: req.query.email, password: req.query.pw})
         .then(result => 
             res.status(200).json(result == null ? 
                 'Mot de passe ou Email incorrect': 
-                new jwt_token = jwt.sign({ id: result.id }),
-                new Cookies(req,res).set('access_token',jwt_token , {
-                    httpOnly: true,
-                    secure: true
-                }),
+                console.log(result.id),
+                token = jwt.sign({ id: result.id }, '123abc'),
+                res.cookie('access_token', token , {
+                    httpOnly: true
+                })
+                ,
+                res.json({ token }),
                  'Tu es connecté')
             )
-        .catch(() => res.status(404).json({msg: 'Not Found'}))
+
 })
 
 module.exports = {
