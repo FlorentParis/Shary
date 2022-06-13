@@ -33,9 +33,12 @@ function App() {
     token: 'dzadz'
   });
 
-  useEffect(() => {
-    console.log(displayMenuProfil);
-  }, [displayMenuProfil])
+  const closeProfile = () => {
+    if (displayMenuProfil == true) {
+      setDisplayMenuProfil(false)
+    }
+  }
+
 
   return (
     <>
@@ -47,10 +50,10 @@ function App() {
       <HideIfNotLogged loggedUser={loggedUser}>
         <>
           <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
-          {displayMenuProfil ? <MenuProfil /> : ''}
-          <div className="content-layout">
+          {displayMenuProfil ? <MenuProfil />: ''}
+          <div className="content-layout" onClick={closeProfile}>
             <NavbarLeft />
-            <div className="main-layout">
+            <div className="main-layout" >
               <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/profil" element={<Profil />} />
