@@ -1,11 +1,20 @@
+import { useState } from "react"
+
 interface NavbarTopInterface {
     displayMenuProfil: boolean,
     setDisplayMenuProfil: Function
 }
 
 export default function NavbarTop({displayMenuProfil, setDisplayMenuProfil}: NavbarTopInterface) {
+
+    const closeProfileNav= () => {
+        if (displayMenuProfil == true) {
+            setDisplayMenuProfil(false)
+        }
+    }
+
     return (
-        <nav className="navbar-top-container">
+        <nav onClick={closeProfileNav} className="navbar-top-container" >
             <div className="navbar-top">
                 <img src="./logo/Shary_LogoFinal.svg" alt="Logo" />
                 <div>

@@ -6,7 +6,7 @@ import EventCard from "../../components/event-pages/EventCard";
 export default function EventToCome() {
     return (
         <>
-            <PageBanner imgSrc="./icons/event-to-come.svg" title="Evénements à venir" desc="Liste des évènements à venir auquel vous êtes rattaché" />
+            <PageBanner imgSrc="./icons/event-to-come-gradient.svg" title="Evénements à venir" desc="Liste des évènements à venir auquel vous êtes rattaché" />
             <PageContainer>
                 <div className="page-event-to-come">
                     <div className="bar-filter">

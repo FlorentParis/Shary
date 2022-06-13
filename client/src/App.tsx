@@ -33,6 +33,16 @@ function App() {
     token: 'dzadz'
   });
 
+<<<<<<< HEAD
+=======
+  const closeProfile = () => {
+    if (displayMenuProfil == true) {
+      setDisplayMenuProfil(false)
+    }
+  }
+
+
+>>>>>>> 6d2db10ad2ab214b3c32fe5a41fb678935378fb2
   return (
     <>
       <HideIfLogged loggedUser={loggedUser}>
@@ -43,10 +53,10 @@ function App() {
       <HideIfNotLogged loggedUser={loggedUser}>
         <>
           <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
-          {displayMenuProfil ? <MenuProfil /> : ''}
-          <div className="content-layout">
+          {displayMenuProfil ? <MenuProfil />: ''}
+          <div className="content-layout" onClick={closeProfile}>
             <NavbarLeft />
-            <div className="main-layout">
+            <div className="main-layout" >
               <Routes>
                 <Route path="/" element={<Homepage />} />
                 <Route path="/profil" element={<Profil />} />
