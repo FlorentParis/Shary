@@ -120,23 +120,7 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
         })      
         
     
-    }
-
-
-        // .then(result => 
-            // res.status(200).json(result ? 
-            //     console.log("c'est null") : 
-            //     console.log("value de result", result),
-            //     console.log("c'est pas null"),
-            //     res.json({a:"a", b:"b"}))
-            //     token = jwt.sign({ id: result.id }, process.env.JWT_SECRET),
-            //     res.cookie('access_token', token , {
-            //         httpOnly: true
-            //     })
-            //     ,
-            //     res.json({ token }))
-            // )
-            
+    }          
     }else {
         return new AppError("Il manque le mdp ou le mail", 400);
     }
