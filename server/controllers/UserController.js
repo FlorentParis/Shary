@@ -60,10 +60,15 @@ const sendMailActivation = async (data)=> {
 }
 
 async function getUserID(req,res, next) {
-    const token = new Cookies(req,res).get('access_token');
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log("**DECODED : ", decoded);
-    return decoded.id;
+    var token = new Cookies(req,res).get('access_token');
+    if(token) {
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+        console.log("Ton id (CONTROLLER): ", decoded.id);
+        return decoded.id;
+        }
+        else {
+            return -1;
+        }    
 }
 
 const getAllUsers = catchAsync(async(req, res, next)=> {
@@ -140,12 +145,17 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
 const getUserDeconnexion = catchAsync(async (req, res, next) => {
     id = await getUserID(req, res, next);
     res.clearCookie('access_token');
+    if (id !== -1){
     res.status(200).json({
         status:"succes",
         message:"deconnecté"
     }) 
     }
-)
+    else {
+        return next(new AppError("Connecte toi avant de vouloir te déconnecter", 404));      
+    }
+        }
+    )
 
 module.exports = {
     createUser,
