@@ -4,8 +4,9 @@ const router = express.Router()
 const  { 
     createEvent,
     updateEvent,
-    getAllEventsByUser,
     getAllEvents,
+    getAllEventsByCreator,
+    getEventsByStatus,
     deleteEvent,
     addParticipant,
     getParticipantsById,
@@ -18,8 +19,9 @@ router.post('/updateEvent', updateEvent)
 router.post('/deleteEvent', deleteEvent)
 router.post('/addParticipant', addParticipant)
 router.get('/cookieInvitation', cookieInvitation)
-router.get('/getAllEventsByUser', getAllEventsByUser)
 router.get('/getAllEvents', getAllEvents)
+router.get('/getAllEventsByCreator', getAllEventsByCreator)
+router.get('/getEventsByStatus', getEventsByStatus)
 router.get('/getParticipantsById', getParticipantsById)
 
 

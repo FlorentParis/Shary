@@ -51,7 +51,7 @@ const getAllEvents = catchAsync(async(req, res) => {
     })  
 })
 
-const getAllEventsByUser = catchAsync(async(req, res) => {
+const getAllEventsByCreator = catchAsync(async(req, res) => {
     let data = req.query
     console.log(data._id)
     let events = await Event.find({})
@@ -74,6 +74,22 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
         },
         message : ""
     })
+})
+
+const getEventsByStatus = catchAsync(async(req, res) => {
+    data = req.query
+
+    /* Récupération de des évènements grace au status */
+    let events = await Event.find({status : data.status})
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            events
+        },
+        message : "Récuperation des évènements ayant pour status : " + data.status
+    })
+ 
 })
 
 const updateEvent = catchAsync(async(req, res) => {
@@ -260,8 +276,9 @@ module.exports = {
     createEvent,
     updateEvent,
     deleteEvent,
-    getAllEventsByUser,
     getAllEvents,
+    getAllEventsByCreator,
+    getEventsByStatus,
     addParticipant,
     getParticipantsById,
     cookieInvitation
