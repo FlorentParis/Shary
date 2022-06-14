@@ -11,6 +11,15 @@
     }
 }
 
+@media only screen and (max-width: 425px) {
+    .page-event-to-come {
+        > .grid-event-card {
+            grid-template-columns: 1fr;
+            padding: 0;
+        }
+    }
+}
+
 @media only screen and (min-width: 1440px) {
     .page-event-to-come {
         > .grid-event-card {

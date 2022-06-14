@@ -50,3 +50,10 @@
         }
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .event-card {
+        background-color: #fff;
+        width: auto;
+    }
+}

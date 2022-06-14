@@ -10,6 +10,15 @@
     }
 }
 
+@media only screen and (max-width: 425px) {
+    .page-guest-list {
+        .grid-guest-list {
+            grid-template-columns: 1fr;
+            padding: 0;
+        }
+    }
+}
+
 @media only screen and (min-width: 1440px) {
     .page-guest-list {
         .grid-guest-list {

@@ -7,3 +7,11 @@
         border-radius: 15px;
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .page-container {
+        > div.page-event-to-come, div.page-event-pass, div.page-guest-list {
+            background-color: transparent;
+        }
+    }
+}

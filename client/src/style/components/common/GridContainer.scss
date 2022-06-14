@@ -8,3 +8,11 @@
         width: 100%;
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .grid-container {
+        > div {
+            grid-template-columns: 1fr;
+        }
+    }
+}
