@@ -8,6 +8,7 @@ const  {
     getAllEvents,
     deleteEvent,
     addParticipant,
+    getParticipantsById,
     cookieInvitation
 } = require('../controllers/EventController.js')
 
@@ -19,6 +20,7 @@ router.post('/addParticipant', addParticipant)
 router.get('/cookieInvitation', cookieInvitation)
 router.get('/getAllEventsByUser', getAllEventsByUser)
 router.get('/getAllEvents', getAllEvents)
+router.get('/getParticipantsById', getParticipantsById)
 
 
 
