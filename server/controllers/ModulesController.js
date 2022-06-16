@@ -29,14 +29,43 @@ const createModules = catchAsync(async(req, res, next) => {
 const deleteModules = catchAsync(async(req, res) => {
     data = req.body
     let result = await Modules.deleteOne(
-        {id_event:data.eventId}
+        {id_event:data.id_event}
     )
     res.status(200).json({
         status: 'success',
         data: {
             result
         },
-        message : "Les modules ayant pour iDevent" + data.eventId + "a été supprimé"
+        message : "Les modules ayant pour iDevent " + data.id_event + "ont été supprimés"
+    })
+})
+
+const updateModules = catchAsync(async(req, res) => {
+    data = req.body
+
+    /* Recuperation des modules grace a l'id_event */
+    let modules = await Modules.findOne(
+        {id_event:data.id_event}
+    )
+    
+    /* Modifications des modules en fonction de la data recuperée */
+    for (const key of Object.keys(data)) {
+        console.log(key);
+        if(key != "id_event")
+            if(modules[key] != data[key] && typeof(data[key]) != "undefined"){
+                modules[key] = data[key]
+            }
+    }
+
+    /* Remplacement des modules par les nouveaux */
+    const result = await Modules.replaceOne({id_event:data.id_event},modules)
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            result
+        },
+        message : "Les modules ayant pour iDevent " + data.id_event + "ont été modifiés"
     })
 })
 
@@ -76,6 +105,10 @@ const getModulesByEventId = catchAsync(async(req, res) => {
 module.exports = {
     createModules,
     deleteModules,
+<<<<<<< HEAD
     getAllModules,
     getModulesByEventId
+=======
+    updateModules
+>>>>>>> 7df02fa858b9cb7dcca0dad18377e22ae2740bf6
 }
