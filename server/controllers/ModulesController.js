@@ -40,7 +40,42 @@ const deleteModules = catchAsync(async(req, res) => {
     })
 })
 
+const getAllModules = catchAsync(async(req, res) => {
+    data = req.query
+    console.log(data)
+    let modules = await Modules.find(data)
+    res.status(200).json({
+        status : 'success', 
+        data: {
+            modules
+        },
+        message: "voici tout les modules"
+    })
+})
+
+const getModulesByEventId = catchAsync(async(req, res) => {
+    data = req.query
+    console.log(data)
+    let modules = await Modules.find(data)
+    let eventModules = []
+    modules.forEach(modules => function(){
+            if(module.id_event == data.id_event){
+                return eventModules.push(modules)
+            }
+        })
+
+    res.status(200).json({
+        status: 'success', 
+        data: {
+            eventModules
+        },
+        message : "voici tout les modules dans l'event ayant x pour ID"
+    })
+})
+
 module.exports = {
     createModules,
-    deleteModules
+    deleteModules,
+    getAllModules,
+    getModulesByEventId
 }

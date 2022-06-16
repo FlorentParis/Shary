@@ -3,11 +3,15 @@ const router = express.Router()
 
 const {
     createModules,
-    deleteModules
+    deleteModules,
+    getAllModules,
+    getModulesByEventId
 } = require('../controllers/ModulesController.js')
 
 router.post('/createModules', createModules)
 router.post('/deleteModules', deleteModules)
+router.get('/getAllModules', getAllModules)
+router.get('/getModulesByEventId', getModulesByEventId)
 
 
 module.exports = router
