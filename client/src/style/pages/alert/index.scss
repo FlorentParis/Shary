@@ -106,3 +106,31 @@
         }
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .page-alert {
+        > div {
+            > div:first-of-type {
+                input {
+                    width: 100%;
+                }
+            }
+
+            > div:last-of-type {
+                display: none;
+            }
+        }
+
+        form {
+            padding: 0 10px 25px 10px;
+
+            > div {
+                justify-content: center;
+
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+}
