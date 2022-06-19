@@ -9,7 +9,7 @@ export default function MenuProfil() {
                 <img src="./icons/user.svg" alt="icon user" />
                 <span>Profil</span>
             </Link>
-            <Link to="/params">
+            <Link to="/settings">
                 <img src="./icons/params.svg" alt="icon user" />
                 <span>Paramètres</span>
             </Link>
