@@ -240,6 +240,7 @@ const deleteEvent = catchAsync(async(req, res) => {
 
 })
 
+
 module.exports = {
     createEvent,
     updateEvent,
@@ -247,5 +248,5 @@ module.exports = {
     getAllEventsByUser,
     getAllEvents,
     addParticipant,
-    cookieInvitation
+    cookieInvitation,
 }
