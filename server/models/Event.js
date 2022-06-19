@@ -109,7 +109,8 @@ const EventSchema = new mongoose.Schema({
                 enum: ['Pending', 'Active'],
                 default: 'Pending'
             }
-        }
+        },
+        required : true
     },
     modules : {
         photoVideo: {

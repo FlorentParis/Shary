@@ -6,6 +6,7 @@ const  {
     updateEvent,
     getAllEvents,
     getAllEventsByCreator,
+    getAllEventsByParticipant,
     getEventsByStatus,
     deleteEvent,
     addParticipant,
@@ -21,6 +22,7 @@ router.post('/addParticipant', addParticipant)
 router.get('/cookieInvitation', cookieInvitation)
 router.get('/getAllEvents', getAllEvents)
 router.get('/getAllEventsByCreator', getAllEventsByCreator)
+router.get('/getAllEventsByParticipant', getAllEventsByParticipant)
 router.get('/getEventsByStatus', getEventsByStatus)
 router.get('/getParticipantsById', getParticipantsById)
 

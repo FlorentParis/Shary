@@ -53,17 +53,14 @@ const getAllEvents = catchAsync(async(req, res) => {
 
 const getAllEventsByCreator = catchAsync(async(req, res) => {
     let data = req.query
-    console.log(data._id)
     let events = await Event.find({})
     let userEvent = []
 
-    events.forEach(event => 
-        event.participants.forEach(function(participant){
-            if(participant.userId == data._id){
-                return userEvent.push(event)
-            }
-        })
-    );
+    events.forEach(function(event){
+        if(event.userId == data._id){
+            return userEvent.push(event)
+        }
+    });
     console.log(userEvent.length)
 
 
@@ -72,8 +69,32 @@ const getAllEventsByCreator = catchAsync(async(req, res) => {
         data: {
             userEvent
         },
-        message : ""
+        message : "Récuperation des évènements creer par l'utilisateur :" + data._id
     })
+})
+
+const getAllEventsByParticipant = catchAsync(async(req, res) => {
+    let data = req.query
+
+    let events = await Event.find({})
+    let userEvent = []
+    console.log(events)
+    events.forEach(event => 
+        event.participants.forEach(function(participant){
+            if(participant.userId == data._id){
+                return userEvent.push(event)
+            }
+        })
+    );
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            userEvent
+        },
+        message : "Récuperation des évènements l'utilisateur " + data._id + " est participant"
+    })
+ 
 })
 
 const getEventsByStatus = catchAsync(async(req, res) => {
@@ -278,6 +299,7 @@ module.exports = {
     deleteEvent,
     getAllEvents,
     getAllEventsByCreator,
+    getAllEventsByParticipant,
     getEventsByStatus,
     addParticipant,
     getParticipantsById,
