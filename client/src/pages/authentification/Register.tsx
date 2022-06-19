@@ -1,8 +1,8 @@
-import registerLogin from '../../interfaces/RegisterLogin'
-import { useState } from 'react'
 /* import axios from 'axios'; */
 
-const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
+import { Link } from "react-router-dom";
+
+export default function Register() {
 
     /* const axios = require('axios')
     const [form, setForm] = useState<any>([])
@@ -107,8 +107,22 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
     ) */
 
     return (
-        <div>Bla</div>
+        <>
+            <h2>Inscription</h2>
+            <form>
+                <input type="text" name="" id="" placeholder='Nom*' />
+                <input type="text" name="" id="" placeholder='Prénom*' />
+                <input type="mail" name="" id="" placeholder='Adresse mail*' />
+                <input type="phone" name="" id="" placeholder='Téléphone' />
+                <input type="password" name="" id="" placeholder='Mot de passe*' />
+                <input type="password" name="" id="" placeholder='Confirmation du mot de passe*' />
+                <div>
+                    <input type="checkbox" name="" id="" />
+                    <p>En cochant cette case, j’accepte de recevoir par mail les dernières nouveautés de Shary.</p>
+                </div>
+                <button>Inscription</button>
+            </form>
+            <p>Vous avez déjà un compte ? <Link to="/auth/login">Connectez-vous</Link></p>
+        </>
     )
 }
-
-export default Register

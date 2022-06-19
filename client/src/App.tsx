@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Auth from './pages/authentification/Auth';
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import HideIfLogged from './components/common/HideIfLogged';
 import HideIfNotLogged from './components/common/HideIfNotLogged';
 
@@ -30,7 +30,7 @@ function App() {
   const [loggedUser, setLoggedUser] = useState<UserInterface>({
     status: 'error',
     mail: '',
-    token: 'dzadz'
+    token: ''
   });
 
   const closeProfile = () => {
@@ -44,7 +44,8 @@ function App() {
     <>
       <HideIfLogged loggedUser={loggedUser}>
         <Routes>
-          <Route path="/auth" element={<Auth />} />
+          <Route  path="/*" element={<Navigate to="auth/login" />} />
+          <Route path="/auth/*" element={<Auth />} />
         </Routes>
       </HideIfLogged>
       <HideIfNotLogged loggedUser={loggedUser}>
@@ -55,6 +56,7 @@ function App() {
             <NavbarLeft />
             <div className="main-layout" >
               <Routes>
+                <Route path="/*" element={<Navigate to="/" />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
