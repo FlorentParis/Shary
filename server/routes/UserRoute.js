@@ -13,4 +13,5 @@ router.post('/modifyUserInfo', UpdateUser)
 router.get('/emailVerification', activateAccount)
 router.get('/', getAllUsers)
 
+
 module.exports = router

@@ -25,6 +25,9 @@ import UserInterface from './interfaces/UserInterface';
 import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
 import MenuProfil from './components/navbar/top/MenuProfil';
 
+import useGetUsers from './hooks/useGetUsers';
+import useGetEvents from './hooks/useGetEvents';
+
 function App() {
 
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
@@ -40,6 +43,31 @@ function App() {
     }
   }
 
+
+  const getUsers = useGetUsers();
+  const getEvents = useGetEvents();
+  const [needsUpdate, setNeedsUpdate] = useState<boolean>(false)
+
+  const [user, setUser] = useState([])
+  const [event, setEvent] = useState([])
+
+  useEffect(() => {
+    getUsers()
+        .then(data => {
+            setUser(data)
+            setNeedsUpdate(false)
+        })
+  }, [needsUpdate])
+
+  useEffect(() => {
+    getEvents()
+        .then(data => {
+            setEvent(data)
+            setNeedsUpdate(false)
+        })
+  }, [needsUpdate])
+
+  console.log(event);
 
   return (
     <>
