@@ -31,6 +31,11 @@ const ModulesSchema = new mongoose.Schema({
                 id_author : {
                     type : String, 
                     required:true
+                },
+                status: {
+                    type: String,
+                    enum: ['Pending', 'Active', 'Finish'],
+                    default: 'Pending'
                 }
             },
         },
