@@ -11,8 +11,10 @@ export default function EventPass() {
                 <div className="page-event-pass">
                     <div className="bar-filter">
                         <div>
-                            <span>Tous les évènements</span>
-                            <span id="underline"></span>
+                            <div>
+                                <span>Tous les évènements</span>
+                                <span className="underline"></span>
+                            </div>
                         </div>
                         <ul>
                             <li><span></span>Mariages</li>

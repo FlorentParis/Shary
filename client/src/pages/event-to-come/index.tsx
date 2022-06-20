@@ -11,8 +11,10 @@ export default function EventToCome() {
                 <div className="page-event-to-come">
                     <div className="bar-filter">
                         <div>
-                            <span>Tous les évènements</span>
-                            <span id="underline"></span>
+                            <div>
+                                <span>Tous les évènements</span>
+                                <span className="underline"></span>
+                            </div>
                         </div>
                         <ul>
                             <li><span></span>Mariages</li>
