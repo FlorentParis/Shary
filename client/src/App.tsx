@@ -27,6 +27,7 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 
 import useGetUsers from './hooks/useGetUsers';
 import useGetEvents from './hooks/useGetEvents';
+import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
 
 function App() {
 
@@ -81,6 +82,7 @@ function App() {
         <>
           <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
           {displayMenuProfil ? <MenuProfil />: ''}
+          {displayMenuProfil ? <BurgerMenu /> : '' }
           <div className="content-layout" onClick={closeProfile}>
             <NavbarLeft />
             <div className="main-layout" >
@@ -98,7 +100,7 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
               </Routes>
             </div>
-            <NavbarBottomMobile />
+            <NavbarBottomMobile displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil}/>
           </div>
         </>
       </HideIfNotLogged>
