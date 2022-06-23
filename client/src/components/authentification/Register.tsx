@@ -40,7 +40,7 @@ const Register: React.FC<registerLogin> = ({ registerLoginHandler }) => {
 
     const fileHandler = (e: any) => {
         setFile(e.target.value)
-        console.log(e.target.value)
+        (e.target.value)
     }
 
 

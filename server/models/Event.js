@@ -11,6 +11,11 @@ const EventSchema = new mongoose.Schema({
         type:String,
         required:[true, "Please provide the event's name"]
     },
+    status: {
+        type: String,
+        enum: ['Pending', 'InProgress','finish'],
+        default: 'Pending'
+    },
     start: {
         type:Date,
         required:[true, "Please provide the event's start"]
@@ -104,7 +109,8 @@ const EventSchema = new mongoose.Schema({
                 enum: ['Pending', 'Active'],
                 default: 'Pending'
             }
-        }
+        },
+        required : true
     },
     modules : {
         photoVideo: {
