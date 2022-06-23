@@ -29,7 +29,7 @@ async function isConnected(req, res, next){
 }
 
 router.post('/createUser', createUser)
-router.post('/modifyUserInfo',isConnected, UpdateUser)
+router.patch('/modifyUserInfo',isConnected, UpdateUser)
 router.get('/emailVerification', activateAccount)
 router.get('/',isConnected, getAllUsers),
 router.post('/getUserConnexion', getUserConnexion),
