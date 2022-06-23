@@ -6,6 +6,9 @@ export default function NavbarVertical() {
             <button>
                 +
             </button>
+            <Link to="/">
+                <img src="./icons/home.svg" alt="" />
+            </Link>
             <Link to="/event-to-come">
                 <img src="./icons/event-to-come.svg" alt="" />
             </Link>
