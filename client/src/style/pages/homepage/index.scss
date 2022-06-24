@@ -18,13 +18,16 @@
 
        .wrapper-container {
             scroll-behavior: smooth;
-            overflow-x: scroll;
         
             > .wrapper {
                 display: grid;
                 column-gap: 40px;
                 overflow-y: hidden;
+                scroll-behavior: smooth;
                 
+                &::-webkit-scrollbar {
+                    width: 0;
+                }
 
                 > .item {
                     width: 460px;

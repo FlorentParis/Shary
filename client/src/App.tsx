@@ -15,6 +15,7 @@ import Alert from './pages/alert';
 import Information from './pages/information';
 import Moderation from './pages/moderation';
 import Settings from './pages/settings';
+import Contact from './pages/contact-us';
 
 /* Components */
 import NavbarLeft from './components/navbar/vertical/NavbarVertical';
@@ -98,6 +99,7 @@ function App() {
                 <Route path="/moderation" element={<Moderation />} />
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/contact-us" element={<Contact />} />
               </Routes>
             </div>
             <NavbarBottomMobile displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil}/>
