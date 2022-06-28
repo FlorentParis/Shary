@@ -117,7 +117,6 @@ const uploadsFilesModulesPhotosVideos = catchAsync(async(req, res) => {
         count = 0
     }else{  
         count = modules.photos_videos.medias.size
-        console.log(modules.photos_videos.medias.media3)  
     }
     console.log(count)
     
