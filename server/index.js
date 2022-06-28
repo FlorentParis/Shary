@@ -1,15 +1,12 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
-const user_routes = require('./routes/UserRoute.js')
-const event_routes = require('./routes/EventRoute.js')
-const modules_routes = require('./routes/ModulesRoute.js')
-app.use(express.json())
-app.use('/api/user', user_routes)
-app.use('/api/event', event_routes)
-app.use('/api/modules', modules_routes)
+const user_routes = require('./routes/UserRoute.js');
+const event_routes = require('./routes/EventRoute.js');
+const modules_routes = require('./routes/ModulesRoute.js');
+app.use(express.json());
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -19,7 +16,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
 
 var corsOptions = {
-    origin: "http://localhost:3000",
+    origin: true,
     credentials: true
 };
 app.use(cors(corsOptions));
@@ -53,6 +50,8 @@ mongoose
 
 // ROUTES
 app.use('/api/user', user_routes);
+app.use('/api/event', event_routes);
+app.use('/api/modules', modules_routes);
 
 
 //  AFFICHAGE ERREUR JSON
@@ -62,6 +61,6 @@ app.all('*', (req, res, next)=>{
     //    message: `Can't find ${req.originalUrl} on this server!`
     //})
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-})
+});
 
 app.use(globalErrorHandler);

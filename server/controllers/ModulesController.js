@@ -1,5 +1,6 @@
 const Modules = require('../models/Modules.js')
 const nodemailer = require('nodemailer');
+const { cloudinary } = require('../utils/cloudinary');
 require('dotenv').config()
 const { json } = require('body-parser');
 const bcrypt = require('bcrypt')
@@ -102,13 +103,43 @@ const getModulesByEventId = catchAsync(async(req, res) => {
     })
 })
 
+
+const uploadsFilesModulesPhotosVideos = catchAsync(async(req, res) => {
+    const data = req.body
+    const fileStr = data.file;
+    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+        upload_preset: 'modules',
+    });
+    console.log(uploadResponse)
+    let count
+    let modules = await Modules.findOne({id_event:data.event})
+    if(!modules.photos_videos.medias){
+        count = 0
+    }else{  
+        count = modules.photos_videos.medias.size
+        console.log(modules.photos_videos.medias.media3)  
+    }
+    console.log(count)
+    
+    let infosImage = {}
+
+    infosImage['photos_videos.medias.media'+count] = {
+            content : uploadResponse.url,
+            id_author : data.author
+    }
+
+    const result = await Modules.updateOne({ id_event: data.event}, { "$set": infosImage })
+
+    console.log(result)
+
+    res.json({ msg: "upload reussi, url de l'image : " + uploadResponse.url });
+})
+
 module.exports = {
     createModules,
     deleteModules,
-<<<<<<< HEAD
     getAllModules,
-    getModulesByEventId
-=======
-    updateModules
->>>>>>> 7df02fa858b9cb7dcca0dad18377e22ae2740bf6
+    getModulesByEventId,
+    updateModules,
+    uploadsFilesModulesPhotosVideos
 }

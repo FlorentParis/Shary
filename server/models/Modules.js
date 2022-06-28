@@ -25,8 +25,7 @@ const ModulesSchema = new mongoose.Schema({
             type : Map, 
             of : {
                 content : { 
-                    type : Buffer,
-                    required:true
+                    type:String
                 },
                 id_author : {
                     type : String, 
@@ -88,7 +87,7 @@ const ModulesSchema = new mongoose.Schema({
                         type : String
                     }, 
                     video : {
-                        type : Buffer
+                        type : String
                     }                    
                 },
 
@@ -132,8 +131,7 @@ const ModulesSchema = new mongoose.Schema({
                 }, 
 
                 content : {
-                    type : String, //remettre un buffer quand on trouve la soluce
-                    required : true
+                    type:String
                 }
             }
         },
@@ -142,7 +140,8 @@ const ModulesSchema = new mongoose.Schema({
             type : Map,
             of : {
                 drawings : {
-                    type : Buffer
+                    type: String,
+                    required:true
                 }, 
 
                 graphic_elems : {
@@ -217,14 +216,12 @@ const ModulesSchema = new mongoose.Schema({
                 content : {
                     type : String,
                     required:true
-                    }, 
+                }, 
 
                 id_author : {
                     type : String,
                     required:true
                 },
-
-               
             }
         }, 
     }
