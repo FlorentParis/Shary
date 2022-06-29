@@ -172,7 +172,20 @@ const getUserDeconnexion = catchAsync(async (req, res, next) => {
     }
 )
 
-//const UpdateUserPassword = catchAsync(async(req, res, next))
+/* TODO Mise à jour des mots de passe
+const updateUserPassword = catchAsync(async(req, res, next)=> {
+    // Récup des données envoyées par le front
+    // Vérifier que l'ancien mdp et le nouveau soit différent
+    // Mise à jour bdd
+})
+
+const updateForgottenPassword = catchAsync(async (res, res, next)=>{
+    // Récup des données envoyées par le front
+    // vérifier que l'email existe dans la bdd, si existe envoi un mail de redirection vers la page de "mot de passe oublié"
+    // Vérifier que l'ancien mdp et le nouveau soit différent
+    // Mise à jour bdd
+})
+*/
 
 module.exports = {
     createUser,
