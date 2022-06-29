@@ -29,6 +29,8 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetUsers from './hooks/useGetUsers';
 import useGetEvents from './hooks/useGetEvents';
 import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
+import Photo from './pages/photo';
+import GoldenBook from './pages/golden-book';
 
 function App() {
 
@@ -91,10 +93,12 @@ function App() {
                 <Route path="/*" element={<Navigate to="/" />} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
+                <Route path="/golden-book" element={<GoldenBook />} />
                 <Route path="/event-pass" element={<EventPass />} />
                 <Route path="/information" element={<Information />} />
                 <Route path="/guest-list" element={<GuestList />} />
                 <Route path="/alert" element={<Alert />} />
+                <Route path="/photo" element={<Photo />} />
                 <Route path="/modules" element={<Modules />} />
                 <Route path="/moderation" element={<Moderation />} />
                 <Route path="/profil" element={<Profil />} />
