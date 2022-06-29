@@ -15,15 +15,17 @@ mongoose.Promise = global.Promise;
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
 
+
+// parse requests of content-type - application/json
+app.use(bodyParser.json({}));
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true }));
+
 var corsOptions = {
     origin: true,
     credentials: true
 };
 app.use(cors(corsOptions));
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Shary server" });

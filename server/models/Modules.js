@@ -35,7 +35,11 @@ const ModulesSchema = new mongoose.Schema({
                     type: String,
                     enum: ['Pending', 'Active', 'Finish'],
                     default: 'Pending'
-                }
+                },
+                date : { 
+                    type : Date, 
+                    default: Date.now 
+                } 
             },
         },
 
@@ -88,13 +92,18 @@ const ModulesSchema = new mongoose.Schema({
                     }, 
                     video : {
                         type : String
-                    }                    
+                    }          
                 },
 
                 id_author : {
                     type : String,
                     required:true
-                }
+                },
+                
+                date : { 
+                    type : Date, 
+                    default: Date.now 
+                }   
             }
         }, 
 
@@ -222,6 +231,10 @@ const ModulesSchema = new mongoose.Schema({
                     type : String,
                     required:true
                 },
+                date : { 
+                    type : Date, 
+                    default: Date.now 
+                }
             }
         }, 
     }

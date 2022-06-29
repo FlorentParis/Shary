@@ -103,35 +103,133 @@ const getModulesByEventId = catchAsync(async(req, res) => {
     })
 })
 
-
-const uploadsFilesModulesPhotosVideos = catchAsync(async(req, res) => {
+const uploadsModule = catchAsync(async(req, res) => {
     const data = req.body
-    const fileStr = data.file;
-    const uploadResponse = await cloudinary.uploader.upload(fileStr, {
-        upload_preset: 'modules',
-    });
-    console.log(uploadResponse)
-    let count
     let modules = await Modules.findOne({id_event:data.event})
-    if(!modules.photos_videos.medias){
-        count = 0
-    }else{  
-        count = modules.photos_videos.medias.size
-    }
-    console.log(count)
+    console.log(modules)
+    if(modules != null){
+        let count
     
-    let infosImage = {}
+        switch (data.module) {
+            case 'photos_videos': 
 
-    infosImage['photos_videos.medias.media'+count] = {
-            content : uploadResponse.url,
-            id_author : data.author
+                if(data.file){
+                    const fileStr = data.file;
+                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules',});
+ 
+                    count = modules.photos_videos.medias.size
+                    
+                    console.log(count)
+                    let infosPhotosVideos = {}
+                    
+                    infosPhotosVideos['photos_videos.medias.media'+count] = {
+                            content : uploadResponse.url,
+                            id_author : data.author
+                    }
+                    console.log(infosPhotosVideos)
+                
+                    const result = await Modules.updateOne({ id_event: data.event}, { "$set": infosPhotosVideos })
+                    
+                    console.log(result)
+        
+                    res.status(200).json({
+                        status: 'success',
+                        data: {
+                            result
+                        },
+                        message : "upload reussi module photos_videos , url du fichier : " + uploadResponse.url
+                    })
+                }else{
+                    err = "Pas de photo ou video dans le body"
+                    res.status(500).json({
+                        status: 'error',
+                        data: {
+                            err
+                        },
+                        message : "Rien n'a été upload"
+                    })
+                }
+    
+              break; 
+            case 'livre_d_or': 
+                console.log("test")
+                count = modules.livre_d_or.messages.size
+                let infosChat = {}
+                if(data.file && modules.livre_d_or.videos == true){
+                    const fileStr = data.file;
+                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules',});
+                    
+                    infosChat['livre_d_or.messages.message'+count] = {
+                            content : { 
+                                video :uploadResponse.url,
+                                message: data.message
+                            },
+                            id_author : data.author
+                    }
+                }else {
+                    
+                    infosChat['livre_d_or.messages.message'+count] = {
+                            content : { 
+                                message: data.message
+                            },
+                            id_author : data.author
+                    }
+                }
+                console.log(infosChat)
+                
+                const result = await Modules.updateOne({ id_event: data.event}, { "$set": infosChat })
+                
+                console.log(result)
+    
+                res.status(200).json({
+                    status: 'success',
+                    data: {
+                        result
+                    },
+                    message : "upload reussi module photos_videos , url du fichier : " + uploadResponse.url
+                })
+
+                break; 
+
+            case 'chat':
+
+                count = modules.chat.messages.size
+                                
+                let infosMessage = {}
+            
+                infosMessage['chat.messages.message'+count] = {
+                    content : data.message,
+                    id_author : data.author
+                }
+                console.log(infosMessage)
+            
+                result = await Modules.updateOne({ id_event: data.event}, { "$set": infosMessage })
+                
+                console.log(result)
+    
+                res.status(200).json({
+                    status: 'success',
+                    data: {
+                        result
+                    },
+                    message : "Upload du message module chat a été effectué avec succès"
+                })
+              break;
+            default:
+              console.log('le module ' + data.module + " n'existe pas");
+        }
+    }else{
+        err = "Pas de variable event dans le body, ou alors celui ci ne correspond a aucun id_event de la collection modules"
+        res.status(500).json({
+            status: 'error',
+            data: {
+                err
+            },
+            message : "Rien n'a été upload"
+        })
     }
+      
 
-    const result = await Modules.updateOne({ id_event: data.event}, { "$set": infosImage })
-
-    console.log(result)
-
-    res.json({ msg: "upload reussi, url de l'image : " + uploadResponse.url });
 })
 
 module.exports = {
@@ -140,5 +238,5 @@ module.exports = {
     getAllModules,
     getModulesByEventId,
     updateModules,
-    uploadsFilesModulesPhotosVideos
+    uploadsModule
 }

@@ -7,7 +7,7 @@ const {
     getAllModules,
     getModulesByEventId,
     updateModules,
-    uploadsFilesModulesPhotosVideos
+    uploadsModule
 
 } = require('../controllers/ModulesController.js')
 
@@ -16,6 +16,6 @@ router.post('/deleteModules', deleteModules)
 router.get('/getAllModules', getAllModules)
 router.get('/getModulesByEventId', getModulesByEventId)
 router.post('/updateModules', updateModules)
-router.post('/uploadsFilesModulesPhotosVideos', uploadsFilesModulesPhotosVideos)
+router.post('/uploadsModule', uploadsModule)
 
 module.exports = router
