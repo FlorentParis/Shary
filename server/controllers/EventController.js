@@ -303,10 +303,6 @@ module.exports = {
     getAllEventsByParticipant,
     getEventsByStatus,
     addParticipant,
-<<<<<<< HEAD
     getParticipantsById,
     cookieInvitation
-=======
-    cookieInvitation,
->>>>>>> master
 }
