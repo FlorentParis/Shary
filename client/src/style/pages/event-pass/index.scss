@@ -11,11 +11,19 @@
     }
 }
 
+@media only screen and (max-width: 425px) {
+    .page-event-pass {
+        > .grid-event-card {
+            grid-template-columns: 1fr;
+            padding: 0;
+        }
+    }
+}
+
 @media only screen and (min-width: 1440px) {
     .page-event-pass {
         > .grid-event-card {
             grid-template-columns: repeat(6, 1fr);
-            grid-gap: 40px;
         }
     }
 }

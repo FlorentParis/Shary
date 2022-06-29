@@ -1,18 +1,22 @@
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+
 export default function MenuProfil() {
+
     return (
         <div className="menu-profil">
-            <div>
+            <Link to="/profil">
                 <img src="./icons/user.svg" alt="icon user" />
                 <span>Profil</span>
-            </div>
-            <div>
+            </Link>
+            <Link to="/settings">
                 <img src="./icons/params.svg" alt="icon user" />
                 <span>Paramètres</span>
-            </div>
-            <div>
+            </Link>
+            <Link to="/contact-us">
                 <img src="./icons/contact.svg" alt="icon user" />
                 <span>Nous contacter</span>
-            </div>
+            </Link>
             <span id="btn-disconnect">Déconnexion</span>
         </div>
     )

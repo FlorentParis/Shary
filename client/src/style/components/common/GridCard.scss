@@ -17,6 +17,13 @@
         row-gap: 20px;
         height: 100%;
 
+        p {
+            font-family: "Montserrat";
+            font-weight: 300;
+            font-size: 11px;
+            color: #000;
+        }
+
         input {
             font-size: 12px;
             padding: 12px 20px;
@@ -69,4 +76,12 @@
 
 .gr-2 {
     grid-row: span 2;
+}
+
+@media only screen and (max-width: 425px) {
+    .grid-card {
+        min-width: 100%;
+        grid-column: 1;
+        box-sizing: border-box;
+    }
 }

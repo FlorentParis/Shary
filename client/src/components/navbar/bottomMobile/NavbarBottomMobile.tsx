@@ -1,8 +1,20 @@
 import { Link } from "react-router-dom";
 
-export default function NavbarBottomMobile() {
+interface NavbarBottomMobileInterface {
+    displayMenuProfil: boolean,
+    setDisplayMenuProfil: Function
+}
+
+export default function NavbarBottomMobile({displayMenuProfil, setDisplayMenuProfil}: NavbarBottomMobileInterface) {
+
+    const closeProfileNav= () => {
+        if (displayMenuProfil == true) {
+            setDisplayMenuProfil(false)
+        }
+    }
+
     return (
-        <div className="navbar-bottom">
+        <div className="navbar-bottom"  onClick={closeProfileNav}>
             <Link to="/">
                 <img src="./icons/home.svg" alt="" />
             </Link>
@@ -15,9 +27,9 @@ export default function NavbarBottomMobile() {
             <Link to="/event-pass">
                 <img src="./icons/event-pass.svg" alt="" />
             </Link>
-            <Link to="/profil">
+            <div onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
                 <img src="./icons/user.svg" alt="" />
-            </Link>
+            </div>
         </div>
     )
 }

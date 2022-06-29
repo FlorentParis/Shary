@@ -6,7 +6,9 @@ const app = express();
 const user_routes = require('./routes/UserRoute.js');
 const event_routes = require('./routes/EventRoute.js');
 const modules_routes = require('./routes/ModulesRoute.js');
-app.use(express.json());
+var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
+app.use(express.json())
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -14,6 +16,7 @@ mongoose.Promise = global.Promise;
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
+const { exemple } = require('./controllers/EventController.js');
 
 
 // parse requests of content-type - application/json
@@ -54,6 +57,13 @@ mongoose
 app.use('/api/user', user_routes);
 app.use('/api/event', event_routes);
 app.use('/api/modules', modules_routes);
+
+app.get("/meow/wouf", (req, res) => {
+    res.json({ message: "Welcome to Shary server" });
+});
+app.get("/user/:id", (request, response) => {
+	response.json({ name: "Existing Person" });
+});
 
 
 //  AFFICHAGE ERREUR JSON
