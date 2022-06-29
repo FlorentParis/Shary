@@ -43,6 +43,7 @@ import useGetEventsByUser from './hooks/useGetEventsByUser';
 import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
 import Photo from './pages/photo';
 import GoldenBook from './pages/golden-book';
+import Playlist from './pages/playlist';
 
 
 
@@ -114,6 +115,7 @@ function App() {
                 <Route path="/guest-list" element={<GuestList />} />
                 <Route path="/alert" element={<Alert />} />
                 <Route path="/photo" element={<Photo />} />
+                <Route path="playlist" element={<Playlist />} />
                 <Route path="/modules" element={<Modules />} />
                 <Route path="/moderation" element={<Moderation />} />
                 <Route path="/profil" element={<Profil />} />
