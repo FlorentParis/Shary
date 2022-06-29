@@ -83,8 +83,19 @@ const getAllUsers = catchAsync(async(req, res, next)=> {
     )
 })
 
-
-
+const getCurrentUser = catchAsync(async(req, res, next)=> {
+    let id = await getUserID(req, res, next);
+    const user = await User.findById(id) //User.findOne({ _id : req.params.id})
+    if(!user){
+        return next(new AppError('No User found with that ID', 404))
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            user
+        }
+    });
+})
 
 //  TODO : Activate account with user_ID from cookies, session or token, faire un findByIdAndUpdate
 const activateAccount = ((req, res) => {
@@ -94,7 +105,6 @@ const activateAccount = ((req, res) => {
     });
 })
 
-//  TODO idem, Faire un update depuis son ID, faire un findByIdAndUpdate
 const UpdateUser = catchAsync(async (req, res,next) => {
     let id = await getUserID(req, res, next);
     const data = req.body
@@ -167,6 +177,7 @@ const getUserDeconnexion = catchAsync(async (req, res, next) => {
 module.exports = {
     createUser,
     getUserID,
+    getCurrentUser,
     getAllUsers,
     activateAccount,
     UpdateUser,

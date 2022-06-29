@@ -8,6 +8,7 @@ const AppError = require('../utils/appError')
 const  { 
     createUser, 
     getAllUsers,
+    getCurrentUser,
     activateAccount,
     UpdateUser,
     getUserConnexion,
@@ -28,11 +29,11 @@ async function isConnected(req, res, next){
     }
 }
 
-router.post('/createUser', createUser)
-router.patch('/modifyUserInfo',isConnected, UpdateUser)
-router.get('/emailVerification', activateAccount)
+router.post('/createUser', createUser),
+router.patch('/modifyUserInfo',isConnected, UpdateUser),
+router.get('/emailVerification', activateAccount),
 router.get('/',isConnected, getAllUsers),
 router.post('/getUserConnexion', getUserConnexion),
-router.post('/getUserDeconnexion', getUserDeconnexion)
-
+router.post('/getUserDeconnexion', getUserDeconnexion),
+router.get('/getMyInfo',isConnected, getCurrentUser)
 module.exports = router
