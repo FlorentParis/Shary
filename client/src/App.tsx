@@ -26,11 +26,26 @@ import UserInterface from './interfaces/UserInterface';
 import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
 import MenuProfil from './components/navbar/top/MenuProfil';
 
+/* Hooks */
 import useGetUsers from './hooks/useGetUsers';
 import useGetEvents from './hooks/useGetEvents';
+import useGetCookies from './hooks/useGetCookies';
+import useEraseCookie from './hooks/useEraseCookie';
+import useLogin from './hooks/useLogin';
+import useRegister from './hooks/useRegister';
+import useUpdateUser from './hooks/useUpdateUser';
+import useGetEventsByUser from './hooks/useGetEventsByUser';
+/* email verification ? 
+   cookie invitation ?*/
+
+
+
 import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
 import Photo from './pages/photo';
 import GoldenBook from './pages/golden-book';
+
+
+
 
 function App() {
 

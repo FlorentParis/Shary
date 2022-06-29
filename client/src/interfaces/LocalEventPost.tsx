@@ -1,5 +1,5 @@
 export interface LocalEventPost {
-    userId: string,
+    userId: any,
     name: string,
     start: string,
     end: string,
