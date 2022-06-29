@@ -8,8 +8,6 @@ var Cookies = require( "cookies" )
 var jwt  = require('jsonwebtoken');
 const event_routes = require('./routes/EventRoute.js')
 app.use(express.json())
-app.use('/api/user', user_routes)
-app.use('/api/event', event_routes)
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -17,6 +15,7 @@ mongoose.Promise = global.Promise;
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
+const { exemple } = require('./controllers/EventController.js');
 
 var corsOptions = {
     origin: "http://localhost:3000",
@@ -52,7 +51,15 @@ mongoose
     });
 
 // ROUTES
-app.use('/api/user', user_routes);
+app.use('/api/user', user_routes)
+app.use('/api/event', event_routes)
+
+app.get("/meow/wouf", (req, res) => {
+    res.json({ message: "Welcome to Shary server" });
+});
+app.get("/user/:id", (request, response) => {
+	response.json({ name: "Existing Person" });
+});
 
 
 //  AFFICHAGE ERREUR JSON

@@ -35,4 +35,5 @@ router.get('/',isConnected, getAllUsers),
 router.post('/getUserConnexion', getUserConnexion),
 router.post('/getUserDeconnexion', getUserDeconnexion)
 
+
 module.exports = router
