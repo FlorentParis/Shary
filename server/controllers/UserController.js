@@ -60,15 +60,15 @@ const sendMailActivation = async (data)=> {
 }
 
 async function getUserID(req,res, next) {
-    var token = new Cookies(req,res).get('access_token');
+    let token = new Cookies(req,res).get('access_token');
     if(token) {
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
         console.log("Ton id (CONTROLLER): ", decoded.id);
         return decoded.id;
-        }
-        else {
-            return -1;
-        }    
+    }
+    else {
+        return -1;
+    }
 }
 
 const getAllUsers = catchAsync(async(req, res, next)=> {
@@ -83,22 +83,33 @@ const getAllUsers = catchAsync(async(req, res, next)=> {
     )
 })
 
-
-
+const getCurrentUser = catchAsync(async(req, res, next)=> {
+    let id = await getUserID(req, res, next);
+    const user = await User.findById(id) //User.findOne({ _id : req.params.id})
+    if(!user){
+        return next(new AppError('No User found with that ID', 404))
+    }
+    res.status(200).json({
+        status:'success',
+        data:{
+            user
+        }
+    });
+})
 
 //  TODO : Activate account with user_ID from cookies, session or token, faire un findByIdAndUpdate
 const activateAccount = ((req, res) => {
-    data = req.query
+    let data = req.query
     User.findOneAndUpdate({email: data.email},{$set: { status:"Active" }},{upsert: false}, function(err, doc) {
         res.redirect("http://localhost:3000/")
     });
 })
 
-//  TODO idem, Faire un update depuis son ID, faire un findByIdAndUpdate
-const UpdateUser = catchAsync(async (req, res) => {
-    data = req.body
+const UpdateUser = catchAsync(async (req, res,next) => {
+    let id = await getUserID(req, res, next);
+    const data = req.body
     console.log(data.email)
-    const userUpdated = await User.findOneAndUpdate(
+    /*const userUpdated = await User.findOneAndUpdate(
         {email: data.email},
         {$set: {
                 lastname:data.lastname,
@@ -109,7 +120,11 @@ const UpdateUser = catchAsync(async (req, res) => {
             }
         },
         {upsert: false}
-    )
+    )*/
+    const userUpdated = await User.findByIdAndUpdate(id, data,{
+        new: true, //true to return the modified document rather than the original, defaults to false
+        runValidators: true
+    })
     res.status(200).json({
         status:'success',
         data:{
@@ -122,20 +137,20 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
     if (req.body?.email && req.body?.pw){
         const email = req.body.email;
         const pw = req.body.pw;
-    const user = await User.findOne({email: email, password: pw})
-    if (!user) { 
-     return next(new AppError("MDP ou Email incorrect", 404)) }
-    else {
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
-        res.cookie('access_token', token , {
-            httpOnly: true
+        const user = await User.findOne({email: email, password: pw})
+        if (!user) {
+            return next(new AppError("MDP ou Email incorrect", 404)) }
+        else {
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+            res.cookie('access_token', token , {
+                httpOnly: true
             })
 
-        res.status(200).json({
-            status:"succes",
-            message:"connecté"
-        })
-    }          
+            res.status(200).json({
+                status:"succes",
+                message:"connecté"
+            })
+        }
     }else {
         return new AppError("Il manque le mdp ou le mail", 400);
     }
@@ -143,23 +158,39 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
 })
 
 const getUserDeconnexion = catchAsync(async (req, res, next) => {
-    id = await getUserID(req, res, next);
-    res.clearCookie('access_token');
-    if (id !== -1){
-    res.status(200).json({
-        status:"succes",
-        message:"deconnecté"
-    }) 
-    }
-    else {
-        return next(new AppError("Connecte toi avant de vouloir te déconnecter", 404));      
-    }
+        let id = await getUserID(req, res, next);
+        res.clearCookie('access_token');
+        if (id !== -1){
+            res.status(200).json({
+                status:"succes",
+                message:"deconnecté"
+            })
         }
-    )
+        else {
+            return next(new AppError("Connecte toi avant de vouloir te déconnecter", 404));
+        }
+    }
+)
+
+/* TODO Mise à jour des mots de passe
+const updateUserPassword = catchAsync(async(req, res, next)=> {
+    // Récup des données envoyées par le front
+    // Vérifier que l'ancien mdp et le nouveau soit différent
+    // Mise à jour bdd
+})
+
+const updateForgottenPassword = catchAsync(async (res, res, next)=>{
+    // Récup des données envoyées par le front
+    // vérifier que l'email existe dans la bdd, si existe envoi un mail de redirection vers la page de "mot de passe oublié"
+    // Vérifier que l'ancien mdp et le nouveau soit différent
+    // Mise à jour bdd
+})
+*/
 
 module.exports = {
     createUser,
     getUserID,
+    getCurrentUser,
     getAllUsers,
     activateAccount,
     UpdateUser,
