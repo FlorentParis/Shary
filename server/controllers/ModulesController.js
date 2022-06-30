@@ -111,11 +111,11 @@ const uploadsModule = catchAsync(async(req, res) => {
         let count
     
         switch (data.module) {
-            case 'photos_videos': 
 
+            case 'photos_videos':
                 if(data.file){
-                    const fileStr = data.file;
-                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules',});
+                    /* const fileStr = data.file;
+                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules',}); */
  
                     count = modules.photos_videos.medias.size
                     
@@ -123,7 +123,7 @@ const uploadsModule = catchAsync(async(req, res) => {
                     let infosPhotosVideos = {}
                     
                     infosPhotosVideos['photos_videos.medias.media'+count] = {
-                            content : uploadResponse.url,
+                            content : data.file,
                             id_author : data.author
                     }
                     console.log(infosPhotosVideos)
@@ -132,16 +132,16 @@ const uploadsModule = catchAsync(async(req, res) => {
                     
                     console.log(result)
         
-                    res.status(200).json({
+                    return res.status(200).json({
                         status: 'success',
                         data: {
                             result
                         },
-                        message : "upload reussi module photos_videos , url du fichier : " + uploadResponse.url
+                        message : "upload reussi module photos_videos , url du fichier : " + data.file
                     })
                 }else{
                     err = "Pas de photo ou video dans le body"
-                    res.status(500).json({
+                    return res.status(500).json({
                         status: 'error',
                         data: {
                             err
@@ -149,19 +149,18 @@ const uploadsModule = catchAsync(async(req, res) => {
                         message : "Rien n'a été upload"
                     })
                 }
-    
-              break; 
+     
             case 'livre_d_or': 
                 console.log("test")
                 count = modules.livre_d_or.messages.size
                 let infosChat = {}
                 if(data.file && modules.livre_d_or.videos == true){
-                    const fileStr = data.file;
-                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules',});
+                    /* const fileStr = data.file;
+                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules'}); */
                     
                     infosChat['livre_d_or.messages.message'+count] = {
                             content : { 
-                                video :uploadResponse.url,
+                                video :data.file,
                                 message: data.message
                             },
                             id_author : data.author
@@ -181,16 +180,14 @@ const uploadsModule = catchAsync(async(req, res) => {
                 
                 console.log(result)
     
-                res.status(200).json({
+                return res.status(200).json({
                     status: 'success',
                     data: {
                         result
                     },
-                    message : "upload reussi module photos_videos , url du fichier : " + uploadResponse.url
+                    message : "upload reussi module photos_videos , url du fichier : " + data.file
                 })
-
-                break; 
-
+            
             case 'chat':
 
                 count = modules.chat.messages.size
@@ -207,20 +204,20 @@ const uploadsModule = catchAsync(async(req, res) => {
                 
                 console.log(result)
     
-                res.status(200).json({
+                return res.status(200).json({
                     status: 'success',
                     data: {
                         result
                     },
                     message : "Upload du message module chat a été effectué avec succès"
                 })
-              break;
+            
             default:
               console.log('le module ' + data.module + " n'existe pas");
         }
     }else{
         err = "Pas de variable event dans le body, ou alors celui ci ne correspond a aucun id_event de la collection modules"
-        res.status(500).json({
+        return res.status(500).json({
             status: 'error',
             data: {
                 err
