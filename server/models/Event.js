@@ -11,6 +11,11 @@ const EventSchema = new mongoose.Schema({
         type:String,
         required:[true, "Please provide the event's name"]
     },
+    type : {
+        type: String,
+        enum: ['mariage', 'anniversaire', 'autre'],
+        required:[true, "Please provide the event's type"]
+    },
     status: {
         type: String,
         enum: ['Pending', 'InProgress','finish'],
@@ -86,6 +91,16 @@ const EventSchema = new mongoose.Schema({
         announcement:{
             type:Boolean,
             default:false
+        }
+    },
+    alerts:{
+        date : {
+                type:Date,
+                required:[true, "Please provide the alert's date"]
+        },
+        description : {
+            type:String,
+            required:[true, "Please provide the alert's description"]
         }
     },
     participants : {
