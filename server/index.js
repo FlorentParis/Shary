@@ -2,13 +2,18 @@ require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const catchAsync = require('./utils/catchAsync')
+var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
+const { Server } = require("socket.io");
+const http = require("http");
 const app = express();
 const user_routes = require('./routes/UserRoute.js');
 const event_routes = require('./routes/EventRoute.js');
 const modules_routes = require('./routes/ModulesRoute.js');
-var Cookies = require( "cookies" )
-var jwt  = require('jsonwebtoken');
+const Modules = require('./models/Modules.js')
 app.use(express.json())
+
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -17,7 +22,6 @@ mongoose.Promise = global.Promise;
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
 const { exemple } = require('./controllers/EventController.js');
-
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json({}));
@@ -53,6 +57,7 @@ mongoose
         process.exit();
     });
 
+
 // ROUTES
 app.use('/api/user', user_routes);
 app.use('/api/event', event_routes);
@@ -76,3 +81,50 @@ app.all('*', (req, res, next)=>{
 });
 
 app.use(globalErrorHandler);
+
+
+// CHAT SOCKET SERVER
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("joinRoomEvent", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", catchAsync(async(data) => {
+    socket.to(data.event).emit("receive_message", data);
+    let modules = await Modules.findOne({id_event:data.event})
+    count = modules.chat.messages.size
+
+    let infosMessage = {}
+
+    infosMessage['chat.messages.message'+count] = {
+        content : data.message,
+        id_author : data.author
+    }
+    console.log(infosMessage)
+
+    result = await Modules.updateOne({ id_event: data.event}, { "$set": infosMessage })
+    
+    console.log(result)
+  }));
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
+
+server.listen(3031, () => {
+  console.log("CHAT SERVER RUNNING");
+});
