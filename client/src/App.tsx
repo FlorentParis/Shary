@@ -45,11 +45,12 @@ import Photo from './pages/photo';
 import GoldenBook from './pages/golden-book';
 import Playlist from './pages/playlist';
 
-
-
+import { AppDispatch } from "./store"
+import { addEvents } from './store/eventsSlice';
+import { useDispatch } from 'react-redux';
 
 function App() {
-
+  const dispatch: AppDispatch = useDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<UserInterface>({
     status: 'error',
@@ -62,7 +63,6 @@ function App() {
       setDisplayMenuProfil(false)
     }
   }
-
 
   const getUsers = useGetUsers();
   const getEvents = useGetEvents();
@@ -83,11 +83,13 @@ function App() {
     getEvents()
         .then(data => {
             setEvent(data)
+            dispatch(addEvents(data))
+            console.log(data, "DATA")
             setNeedsUpdate(false)
         })
   }, [needsUpdate])
 
-  console.log(event);
+  console.log(event, "evt");
 
   return (
     <>
