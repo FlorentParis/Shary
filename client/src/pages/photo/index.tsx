@@ -1,10 +1,13 @@
 import { useState } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
+import AsidePhoto from "./AsidePhoto";
 
 export default function Photo() {
 
     const [displayUpload, setDisplayUpload] = useState<boolean>(false);
+    /* L'idée c'est de faire passer l'object dans le displayAside et le récupérer dans l'élément TSX */
+    const [displayAside, setDisplayAside] = useState<any>(false);
 
     return (
         <>
@@ -12,14 +15,20 @@ export default function Photo() {
             <PageContainer>
                 <div className="page-photo">
                     <div className="bar-filter-photo">
-                        <div onClick={() => setDisplayUpload(true)}>
-                            <span>Upload de photos & vidéos</span>
-                            <span className="underline" style={displayUpload ? {} : {display: 'none'}}></span>
+                        <div>
+                            <div onClick={() => setDisplayUpload(true)}>
+                                <span>Upload de photos & vidéos</span>
+                                <span className="underline" style={displayUpload ? {} : {display: 'none'}}></span>
+                            </div>
+                            <div onClick={() => setDisplayUpload(false)}>
+                                <span>Galerie photos et vidéos</span>
+                                <span className="underline" style={displayUpload ? {display: "none"} : {}}></span>
+                            </div>
                         </div>
-                        <div onClick={() => setDisplayUpload(false)}>
-                            <span>Galerie photos et vidéos</span>
-                            <span className="underline" style={displayUpload ? {display: "none"} : {}}></span>
-                        </div>
+                        <ul>
+                            <li><span></span>Photos</li>
+                            <li><span></span>Vidéos</li>
+                        </ul>
                     </div>
                     {displayUpload ? 
                         <div className="upload">
@@ -28,45 +37,51 @@ export default function Photo() {
                     : ""}
                     {displayUpload ? "" :
                         <div className="grid-photo">
-                            <div>
+                            <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
                                     <img src="./img/demo.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
+                                <span>Postée le 01/01/2022</span>
                             </div>
-                            <div>
+                            <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
                                     <img src="./prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
+                                <span>Postée le 01/01/2022</span>
                             </div>
-                            <div>
+                            <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
                                     <img src="./img/demo.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
+                                <span>Postée le 01/01/2022</span>
                             </div>
-                            <div>
+                            <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
                                     <img src="./prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
+                                <span>Postée le 01/01/2022</span>
                             </div>
-                            <div>
+                            <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
                                     <img src="./prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
+                                <span>Postée le 01/01/2022</span>
                             </div>
                         </div>
                     }
                 </div>
             </PageContainer>
+            {displayAside ? <AsidePhoto /> : ""}
         </>
     )
 }

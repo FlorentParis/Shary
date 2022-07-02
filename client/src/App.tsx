@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Auth from './pages/authentification/Auth';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import HideIfLogged from './components/common/HideIfLogged';
-import HideIfNotLogged from './components/common/HideIfNotLogged';
+import { AppDispatch } from "./store";
+import { useDispatch } from 'react-redux';
+import {setEventsData} from "./features/eventsSlice";
 
 /* Pages */
 import Homepage from './pages/homepage';
@@ -16,10 +17,16 @@ import Information from './pages/information';
 import Moderation from './pages/moderation';
 import Settings from './pages/settings';
 import Contact from './pages/contact-us';
+import Photo from './pages/photo';
+import GoldenBook from './pages/golden-book';
+import Playlist from './pages/playlist';
 
 /* Components */
 import NavbarLeft from './components/navbar/vertical/NavbarVertical';
 import NavbarTop from './components/navbar/top/NavbarTop';
+import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
+import HideIfLogged from './components/common/HideIfLogged';
+import HideIfNotLogged from './components/common/HideIfNotLogged';
 
 /* Interfaces */
 import UserInterface from './interfaces/UserInterface';
@@ -38,18 +45,10 @@ import useGetEventsByUser from './hooks/useGetEventsByUser';
 /* email verification ? 
    cookie invitation ?*/
 
-
-
-import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
-import Photo from './pages/photo';
-import GoldenBook from './pages/golden-book';
-import Playlist from './pages/playlist';
-
-import { AppDispatch } from "./store"
-import { addEvents } from './store/eventsSlice';
-import { useDispatch } from 'react-redux';
-
 function App() {
+
+  const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
+
   const dispatch: AppDispatch = useDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const [loggedUser, setLoggedUser] = useState<UserInterface>({
@@ -63,33 +62,6 @@ function App() {
       setDisplayMenuProfil(false)
     }
   }
-
-  const getUsers = useGetUsers();
-  const getEvents = useGetEvents();
-  const [needsUpdate, setNeedsUpdate] = useState<boolean>(false)
-
-  const [user, setUser] = useState([])
-  const [event, setEvent] = useState([])
-
-  useEffect(() => {
-    getUsers()
-        .then(data => {
-            setUser(data)
-            setNeedsUpdate(false)
-        })
-  }, [needsUpdate])
-
-  useEffect(() => {
-    getEvents()
-        .then(data => {
-            setEvent(data)
-            dispatch(addEvents(data))
-            console.log(data, "DATA")
-            setNeedsUpdate(false)
-        })
-  }, [needsUpdate])
-
-  console.log(event, "evt");
 
   return (
     <>

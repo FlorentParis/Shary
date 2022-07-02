@@ -1,9 +1,27 @@
+import { useEffect } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import BtnAddEvent from "../../components/event-pages/BtnAddEvent";
 import EventCard from "../../components/event-pages/EventCard";
+import { setEventsData } from "../../features/eventsSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import useGetEvents from "../../hooks/useGetEvents";
 
 export default function EventPass() {
+
+    const dispatch = useAppDispatch();
+
+    /* Events */
+    const getEvents = useGetEvents();
+    const eventsData = useAppSelector((state) => state.events.events);
+
+    useEffect(() => {
+        getEvents()
+        .then(res => {
+            dispatch(setEventsData(res))
+        })
+    }, [])
+
     return (
         <>
             <PageBanner imgSrc="./icons/event-passed-gradient.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
@@ -24,11 +42,9 @@ export default function EventPass() {
                         </ul>
                     </div>
                     <div className="grid-event-card">
-                        <EventCard />
-                        <EventCard />
-                        <EventCard />
-                        <EventCard />
-                        <EventCard />
+                        {eventsData?.map((event: any, index: number) => {
+                            return <EventCard event={event} key={index} />
+                        })}
                         <BtnAddEvent />
                     </div>
                 </div>
