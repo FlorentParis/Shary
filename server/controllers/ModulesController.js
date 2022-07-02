@@ -187,10 +187,12 @@ const uploadsModule = catchAsync(async(req, res) => {
                     },
                     message : "upload reussi module photos_videos , url du fichier : " + data.file
                 })
-            
+
             case 'chat':
 
-                count = modules.chat.messages.size
+                result = "On utilisera plutot socket.io pour upload des messages :)"
+
+                /* count = modules.chat.messages.size
                                 
                 let infosMessage = {}
             
@@ -202,16 +204,16 @@ const uploadsModule = catchAsync(async(req, res) => {
             
                 result = await Modules.updateOne({ id_event: data.event}, { "$set": infosMessage })
                 
-                console.log(result)
+                console.log(result) */
     
                 return res.status(200).json({
                     status: 'success',
                     data: {
                         result
                     },
-                    message : "Upload du message module chat a été effectué avec succès"
+                    message : result
                 })
-            
+
             default:
               console.log('le module ' + data.module + " n'existe pas");
         }
