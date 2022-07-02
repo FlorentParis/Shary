@@ -63,6 +63,15 @@ function App() {
     }
   }
 
+  const getEvents = useGetEvents();
+
+  useEffect(() => {
+    getEvents()
+    .then(res => {
+        dispatch(setEventsData(res))
+    })
+}, [])
+
   return (
     <>
       <HideIfLogged loggedUser={loggedUser}>
