@@ -5,7 +5,6 @@ const AppError = require('../utils/appError')
 
 async function isConnected(req, res, next){
     const token = new Cookies(req,res).get('access_token');  
-    const eventInvitation = new Cookies(req,res).get('eventInvitation');
     if(token) {
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
         console.log("Ton id : ", decoded.id);

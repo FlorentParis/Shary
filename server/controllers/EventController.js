@@ -273,7 +273,7 @@ const cookieInvitation = catchAsync(async(req, res, next) => {
     res.cookie('eventInvitation', data.eventId, {
         httpOnly: true
     })
-    const result = await acceptInvitation(req, res);
+    const result = await acceptInvitation(req, res, data.eventId);
     res.status(200).json({
         status: 'success',
         message : "abcdef",
