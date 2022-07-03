@@ -8,6 +8,7 @@ const AppError = require('../utils/appError');
 var Cookies = require( "cookies" );
 const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
+const { acceptInvitation } = require('../utils/acceptInvitation')
 
 
 const createUser = catchAsync(async(req, res, next) => {
@@ -71,7 +72,7 @@ async function getUserID(req,res, next) {
     }
 }
 
-const getAllUsers = catchAsync(async(req, res, next)=> {
+const getAllUsers = catchAsync(async(req, res, next)=> { 
     const users = await User.find();
     res.status(200).json({
             status: 'success',
@@ -145,6 +146,8 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
             res.cookie('access_token', token , {
                 httpOnly: true
             })
+
+            await acceptInvitation(req, res);
 
             res.status(200).json({
                 status:"succes",

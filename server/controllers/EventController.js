@@ -1,9 +1,12 @@
 const Event = require('../models/Event.js');
 const User = require('../models/User.js');
+var Cookies = require( "cookies" )
 var nodemailer = require('nodemailer');
 const catchAsync = require('../utils/catchAsync');
 const e = require('express');
 require('dotenv').config();
+const { isConnected } = require('../utils/isConnected')
+const { acceptInvitation } = require('../utils/acceptInvitation')
 
 const createEvent = catchAsync(async(req, res) => {
     var data = req.body
@@ -151,7 +154,7 @@ const addParticipant = catchAsync(async(req, res) => {
 
     let userInfoObject = {}
 
-    if(userInfo[0]._id){
+    if(userInfo.length !== 0){
         userInfoObject = {
             userId: userInfo[0]._id,
             email: userInfo[0].email,
@@ -159,7 +162,7 @@ const addParticipant = catchAsync(async(req, res) => {
         }
     }else{
         userInfoObject = {
-            email: userInfo[0].email,
+            email: data.user.email,
             role: data.user.role
         } 
     }
@@ -182,7 +185,6 @@ const addParticipant = catchAsync(async(req, res) => {
 
     } else {
         let count = event[0].participants.size
-        console.log(count)
         object = {}
         string = 'participants.' + count
         object['participants.'+count] = userInfoObject
@@ -221,7 +223,7 @@ const sendMail = catchAsync(async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
     })
-    console.log(event)
+    console.log(event.userId)
     const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
     const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
     console.log(html)
@@ -265,15 +267,21 @@ const sendMail = catchAsync(async(userInfo,event) =>{
     }
 })
 
-const cookieInvitation = catchAsync(async(req, res) => {
+const cookieInvitation = catchAsync(async(req, res, next) => {
 
     const data = req.query
     res.cookie('eventInvitation', data.eventId, {
-        expires: new Date(Date.now() + 600000),
         httpOnly: true
-    })    
-    res.send("create cookie eventInvitation")
-    res.redirect("http://localhost:3000/")
+    })
+    const result = await acceptInvitation(req, res);
+    res.status(200).json({
+        status: 'success',
+        message : "abcdef",
+        data: {
+            result
+        },
+    }) 
+    // res.redirect("http://localhost:3000/")
     
 })
 
