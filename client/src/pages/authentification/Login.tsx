@@ -1,12 +1,40 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../../features/userConnectedSlice';
+import { useAppDispatch } from '../../hooks/reduxHooks';
+import UserInterface from '../../interfaces/UserInterface';
 
 export default function Login() {
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
+    const [formInput, setFormInput] = useState<UserInterface>({
+        email: '',
+        password: '',
+        lastname: '',
+        firstname: '',
+    })
+
+    const handleChange = ({target}: any) => {
+        setFormInput((prev: any) => ({
+            ...prev,
+            [target.name]: target.value
+        }))
+    }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        dispatch(loginUser(formInput));
+        navigate('/');
+    };
+
     return (
         <>
             <h2>Connectez-vous</h2>
-            <form>
-                <input type="mail" name="" id="" placeholder='Adresse mail*' />
-                <input type="password" name="" id="" placeholder='Mot de passe*' />
+            <form onSubmit={handleSubmit}>
+                <input onChange={handleChange} type="mail" name="email" placeholder='Adresse mail*' required/>
+                <input onChange={handleChange} type="password" name="password" placeholder='Mot de passe*' required/>
                 <Link to="">Mot de passe oublié ?</Link>
                 <button>Connexion</button>
             </form>

@@ -1,12 +1,14 @@
-import UserInterface from "../../interfaces/UserInterface"
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 interface HideIfLoggedPropsInterface {
-    loggedUser: UserInterface,
     children: JSX.Element
 }
 
-export default function HideIfNotLogged({loggedUser, children}: HideIfLoggedPropsInterface) {
-    if (!loggedUser.token) {
+export default function HideIfNotLogged({children}: HideIfLoggedPropsInterface) {
+
+    const token = useAppSelector((state) => state.userConnected.token);
+
+    if (!token) {
         return <></>
     }
     return children

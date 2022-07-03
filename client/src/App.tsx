@@ -1,8 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Auth from './pages/authentification/Auth';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import { AppDispatch } from "./store";
-import { useDispatch } from 'react-redux';
 import {setEventsData} from "./features/eventsSlice";
 
 /* Pages */
@@ -29,36 +27,22 @@ import HideIfLogged from './components/common/HideIfLogged';
 import HideIfNotLogged from './components/common/HideIfNotLogged';
 
 /* Interfaces */
-import UserInterface from './interfaces/UserInterface';
 import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
 import MenuProfil from './components/navbar/top/MenuProfil';
 
 /* Hooks */
-import useGetUsers from './hooks/useGetUsers';
 import useGetEvents from './hooks/useGetEvents';
-import useGetCookies from './hooks/useGetCookies';
-import useEraseCookie from './hooks/useEraseCookie';
-import useLogin from './hooks/useLogin';
-import useRegister from './hooks/useRegister';
-import useUpdateUser from './hooks/useUpdateUser';
-import useGetEventsByUser from './hooks/useGetEventsByUser';
-/* email verification ? 
-   cookie invitation ?*/
+import { useAppDispatch } from './hooks/reduxHooks';
 
 function App() {
 
   const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
 
-  const dispatch: AppDispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
-  const [loggedUser, setLoggedUser] = useState<UserInterface>({
-    status: 'error',
-    mail: '',
-    token: 'bdhuaz'
-  });
 
   const closeProfile = () => {
-    if (displayMenuProfil == true) {
+    if (displayMenuProfil === true) {
       setDisplayMenuProfil(false)
     }
   }
@@ -68,19 +52,19 @@ function App() {
   useEffect(() => {
     getEvents()
     .then(res => {
-        dispatch(setEventsData(res))
+      dispatch(setEventsData(res))
     })
-}, [])
+  }, [needsUpdate])
 
   return (
     <>
-      <HideIfLogged loggedUser={loggedUser}>
+      <HideIfLogged>
         <Routes>
           <Route  path="/*" element={<Navigate to="auth/login" />} />
           <Route path="/auth/*" element={<Auth />} />
         </Routes>
       </HideIfLogged>
-      <HideIfNotLogged loggedUser={loggedUser}>
+      <HideIfNotLogged>
         <>
           <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
           {displayMenuProfil ? <MenuProfil />: ''}
