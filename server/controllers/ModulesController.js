@@ -231,11 +231,36 @@ const uploadsModule = catchAsync(async(req, res) => {
 
 })
 
+const blacklistedPhotosVideo = catchAsync(async(req, res) => {
+    const data = req.body
+
+    let modules = await Modules.findOne({id_event:data.event})
+
+    modules.photos_videos.medias.forEach(media => {
+        if(media.content == data.content){
+            media.status = "Blacklisted"
+            console.log(media)
+        }
+    })
+
+    let result = await Modules.replaceOne({id_event:data.event}, modules)
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            result
+        },
+        message : "La photo (ou video) " + data.content + " est blacklistée"
+    })
+     
+})
+
 module.exports = {
     createModules,
     deleteModules,
     getAllModules,
     getModulesByEventId,
     updateModules,
-    uploadsModule
+    uploadsModule,
+    blacklistedPhotosVideo
 }
