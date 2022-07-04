@@ -145,7 +145,7 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
         else {
             const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
             res.cookie('access_token', token , {
-                httpOnly: true
+                httpOnly: false
             })
             const eventInvitation = new Cookies(req,res).get('eventInvitation');
             if ( eventInvitation !== "" &&  eventInvitation !== undefined){

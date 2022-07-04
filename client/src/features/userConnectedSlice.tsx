@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import useGetTokenInCookies from "../hooks/useGetTokenInCookies";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
 import UserInterface from "../interfaces/UserInterface";
@@ -18,13 +19,13 @@ const initialState = {
 export const signupUser = createAsyncThunk('users/signupUser', async(formInput: UserInterface) => {
     const register = useRegister();
     register(formInput)
-        .then(res => setLoggedUser(res.data.token));
+        .then(res => setLoggedUser(res.token));
 })
 
 export const loginUser = createAsyncThunk('users/loginUser', async(formInput: UserInterface) => {
     const login = useLogin();
-    login(formInput.email, formInput.password)
-        .then(res => setLoggedUser(res.data.token));
+    return login(formInput.email, formInput.password)
+        .then(res => res)
 })
 
 const userSlice = createSlice({

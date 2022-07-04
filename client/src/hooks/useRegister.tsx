@@ -16,6 +16,6 @@ export default function useRegister() {
             withCredentials: true
         })
         .then(res=>res.data)
-        .catch(res => console.log(res))
+        .catch(res => console.log("error", res))
     }
 }

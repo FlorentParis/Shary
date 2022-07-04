@@ -32,14 +32,22 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 
 /* Hooks */
 import useGetEvents from './hooks/useGetEvents';
-import { useAppDispatch } from './hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from './hooks/reduxHooks';
+import useGetTokenInCookies from './hooks/useGetTokenInCookies';
+import { setLoggedUser } from './features/userConnectedSlice';
 
 function App() {
+
+  let token = useGetTokenInCookies("access_token");
 
   const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
 
   const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
+
+  if(token) {
+    dispatch(setLoggedUser(token));
+  }
 
   const closeProfile = () => {
     if (displayMenuProfil === true) {
