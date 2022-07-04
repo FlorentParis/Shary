@@ -146,9 +146,10 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
             res.cookie('access_token', token , {
                 httpOnly: true
             })
-
-            await acceptInvitation(req, res);
-
+            const eventInvitation = new Cookies(req,res).get('eventInvitation');
+            if ( eventInvitation !== "" &&  eventInvitation !== undefined){
+                await acceptInvitation(req, res);
+            }
             res.status(200).json({
                 status:"succes",
                 message:"connecté"
