@@ -82,9 +82,9 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
     let events = await Event.find({})
     let userEvent = []
     console.log(events)
-    events.forEach(event => 
+    events.forEach(event =>
         event.participants.forEach(function(participant){
-            if(participant.userId == data._id){
+            if(participant.userId == data._id && participant.status == "Active"){
                 return userEvent.push(event)
             }
         })
@@ -127,9 +127,7 @@ const updateEvent = catchAsync(async(req, res) => {
            events
         },
         message : "Une personne a été ajouté a la liste des participants"
-    })
-
-    
+    })    
 })
 
 const addParticipant = catchAsync(async(req, res) => {
