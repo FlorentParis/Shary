@@ -135,6 +135,7 @@ const UpdateUser = catchAsync(async (req, res,next) => {
 })
 
 const getUserConnexion = catchAsync(async (req, res, next) => {
+    console.log("aaaaaaa")
     if (req.body?.email && req.body?.pw){
         const email = req.body.email;
         const pw = req.body.pw;
@@ -152,7 +153,8 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
             }
             res.status(200).json({
                 status:"succes",
-                message:"connecté"
+                message:"connecté",
+                token: token
             })
         }
     }else {

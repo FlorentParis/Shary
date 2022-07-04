@@ -9,7 +9,9 @@ export default function useLogin() {
             data: {
                 username: username,
                 password: password
-            }
+            },
+            headers: { 'Content-Type': 'application/json' },
+
         })
         .then(res=>res.data)
     }
