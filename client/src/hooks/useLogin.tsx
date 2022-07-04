@@ -4,7 +4,7 @@ export default function useLogin() {
     return (username: string, password: string) => {
         return axios({
             url: "http://localhost:3030/api/user/getUserConnexion",
-            method:"get",
+            method:"post",
             withCredentials: true,
             data: {
                 username: username,
