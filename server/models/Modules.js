@@ -90,9 +90,15 @@ const ModulesSchema = new mongoose.Schema({
                     message : {
                         type : String
                     }, 
-                    video : {
+                    typographie : {
                         type : String
-                    }          
+                    },
+                    style : {
+                        type : String 
+                    },
+                    couleurs : {
+                        type : String 
+                    },
                 },
 
                 id_author : {
