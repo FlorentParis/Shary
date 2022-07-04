@@ -12,8 +12,9 @@ export default function Login() {
     const [formInput, setFormInput] = useState<UserInterface>({
         email: '',
         password: '',
+        passwordConfirm: '',
         lastname: '',
-        firstname: '',
+        firstname: ''
     })
 
     const handleChange = ({target}: any) => {

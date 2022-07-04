@@ -1,24 +1,21 @@
 import axios from "axios";
 import UserInterface from "../interfaces/UserInterface";
 
-
-
 export default function useRegister() {
-    return (token: string, user: UserInterface) => {
+    return (user: UserInterface) => {
         return axios({
             url: "http://localhost:3030/api/user/createUser",
             method:"post",
-            data: new URLSearchParams({
+            data: {
                 lastname: user.lastname,
                 firstname: user.firstname,
                 email: user.email,
                 password: user.password,
-            }),
-            withCredentials: true,
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+                passwordConfirm: user.passwordConfirm,
+            },
+            withCredentials: true
         })
         .then(res=>res.data)
-        }
+        .catch(res => console.log(res))
+    }
 }

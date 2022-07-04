@@ -60,7 +60,7 @@ function App() {
     <>
       <HideIfLogged>
         <Routes>
-          <Route  path="/*" element={<Navigate to="auth/login" />} />
+          <Route path="/*" element={<Navigate to="auth/login" />} />
           <Route path="/auth/*" element={<Auth />} />
         </Routes>
       </HideIfLogged>

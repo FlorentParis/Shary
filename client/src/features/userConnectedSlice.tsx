@@ -17,7 +17,7 @@ const initialState = {
 
 export const signupUser = createAsyncThunk('users/signupUser', async(formInput: UserInterface) => {
     const register = useRegister();
-    register("test", formInput)
+    register(formInput)
         .then(res => setLoggedUser(res.data.token));
 })
 
