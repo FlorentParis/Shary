@@ -11,6 +11,16 @@ const EventSchema = new mongoose.Schema({
         type:String,
         required:[true, "Please provide the event's name"]
     },
+    type : {
+        type: String,
+        enum: ['mariage', 'anniversaire', 'autre'],
+        required:[true, "Please provide the event's type"]
+    },
+    status: {
+        type: String,
+        enum: ['Pending', 'InProgress','finish'],
+        default: 'Pending'
+    },
     start: {
         type:Date,
         required:[true, "Please provide the event's start"]
@@ -83,6 +93,16 @@ const EventSchema = new mongoose.Schema({
             default:false
         }
     },
+    alerts:{
+        date : {
+                type:Date,
+                required:[true, "Please provide the alert's date"]
+        },
+        description : {
+            type:String,
+            required:[true, "Please provide the alert's description"]
+        }
+    },
     participants : {
         type : Map,
         of: {
@@ -104,7 +124,8 @@ const EventSchema = new mongoose.Schema({
                 enum: ['Pending', 'Active'],
                 default: 'Pending'
             }
-        }
+        },
+        required : true
     },
     modules : {
         photoVideo: {

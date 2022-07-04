@@ -1,9 +1,12 @@
 const Event = require('../models/Event.js');
 const User = require('../models/User.js');
+var Cookies = require( "cookies" )
 var nodemailer = require('nodemailer');
 const catchAsync = require('../utils/catchAsync');
 const e = require('express');
 require('dotenv').config();
+const { isConnected } = require('../utils/isConnected')
+const { acceptInvitation } = require('../utils/acceptInvitation')
 
 const createEvent = catchAsync(async(req, res) => {
     var data = req.body
@@ -48,24 +51,19 @@ const getAllEvents = catchAsync(async(req, res) => {
             events
         },
         message : ""
-    })
-
-    
+    })  
 })
 
-const getAllEventsByUser = catchAsync(async(req, res) => {
+const getAllEventsByCreator = catchAsync(async(req, res) => {
     let data = req.query
-    console.log(data._id)
     let events = await Event.find({})
     let userEvent = []
 
-    events.forEach(event => 
-        event.participants.forEach(function(participant){
-            if(participant.userId == data._id){
-                return userEvent.push(event)
-            }
-        })
-    );
+    events.forEach(function(event){
+        if(event.userId == data._id){
+            return userEvent.push(event)
+        }
+    });
     console.log(userEvent.length)
 
 
@@ -74,8 +72,48 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
         data: {
             userEvent
         },
-        message : ""
+        message : "Récuperation des évènements creer par l'utilisateur :" + data._id
     })
+})
+
+const getAllEventsByParticipant = catchAsync(async(req, res) => {
+    let data = req.query
+
+    let events = await Event.find({})
+    let userEvent = []
+    console.log(events)
+    events.forEach(event =>
+        event.participants.forEach(function(participant){
+            if(participant.userId == data._id && participant.status == "Active"){
+                return userEvent.push(event)
+            }
+        })
+    );
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            userEvent
+        },
+        message : "Récuperation des évènements l'utilisateur " + data._id + " est participant"
+    })
+ 
+})
+
+const getEventsByStatus = catchAsync(async(req, res) => {
+    data = req.query
+
+    /* Récupération de des évènements grace au status */
+    let events = await Event.find({status : data.status})
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            events
+        },
+        message : "Récuperation des évènements ayant pour status : " + data.status
+    })
+ 
 })
 
 const updateEvent = catchAsync(async(req, res) => {
@@ -89,9 +127,7 @@ const updateEvent = catchAsync(async(req, res) => {
            events
         },
         message : "Une personne a été ajouté a la liste des participants"
-    })
-
-    
+    })    
 })
 
 const addParticipant = catchAsync(async(req, res) => {
@@ -116,7 +152,7 @@ const addParticipant = catchAsync(async(req, res) => {
 
     let userInfoObject = {}
 
-    if(userInfo[0]._id){
+    if(userInfo.length !== 0){
         userInfoObject = {
             userId: userInfo[0]._id,
             email: userInfo[0].email,
@@ -124,7 +160,7 @@ const addParticipant = catchAsync(async(req, res) => {
         }
     }else{
         userInfoObject = {
-            email: userInfo[0].email,
+            email: data.user.email,
             role: data.user.role
         } 
     }
@@ -147,7 +183,6 @@ const addParticipant = catchAsync(async(req, res) => {
 
     } else {
         let count = event[0].participants.size
-        console.log(count)
         object = {}
         string = 'participants.' + count
         object['participants.'+count] = userInfoObject
@@ -164,11 +199,29 @@ const addParticipant = catchAsync(async(req, res) => {
     }
 })
 
+const getParticipantsById = catchAsync(async(req, res) => {
+    data = req.query
+
+    /* Récupération de l'évènement grace a l'id_event */
+    let events = await Event.findOne({_id : data._id})
+
+    /* Récupération des participants de l'évènement */
+    let participants = events.participants
+    res.status(200).json({
+        status: 'success',
+        data: {
+            participants
+        },
+        message : "Récuperation des participants de l'évènement " + data._id
+    })
+ 
+})
+
 const sendMail = catchAsync(async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
     })
-    console.log(event)
+    console.log(event.userId)
     const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
     const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
     console.log(html)
@@ -212,15 +265,21 @@ const sendMail = catchAsync(async(userInfo,event) =>{
     }
 })
 
-const cookieInvitation = catchAsync(async(req, res) => {
+const cookieInvitation = catchAsync(async(req, res, next) => {
 
     const data = req.query
     res.cookie('eventInvitation', data.eventId, {
-        expires: new Date(Date.now() + 600000),
         httpOnly: true
-    })    
-    res.send("create cookie eventInvitation")
-    res.redirect("http://localhost:3000/")
+    })
+    const result = await acceptInvitation(req, res, data.eventId);
+    res.status(200).json({
+        status: 'success',
+        message : "abcdef",
+        data: {
+            result
+        },
+    }) 
+    // res.redirect("http://localhost:3000/")
     
 })
 
@@ -245,8 +304,11 @@ module.exports = {
     createEvent,
     updateEvent,
     deleteEvent,
-    getAllEventsByUser,
     getAllEvents,
+    getAllEventsByCreator,
+    getAllEventsByParticipant,
+    getEventsByStatus,
     addParticipant,
-    cookieInvitation,
+    getParticipantsById,
+    cookieInvitation
 }
