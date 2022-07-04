@@ -33,7 +33,7 @@ const ModulesSchema = new mongoose.Schema({
                 },
                 status: {
                     type: String,
-                    enum: ['Pending', 'Active', 'Finish'],
+                    enum: ['Pending', 'Active', 'Blacklisted', 'Finish'],
                     default: 'Pending'
                 },
                 date : { 
