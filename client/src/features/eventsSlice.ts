@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import useGetEvents from '../hooks/useGetEvents';
 
 const initialState = {
-    events: []
+    data: []
   };
 
 const eventsSlice = createSlice({
@@ -11,16 +11,16 @@ const eventsSlice = createSlice({
   initialState, 
   reducers: {
     setEventsData : (state, {payload}) => {
-      state.events = payload;
+      state.data = payload;
     },
     addEvents: (state, {payload}) => {
-      state.events = payload
+      state.data = payload
     },
   }
 })
 
   export const { setEventsData, addEvents } = eventsSlice.actions
-  export const getAllEvents = (state: any) => state.events
+  export const getAllEvents = (state: any) => state.data
   
   
   export default eventsSlice.reducer;

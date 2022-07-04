@@ -15,7 +15,7 @@ export default function EventToCome() {
 
     /* Events */
     const getEvents = useGetEvents();
-    const eventsData = useAppSelector((state) => state.events.events);
+    const eventsData = useAppSelector((state) => state.events.data);
 
     useEffect(() => {
         getEvents()
