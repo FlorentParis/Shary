@@ -4,10 +4,13 @@ const router = express.Router()
 const  { 
     createEvent,
     updateEvent,
-    getAllEventsByUser,
     getAllEvents,
+    getAllEventsByCreator,
+    getAllEventsByParticipant,
+    getEventsByStatus,
     deleteEvent,
     addParticipant,
+    getParticipantsById,
     cookieInvitation
 } = require('../controllers/EventController.js')
 
@@ -17,8 +20,11 @@ router.post('/updateEvent', updateEvent)
 router.post('/deleteEvent', deleteEvent)
 router.post('/addParticipant', addParticipant)
 router.get('/cookieInvitation', cookieInvitation)
-router.get('/getAllEventsByUser', getAllEventsByUser)
 router.get('/getAllEvents', getAllEvents)
+router.get('/getAllEventsByCreator', getAllEventsByCreator)
+router.get('/getAllEventsByParticipant', getAllEventsByParticipant)
+router.get('/getEventsByStatus', getEventsByStatus)
+router.get('/getParticipantsById', getParticipantsById)
 
 
 

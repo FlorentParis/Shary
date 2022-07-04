@@ -2,10 +2,18 @@ require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const catchAsync = require('./utils/catchAsync')
+var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
+const { Server } = require("socket.io");
+const http = require("http");
 const app = express();
-const user_routes = require('./routes/UserRoute.js')
-const event_routes = require('./routes/EventRoute.js')
+const user_routes = require('./routes/UserRoute.js');
+const event_routes = require('./routes/EventRoute.js');
+const modules_routes = require('./routes/ModulesRoute.js');
+const Modules = require('./models/Modules.js')
 app.use(express.json())
+
 
 //base de donnée
 const mongoose = require("mongoose");
@@ -15,15 +23,16 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/ErrorController');
 const { exemple } = require('./controllers/EventController.js');
 
+// parse requests of content-type - application/json
+app.use(bodyParser.json({}));
+// parse requests of content-type - application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true }));
+
 var corsOptions = {
-    origin: "http://localhost:3000",
+    origin: true,
     credentials: true
 };
 app.use(cors(corsOptions));
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Shary server" });
@@ -48,9 +57,11 @@ mongoose
         process.exit();
     });
 
+
 // ROUTES
-app.use('/api/user', user_routes)
-app.use('/api/event', event_routes)
+app.use('/api/user', user_routes);
+app.use('/api/event', event_routes);
+app.use('/api/modules', modules_routes);
 
 app.get("/meow/wouf", (req, res) => {
     res.json({ message: "Welcome to Shary server" });
@@ -67,6 +78,53 @@ app.all('*', (req, res, next)=>{
     //    message: `Can't find ${req.originalUrl} on this server!`
     //})
     next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
-})
+});
 
 app.use(globalErrorHandler);
+
+
+// CHAT SOCKET SERVER
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("joinRoomEvent", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", catchAsync(async(data) => {
+    socket.to(data.event).emit("receive_message", data);
+    let modules = await Modules.findOne({id_event:data.event})
+    count = modules.chat.messages.size
+
+    let infosMessage = {}
+
+    infosMessage['chat.messages.message'+count] = {
+        content : data.message,
+        id_author : data.author
+    }
+    console.log(infosMessage)
+
+    result = await Modules.updateOne({ id_event: data.event}, { "$set": infosMessage })
+    
+    console.log(result)
+  }));
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
+
+server.listen(3031, () => {
+  console.log("CHAT SERVER RUNNING");
+});

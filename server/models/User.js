@@ -11,6 +11,9 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please tell us your name!"]
     },
+    phone:{
+      type:  String,
+    },
     email:{
         type: String,
         required: [true, "Please provide your email!"],
@@ -32,6 +35,10 @@ const UserSchema = new mongoose.Schema({
             },
             message : 'Password are not the same'
         }
+    },
+    newsLetter: {
+        type: Boolean,
+        default:false
     },
     createdAt:{
         type: Date,

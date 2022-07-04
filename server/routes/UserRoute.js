@@ -1,17 +1,24 @@
 const express = require('express')
 const router = express.Router()
+const { isConnected } = require('../utils/isConnected')
 
-const  { 
+const  {
     createUser,
     getAllUsers,
     activateAccount,
-    UpdateUser
+    getCurrentUser,
+    UpdateUser,
+    getUserConnexion,
+    getUserDeconnexion
 } = require('../controllers/UserController.js')
-
-router.post('/createUser', createUser)
-router.post('/modifyUserInfo', UpdateUser)
-router.get('/emailVerification', activateAccount)
-router.get('/', getAllUsers)
+const { nextTick } = require('process')
 
 
+router.post('/createUser', createUser),
+    router.patch('/modifyUserInfo',isConnected, UpdateUser),
+    router.get('/emailVerification', activateAccount),
+    router.get('/',isConnected, getAllUsers),
+    router.post('/getUserConnexion', getUserConnexion),
+    router.post('/getUserDeconnexion', getUserDeconnexion),
+    router.get('/getMyInfo',isConnected, getCurrentUser)
 module.exports = router
