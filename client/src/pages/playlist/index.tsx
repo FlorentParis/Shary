@@ -6,7 +6,7 @@ export default function Playlist() {
         <>
             <PageBanner imgSrc="./icons/modules-gradient.svg" title="Playlist" desc="Consultez les musiques qui passent/ont été passés durant l’évènement" />
             <PageContainer>
-                <div className="page-photo">
+                <div className="page-playlist">
                     Play
                 </div>
             </PageContainer>

@@ -1,5 +1,7 @@
 export default interface UserInterface {
-    status: String,
-    mail: String,
-    token: String
+    email: string,
+    password: string,
+    passwordConfirm: string,
+    lastname: string,
+	firstname:string
 }

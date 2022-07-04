@@ -1,7 +1,17 @@
+import { useEffect } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
+import { setEventsData } from "../../features/eventsSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import useGetEvents from "../../hooks/useGetEvents";
 
 export default function Homepage() {
+
+    const dispatch = useAppDispatch();
+
+    /* Events */
+    const eventsData = useAppSelector((state) => state.events.events);
+
     return (
         <>
             <PageBanner imgSrc="./icons/home.svg" title="Accueil" desc="Retrouvez un aperçu de vos évènements à venir et passés ou créez en un rapidement" />
@@ -11,17 +21,22 @@ export default function Homepage() {
                         <p>Vos évènements en cours</p>
                         <div className="wrapper-container">
                             <div className="wrapper" style={{gridTemplateColumns: "repeat(12, 1fr)"}}>
-                                <div className="item">
-                                    <div style={{backgroundImage: "url('./img/upload-demo.png')"}}>
+                            {eventsData?.map((event: any, index: number) => {
+                                const eventDate = new Date(event.start);
+                                return (
+                                    <div className="item">
+                                        <div style={{backgroundImage: "url('./img/upload-demo.png')"}}>
+                                            <div>
+                                                <span>{event.name}</span>
+                                                <p>Cliquez pour participez à cet évènement</p>
+                                            </div>
+                                        </div>
                                         <div>
-                                            <span>Anniversaire Marie-Jeannine</span>
-                                            <p>Cliquez pour participez à cet évènement</p>
+                                            <span>{eventDate.getDate()}/{eventDate.getMonth()}/{eventDate.getFullYear()}</span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <span>En cours</span>
-                                    </div>
-                                </div>
+                                )
+                            })}
                             </div>
                         </div>
                     </div>

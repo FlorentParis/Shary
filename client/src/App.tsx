@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Auth from './pages/authentification/Auth';
 import {Routes, Route, Navigate} from 'react-router-dom';
-import HideIfLogged from './components/common/HideIfLogged';
-import HideIfNotLogged from './components/common/HideIfNotLogged';
+import {setEventsData} from "./features/eventsSlice";
 
 /* Pages */
 import Homepage from './pages/homepage';
@@ -16,88 +15,56 @@ import Information from './pages/information';
 import Moderation from './pages/moderation';
 import Settings from './pages/settings';
 import Contact from './pages/contact-us';
-
-/* Components */
-import NavbarLeft from './components/navbar/vertical/NavbarVertical';
-import NavbarTop from './components/navbar/top/NavbarTop';
-
-/* Interfaces */
-import UserInterface from './interfaces/UserInterface';
-import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
-import MenuProfil from './components/navbar/top/MenuProfil';
-
-/* Hooks */
-import useGetUsers from './hooks/useGetUsers';
-import useGetEvents from './hooks/useGetEvents';
-import useGetCookies from './hooks/useGetCookies';
-import useEraseCookie from './hooks/useEraseCookie';
-import useLogin from './hooks/useLogin';
-import useRegister from './hooks/useRegister';
-import useUpdateUser from './hooks/useUpdateUser';
-import useGetEventsByUser from './hooks/useGetEventsByUser';
-/* email verification ? 
-   cookie invitation ?*/
-
-
-
-import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
 import Photo from './pages/photo';
 import GoldenBook from './pages/golden-book';
 import Playlist from './pages/playlist';
 
+/* Components */
+import NavbarLeft from './components/navbar/vertical/NavbarVertical';
+import NavbarTop from './components/navbar/top/NavbarTop';
+import BurgerMenu from './components/navbar/burger-menu/BurgerMenu';
+import HideIfLogged from './components/common/HideIfLogged';
+import HideIfNotLogged from './components/common/HideIfNotLogged';
 
+/* Interfaces */
+import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMobile';
+import MenuProfil from './components/navbar/top/MenuProfil';
 
+/* Hooks */
+import useGetEvents from './hooks/useGetEvents';
+import { useAppDispatch } from './hooks/reduxHooks';
 
 function App() {
 
+  const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
+
+  const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
-  const [loggedUser, setLoggedUser] = useState<UserInterface>({
-    status: 'error',
-    mail: '',
-    token: 'bdhuaz'
-  });
 
   const closeProfile = () => {
-    if (displayMenuProfil == true) {
+    if (displayMenuProfil === true) {
       setDisplayMenuProfil(false)
     }
   }
 
-
-  const getUsers = useGetUsers();
   const getEvents = useGetEvents();
-  const [needsUpdate, setNeedsUpdate] = useState<boolean>(false)
-
-  const [user, setUser] = useState([])
-  const [event, setEvent] = useState([])
-
-  useEffect(() => {
-    getUsers()
-        .then(data => {
-            setUser(data)
-            setNeedsUpdate(false)
-        })
-  }, [needsUpdate])
 
   useEffect(() => {
     getEvents()
-        .then(data => {
-            setEvent(data)
-            setNeedsUpdate(false)
-        })
+    .then(res => {
+      dispatch(setEventsData(res))
+    })
   }, [needsUpdate])
-
-  console.log(event);
 
   return (
     <>
-      <HideIfLogged loggedUser={loggedUser}>
+      <HideIfLogged>
         <Routes>
-          <Route  path="/*" element={<Navigate to="auth/login" />} />
+          <Route path="/*" element={<Navigate to="auth/login" />} />
           <Route path="/auth/*" element={<Auth />} />
         </Routes>
       </HideIfLogged>
-      <HideIfNotLogged loggedUser={loggedUser}>
+      <HideIfNotLogged>
         <>
           <NavbarTop displayMenuProfil={displayMenuProfil} setDisplayMenuProfil={setDisplayMenuProfil} />
           {displayMenuProfil ? <MenuProfil />: ''}
