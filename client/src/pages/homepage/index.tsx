@@ -10,7 +10,8 @@ export default function Homepage() {
     const dispatch = useAppDispatch();
 
     /* Events */
-    const eventsData = useAppSelector((state) => state.events.events);
+    const getEvents = useGetEvents();
+    const eventsData = useAppSelector((state) => state.events.data);
 
     return (
         <>
