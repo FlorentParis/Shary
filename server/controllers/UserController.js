@@ -188,6 +188,11 @@ const updateForgottenPassword = catchAsync(async (res, res, next)=>{
     // Vérifier que l'ancien mdp et le nouveau soit différent
     // Mise à jour bdd
 })
+
+const sendNewsLetter = catchAsync(async (res, req, next) => {
+    // Récup all users mail with newsLetter = true
+    // Sendmail
+})g
 */
 
 module.exports = {
