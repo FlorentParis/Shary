@@ -52,8 +52,8 @@ const UserSchema = new mongoose.Schema({
     },
     img:
     {
-        data: Buffer,
-        contentType: String
+        type: String,   
+        default: 'https://res.cloudinary.com/dr7db2zsv/image/upload/v1657014631/ij8qgts5uouifonqjj6w.png'
     },
     createAt: { 
         type: Date,
