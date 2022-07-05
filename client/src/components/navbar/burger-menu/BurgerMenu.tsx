@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
 export default function BurgerMenu() {
+
+    const disconnect = () => {
+        console.log("test")
+    }
+
     return (
         <div className="burger-menu">
             <div>
@@ -36,7 +41,7 @@ export default function BurgerMenu() {
                 </li>
             </ul>
             <div>
-                <span>Déconnexion</span>
+                <span onClick={() => disconnect()}>Déconnexion</span>
                 <span>© shary - 2022</span>
             </div>
         </div>
