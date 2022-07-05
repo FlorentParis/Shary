@@ -1,7 +1,18 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { logoutLoggedUser } from "../../../features/userConnectedSlice";
+import { useAppDispatch } from "../../../hooks/reduxHooks";
+import useEraseCookie from "../../../hooks/useEraseCookie";
 
 export default function MenuProfil() {
+
+    const dispatch = useAppDispatch();
+    const eraseCookie = useEraseCookie();
+
+    const disconnect = () => {
+        eraseCookie();
+        dispatch(logoutLoggedUser());
+    }
 
     return (
         <div className="menu-profil">
@@ -17,7 +28,7 @@ export default function MenuProfil() {
                 <img src="./icons/contact.svg" alt="icon user" />
                 <span>Nous contacter</span>
             </Link>
-            <span id="btn-disconnect">Déconnexion</span>
+            <span id="btn-disconnect" onClick={() => disconnect()}>Déconnexion</span>
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginUser } from '../../features/userConnectedSlice';
+import { loginUser, setLoggedUser } from '../../features/userConnectedSlice';
 import { useAppDispatch } from '../../hooks/reduxHooks';
 import UserInterface from '../../interfaces/UserInterface';
 
@@ -26,7 +26,8 @@ export default function Login() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        dispatch(loginUser(formInput));
+        dispatch(loginUser(formInput))
+        .then(res => dispatch(setLoggedUser(res.payload)))
         navigate('/');
     };
 

@@ -18,13 +18,13 @@ const initialState = {
 export const signupUser = createAsyncThunk('users/signupUser', async(formInput: UserInterface) => {
     const register = useRegister();
     register(formInput)
-        .then(res => setLoggedUser(res.data.token));
+        .then(res => setLoggedUser(res.token));
 })
 
 export const loginUser = createAsyncThunk('users/loginUser', async(formInput: UserInterface) => {
     const login = useLogin();
-    login(formInput.email, formInput.password)
-        .then(res => setLoggedUser(res.data.token));
+    return login(formInput.email, formInput.password)
+        .then(res => res)
 })
 
 const userSlice = createSlice({
@@ -40,16 +40,21 @@ const userSlice = createSlice({
         builder.addCase(signupUser.fulfilled, (state, {payload}) => {
             state.isFetching = false;
             state.isSuccess = true;
-            console.log(payload);
-            /* state.token = payload.user.token;
-            state.mail = payload.user.mail;
-            state.firstName = payload.user.firstName;
-            state.lastName = payload.user.lastName; */
+            /* state.mail = payload.user.email;
+            state.firstName = payload.user.firstname;
+            state.lastName = payload.user.lastname; */
+        })
+        builder.addCase(loginUser.fulfilled, (state, {payload}) => {
+            state.isFetching = false;
+            state.isSuccess = true;
+            state.mail = payload.user.email;
+            state.firstName = payload.user.firstname;
+            state.lastName = payload.user.lastname;
         })
     }
 })
 
-export const { setLoggedUser } = userSlice.actions;
+export const { setLoggedUser, logoutLoggedUser } = userSlice.actions;
 export default userSlice.reducer;
 
 export const userSelector = (state: any) => state.user;

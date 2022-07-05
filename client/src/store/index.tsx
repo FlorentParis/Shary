@@ -1,20 +1,38 @@
 // REDUX STORE
-import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
-import usersSlice from '../features/usersSlice';
-import modulesSlice from '../features/modulesSlice';
-import eventsSlice from '../features/eventsSlice';
-import userConnectedSlice from '../features/userConnectedSlice';
+import storage from 'redux-persist/lib/storage';
+
+import {
+    persistStore,
+    persistReducer,
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+} from 'redux-persist';
+import { rootReducer } from './rootReducer';
+
+const persistConfig = {
+    key: 'root',
+    version: 1,
+    storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: {
-        events: eventsSlice,
-        modules: modulesSlice,
-        users: usersSlice,
-        userConnected: userConnectedSlice
-    }
+    reducer: persistedReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: {
+            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+    })
 })
+
+export let persistor = persistStore(store);
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
