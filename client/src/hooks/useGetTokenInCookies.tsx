@@ -8,3 +8,5 @@ export default function useGetTokenInCookies(name: string) {
     }
     return null;
 }
+
+/* Fonction qui récupère un cookie spécifique selon param */

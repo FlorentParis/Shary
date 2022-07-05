@@ -154,7 +154,8 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
             res.status(200).json({
                 status:"succes",
                 message:"connecté",
-                token: token
+                token: token,
+                user: user
             })
         }
     }else {

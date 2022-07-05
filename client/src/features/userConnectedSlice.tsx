@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import useGetTokenInCookies from "../hooks/useGetTokenInCookies";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
 import UserInterface from "../interfaces/UserInterface";
@@ -41,16 +40,21 @@ const userSlice = createSlice({
         builder.addCase(signupUser.fulfilled, (state, {payload}) => {
             state.isFetching = false;
             state.isSuccess = true;
-            console.log(payload);
-            /* state.token = payload.user.token;
-            state.mail = payload.user.mail;
-            state.firstName = payload.user.firstName;
-            state.lastName = payload.user.lastName; */
+            /* state.mail = payload.user.email;
+            state.firstName = payload.user.firstname;
+            state.lastName = payload.user.lastname; */
+        })
+        builder.addCase(loginUser.fulfilled, (state, {payload}) => {
+            state.isFetching = false;
+            state.isSuccess = true;
+            state.mail = payload.user.email;
+            state.firstName = payload.user.firstname;
+            state.lastName = payload.user.lastname;
         })
     }
 })
 
-export const { setLoggedUser } = userSlice.actions;
+export const { setLoggedUser, logoutLoggedUser } = userSlice.actions;
 export default userSlice.reducer;
 
 export const userSelector = (state: any) => state.user;

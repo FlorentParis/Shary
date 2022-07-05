@@ -12,7 +12,7 @@ export default function useLogin() {
             },
             headers: { 'Content-Type': 'application/json' }
         })
-        .then(res=> res.data.token)
+        .then(res=> res.data)
         .catch(res => console.log("error", res))
     }
 }

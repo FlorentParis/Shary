@@ -1,8 +1,12 @@
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function Profil() {
+
+    const firstName = useAppSelector((state) => state.userConnected.firstName);
+
     return (
         <>
             <PageBanner imgSrc="./icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
@@ -11,7 +15,7 @@ export default function Profil() {
                     <div className="grid-card gc-4 gr-2">
                         <span>Informations personnelles</span>
                         <form>
-                            <input type="text" placeholder="Nom" />
+                            <input type="text" placeholder="Nom" value={firstName} />
                             <input type="text" placeholder="Prénom" />
                             <div className="separator-ou">ou</div>
                             <input type="text" placeholder="Société" />
