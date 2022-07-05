@@ -16,6 +16,13 @@ const EventSchema = new mongoose.Schema({
         enum: ['mariage', 'anniversaire', 'autre'],
         required:[true, "Please provide the event's type"]
     },
+    description : {
+        type: String
+    },
+    banniere:{
+        type: String,
+        default:null
+    },
     status: {
         type: String,
         enum: ['Pending', 'InProgress','finish'],
@@ -58,6 +65,9 @@ const EventSchema = new mongoose.Schema({
             pedestrian:{
                 type:Boolean,
                 default:false
+            },
+            autres:{
+                type: String
             }
         }
     },
