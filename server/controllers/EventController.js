@@ -43,7 +43,6 @@ const createEvent = catchAsync(async(req, res) => {
 
 const getAllEvents = catchAsync(async(req, res) => {
     data = req.query
-    console.log(data)
     let events = await Event.find(data)
     res.status(200).json({
         status: 'success',
@@ -64,8 +63,6 @@ const getAllEventsByCreator = catchAsync(async(req, res) => {
             return userEvent.push(event)
         }
     });
-    console.log(userEvent.length)
-
 
     res.status(200).json({
         status: 'success',
@@ -81,7 +78,6 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
 
     let events = await Event.find({})
     let userEvent = []
-    console.log(events)
     events.forEach(event =>
         event.participants.forEach(function(participant){
             if(participant.userId == data._id && participant.status == "Active"){
@@ -118,15 +114,18 @@ const getEventsByStatus = catchAsync(async(req, res) => {
 
 const updateEvent = catchAsync(async(req, res) => {
     data = req.body
-    let events = ''
-    console.log(data)
-    events = await Event.updateOne({_id:data._id}, data);
+    let event = ''
+
+    event = await Event.findByIdAndUpdate(data._id, data,{
+        new: true, //true to return the modified document rather than the original, defaults to false
+        runValidators: true
+    })
     res.status(200).json({
         status: 'success',
         data: {
-           events
+            event
         },
-        message : "Une personne a été ajouté a la liste des participants"
+        message : "L'event a bien été modifié !"
     })    
 })
 
@@ -199,11 +198,11 @@ const addParticipant = catchAsync(async(req, res) => {
     }
 })
 
-const getParticipantsById = catchAsync(async(req, res) => {
+const getParticipantsByEvent = catchAsync(async(req, res) => {
     data = req.query
 
     /* Récupération de l'évènement grace a l'id_event */
-    let events = await Event.findOne({_id : data._id})
+    let events = await Event.findById(data._id)
 
     /* Récupération des participants de l'évènement */
     let participants = events.participants
@@ -221,10 +220,8 @@ const sendMail = catchAsync(async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
     })
-    console.log(event.userId)
     const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
     const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
-    console.log(html)
     if(userInfo.email){
         var transporter = nodemailer.createTransport({  
             service: 'gmail',  
@@ -244,8 +241,7 @@ const sendMail = catchAsync(async(userInfo,event) =>{
             html:html
         }  
         transporter.sendMail(message, function(error, info){  
-                if(error){  
-                    console.log(error);  
+                if(error){   
                     res.status(400);  
                     res.json(data);        
                     next();  
@@ -309,6 +305,6 @@ module.exports = {
     getAllEventsByParticipant,
     getEventsByStatus,
     addParticipant,
-    getParticipantsById,
+    getParticipantsByEvent,
     cookieInvitation
 }
