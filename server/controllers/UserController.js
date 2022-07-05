@@ -153,15 +153,13 @@ const getUserDeconnexion = catchAsync(async (req, res, next) => {
     }
 )
 
-const deactivateAccount = catchAsync(async (res, req, next) => {
-    console.log("Fonction de désactivation du compte")
+const deactivateAccount = catchAsync(async (req, res) => {
+    // console.log("Fonction de désactivation du compte")
     let id = await isConnected(req, res);
-    console.log("ID : ", id);
     const user = await User.findByIdAndUpdate(id, { status:"Désactivé" }, {
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
-    console.log("USER : ", user);
     res.status(200).json({
         status:'success',
         data:{

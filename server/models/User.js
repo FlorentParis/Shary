@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema({
     /* role: String, */
     status: {
         type: String,
-        enum: ['Pending', 'Active'],
+        enum: ['Pending', 'Active', 'Désactivé'],
         default: 'Pending'
     },
     img:

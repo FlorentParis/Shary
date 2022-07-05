@@ -22,5 +22,5 @@ router.post('/createUser', createUser),
     router.post('/getUserConnexion', getLogin),
     router.post('/getUserDeconnexion', getUserDeconnexion),
     router.get('/getMyInfo',isConnected, getCurrentUser),
-    router.get('/desactivermoncompte', isConnected, deactivateAccount)
+    router.get('/DeactivateUser', isConnected, deactivateAccount)
 module.exports = router
