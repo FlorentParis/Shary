@@ -94,8 +94,21 @@ const activateAccount = ((req, res) => {
 
 const UpdateUser = catchAsync(async (req, res,next) => {
     let id = await isConnected(req, res);
-    const data = req.body
-    //console.log(data.email)
+    let data = req.body
+    console.log(data)
+    if(data.password == ""){
+        console.log("Password empty");
+        data = {
+            "lastname" : data.lastname,
+            "firstname" : data.firstname,
+            "email" : data.email,
+            "phone" : data.phone,
+            "birthday" : data.birthday,
+        }
+    }else{
+        data = req.body
+    }
+
     const userUpdated = await User.findByIdAndUpdate(id, data,{
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
