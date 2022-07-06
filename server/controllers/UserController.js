@@ -60,14 +60,21 @@ const sendMailActivation = async (data)=> {
 }
 
 const getAllUsers = catchAsync(async(req, res, next)=> { 
-    const users = await User.find();
+
+    let users = await User.find();    
+    users = users.map ( (user) => {
+        user.password = undefined;
+        user.passwordConfirm = undefined;
+        return user;
+    });
     res.status(200).json({
             status: 'success',
             results: users.length,
             data: {
-                users
+                users   
             }
     })
+    
 })
 
 // Function not used, we return the user objet when creating or connecting
@@ -77,6 +84,9 @@ const getCurrentUser = catchAsync(async(req, res, next)=> {
     if(!user){
         return next(new AppError('No User found with that ID', 404))
     }
+    user.password = undefined;
+    user.passwordConfirm = undefined;
+    
     res.status(200).json({
         status:'success',
         data:{
