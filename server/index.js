@@ -120,6 +120,11 @@ io.on("connection", (socket) => {
     console.log(result)
   }));
 
+  socket.on("upload_file", catchAsync(async(data) => {
+    socket.to(data.event).emit("receive_file", data);
+    console.log(data)
+  }));
+
   socket.on("disconnect", () => {
     console.log("User Disconnected", socket.id);
   });
