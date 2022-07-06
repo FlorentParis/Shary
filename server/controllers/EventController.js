@@ -280,7 +280,7 @@ const cookieInvitation = catchAsync(async(req, res, next) => {
 })
 
 const deleteEvent = catchAsync(async(req, res) => {
-    data = req.body
+    data = req.query
     let result = await Event.deleteOne(
         {_id:data.eventId}
     )

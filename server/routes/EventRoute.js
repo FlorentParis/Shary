@@ -24,7 +24,7 @@ router.get('/getAllEvents', getAllEvents)
 router.get('/getAllEventsByCreator', getAllEventsByCreator)
 router.get('/getAllEventsByParticipant', getAllEventsByParticipant)
 router.get('/getEventsByStatus', getEventsByStatus)
-router.get('/getParticipantsById', getParticipantsByEvent)
+router.get('/getParticipantsByEvent', getParticipantsByEvent)
 
 
 
