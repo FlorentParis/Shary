@@ -7,11 +7,12 @@ async function isConnected(req, res, next){
     const token = new Cookies(req,res).get('access_token');  
     if(token) {
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-        console.log("Ton id : ", decoded.id);
         if (next){
+            console.log("next")
             next();
         } else 
         {
+            console.log("return")
           return decoded.id;
         }
     }

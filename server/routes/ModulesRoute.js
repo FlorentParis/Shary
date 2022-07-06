@@ -7,15 +7,23 @@ const {
     getAllModules,
     getModulesByEventId,
     updateModules,
-    uploadsModule
+    uploadsModule,
+    statusPhotosVideos,
+    getAllPhotosVideos,
+    getAllPhotosVideosByStatus
 
 } = require('../controllers/ModulesController.js')
 
 router.post('/createModules', createModules)
 router.post('/deleteModules', deleteModules)
-router.get('/getAllModules', getAllModules)
-router.get('/getModulesByEventId', getModulesByEventId)
+router.post('/statusPhotosVideos', statusPhotosVideos)
 router.post('/updateModules', updateModules)
 router.post('/uploadsModule', uploadsModule)
+
+router.get('/getAllModules', getAllModules)
+router.get('/getModulesByEventId', getModulesByEventId)
+router.get('/getAllPhotosVideos', getAllPhotosVideos)
+router.get('/getAllPhotosVideosByStatus', getAllPhotosVideosByStatus)
+
 
 module.exports = router

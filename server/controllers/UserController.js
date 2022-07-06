@@ -9,7 +9,7 @@ var Cookies = require( "cookies" );
 const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
 const { acceptInvitation } = require('../utils/acceptInvitation')
-
+const { isConnected } = require('../utils/isConnected')
 
 const createUser = catchAsync(async(req, res, next) => {
     let data = req.body;
@@ -56,20 +56,7 @@ const sendMailActivation = async (data)=> {
         text: "data.contenu", // plaintext body
         html: "Salut a toi <b>" + data.firstname + " " + data.lastname + "</b><br/>Pourrais tu nous confirmer qu'il s'agit bien de ton mail : " + data.email + "<br/>Si c'est bien le cas, cliques ici pour nous le confirmer et nous activerons ton compte: <a href='http://localhost:3030/api/user/emailVerification/?email=" + data.email + "'> CLIQUES ICI POTO !!!</a><br/> Merci et a bientot !<br/>Shary" // html body
     }
-
     return await transporter.sendMail(message);
-}
-
-async function getUserID(req,res, next) {
-    let token = new Cookies(req,res).get('access_token');
-    if(token) {
-        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-        console.log("Ton id (CONTROLLER): ", decoded.id);
-        return decoded.id;
-    }
-    else {
-        return -1;
-    }
 }
 
 const getAllUsers = catchAsync(async(req, res, next)=> { 
@@ -80,12 +67,12 @@ const getAllUsers = catchAsync(async(req, res, next)=> {
             data: {
                 users
             }
-        }
-    )
+    })
 })
 
+// Function not used, we return the user objet when creating or connecting
 const getCurrentUser = catchAsync(async(req, res, next)=> {
-    let id = await getUserID(req, res, next);
+    let id = await isConnected(req, res);
     const user = await User.findById(id) //User.findOne({ _id : req.params.id})
     if(!user){
         return next(new AppError('No User found with that ID', 404))
@@ -98,7 +85,6 @@ const getCurrentUser = catchAsync(async(req, res, next)=> {
     });
 })
 
-//  TODO : Activate account with user_ID from cookies, session or token, faire un findByIdAndUpdate
 const activateAccount = ((req, res) => {
     let data = req.query
     User.findOneAndUpdate({email: data.email},{$set: { status:"Active" }},{upsert: false}, function(err, doc) {
@@ -107,22 +93,24 @@ const activateAccount = ((req, res) => {
 })
 
 const UpdateUser = catchAsync(async (req, res,next) => {
-    let id = await getUserID(req, res, next);
-    const data = req.body
-    console.log(req)
-    /*const userUpdated = await User.findOneAndUpdate(
-        {email: data.email},
-        {$set: {
-                lastname:data.lastname,
-                firstname:data.firstname,
-                phone:data.phone,
-                birthday:data.birthday,
-                role:data.role
-            }
-        },
-        {upsert: false}
-    )*/
-    User.findByIdAndUpdate(id, data,{
+    let id = await isConnected(req, res);
+    let data = req.body
+    console.log(data)
+    if(data.password == ""){
+        console.log("Password empty");
+        data = {
+            "lastname" : data.lastname,
+            "firstname" : data.firstname,
+            "email" : data.email,
+            "phone" : data.phone,
+            "birthday" : data.birthday,
+        }
+    }else{
+        data = req.body
+    }
+
+    const userUpdated = await User.findByIdAndUpdate(id, data,{
+
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
@@ -137,8 +125,8 @@ const UpdateUser = catchAsync(async (req, res,next) => {
     });
 })
 
-const getUserConnexion = catchAsync(async (req, res, next) => {
-    console.log("aaaaaaa")
+const getLogin = catchAsync(async (req, res, next) => {
+    //console.log("Fonction de connexion")
     if (req.body?.email && req.body?.pw){
         const email = req.body.email;
         const pw = req.body.pw;
@@ -168,20 +156,35 @@ const getUserConnexion = catchAsync(async (req, res, next) => {
 })
 
 const getUserDeconnexion = catchAsync(async (req, res, next) => {
-        let id = await getUserID(req, res, next);
+        let id = await isConnected(req, res);
         res.clearCookie('access_token');
         if (id !== -1){
             res.status(200).json({
-                status:"succes",
-                message:"deconnecté"
+                status:"success",
+                message:"Vous êtes deconnecté"
             })
         }
         else {
-            return next(new AppError("Connecte toi avant de vouloir te déconnecter", 404));
+            return next(new AppError("Connecte toi avant de vouloir te déconnecter", 401));
         }
     }
 )
 
+const deactivateAccount = catchAsync(async (req, res) => {
+    // console.log("Fonction de désactivation du compte")
+    let id = await isConnected(req, res);
+    const user = await User.findByIdAndUpdate(id, { status:"Désactivé" }, {
+        new: true, //true to return the modified document rather than the original, defaults to false
+        runValidators: true
+    })
+    res.status(200).json({
+        status:'success',
+        data:{
+            user
+        },
+        message : "Compte désactivé"
+    });
+})
 /* TODO Mise à jour des mots de passe
 const updateUserPassword = catchAsync(async(req, res, next)=> {
     // Récup des données envoyées par le front
@@ -199,16 +202,17 @@ const updateForgottenPassword = catchAsync(async (res, res, next)=>{
 const sendNewsLetter = catchAsync(async (res, req, next) => {
     // Récup all users mail with newsLetter = true
     // Sendmail
-})g
+})
+
 */
 
 module.exports = {
     createUser,
-    getUserID,
     getCurrentUser,
     getAllUsers,
     activateAccount,
     UpdateUser,
-    getUserConnexion,
-    getUserDeconnexion
+    getLogin,
+    getUserDeconnexion,
+    deactivateAccount
 }

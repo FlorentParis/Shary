@@ -153,28 +153,16 @@ const uploadsModule = catchAsync(async(req, res) => {
             case 'livre_d_or': 
                 console.log("test")
                 count = modules.livre_d_or.messages.size
-                let infosChat = {}
-                if(data.file && modules.livre_d_or.videos == true){
-                    /* const fileStr = data.file;
-                    const uploadResponse = await cloudinary.uploader.upload(fileStr, {upload_preset: 'modules'}); */
-                    
-                    infosChat['livre_d_or.messages.message'+count] = {
-                            content : { 
-                                video :data.file,
-                                message: data.message
-                            },
-                            id_author : data.author
-                    }
-                }else {
-                    
-                    infosChat['livre_d_or.messages.message'+count] = {
-                            content : { 
-                                message: data.message
-                            },
-                            id_author : data.author
-                    }
+                let infosChat = {}            
+                infosChat['livre_d_or.messages.message'+count] = {
+                        content : { 
+                            message: data.message,
+                            typographie : data.typographie,
+                            style : data.style,
+                            couleurs : data.couleurs
+                        },
+                        id_author : data.author
                 }
-                console.log(infosChat)
                 
                 const result = await Modules.updateOne({ id_event: data.event}, { "$set": infosChat })
                 
@@ -231,11 +219,76 @@ const uploadsModule = catchAsync(async(req, res) => {
 
 })
 
+const statusPhotosVideos = catchAsync(async(req, res) => {
+    const data = req.body
+
+    let modules = await Modules.findOne({id_event:data.event})
+
+    modules.photos_videos.medias.forEach(media => {
+        if(media.content == data.content){
+            media.status = data.status
+            console.log(media)
+        }
+    })
+
+    let result = await Modules.replaceOne({id_event:data.event}, modules)
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            result
+        },
+        message : "La photo (ou video) " + data.content + " est blacklistée"
+    })
+     
+})
+
+const getAllPhotosVideos = catchAsync(async(req, res) =>  {
+
+    data = req.query
+
+    let modules = await Modules.findOne({id_event:data.event})
+    let medias = modules.photos_videos.medias
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            medias
+        },
+        message : "Les photos/videos de l'event " + data.event + " ont été renvoyées"
+    })
+
+})
+
+const getAllPhotosVideosByStatus = catchAsync(async(req, res) =>  {
+
+    data = req.query
+
+    let modules = await Modules.findOne({id_event:data.event})
+    let arrayMediasByStatus = []
+    modules.photos_videos.medias.forEach(media => {
+        if(media.status == data.status){
+            arrayMediasByStatus.push(media)
+        }
+    })
+
+    return res.status(200).json({
+        status: 'success',
+        data: {
+            arrayMediasByStatus
+        },
+        message : "Les photos/videos de l'event " + data.event + " ayant pour status" + data.status + " ont été renvoyées"
+    })
+
+})
+
 module.exports = {
     createModules,
     deleteModules,
     getAllModules,
     getModulesByEventId,
     updateModules,
-    uploadsModule
+    uploadsModule,
+    statusPhotosVideos,
+    getAllPhotosVideos,
+    getAllPhotosVideosByStatus
 }

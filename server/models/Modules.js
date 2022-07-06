@@ -33,7 +33,7 @@ const ModulesSchema = new mongoose.Schema({
                 },
                 status: {
                     type: String,
-                    enum: ['Pending', 'Active', 'Finish'],
+                    enum: ['Pending', 'Active', 'Blacklisted', 'Finish'],
                     default: 'Pending'
                 },
                 date : { 
@@ -90,9 +90,15 @@ const ModulesSchema = new mongoose.Schema({
                     message : {
                         type : String
                     }, 
-                    video : {
+                    typographie : {
                         type : String
-                    }          
+                    },
+                    style : {
+                        type : String 
+                    },
+                    couleurs : {
+                        type : String 
+                    },
                 },
 
                 id_author : {

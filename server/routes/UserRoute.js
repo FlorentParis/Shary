@@ -8,8 +8,9 @@ const  {
     activateAccount,
     getCurrentUser,
     UpdateUser,
-    getUserConnexion,
-    getUserDeconnexion
+    getLogin,
+    getUserDeconnexion,
+    deactivateAccount
 } = require('../controllers/UserController.js')
 const { nextTick } = require('process')
 
@@ -18,7 +19,8 @@ router.post('/createUser', createUser),
     router.patch('/modifyUserInfo',isConnected, UpdateUser),
     router.get('/emailVerification', activateAccount),
     router.get('/',isConnected, getAllUsers),
-    router.post('/getUserConnexion', getUserConnexion),
+    router.post('/getUserConnexion', getLogin),
     router.post('/getUserDeconnexion', getUserDeconnexion),
-    router.get('/getMyInfo',isConnected, getCurrentUser)
+    router.get('/getMyInfo',isConnected, getCurrentUser),
+    router.get('/DeactivateUser', isConnected, deactivateAccount)
 module.exports = router
