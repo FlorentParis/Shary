@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { useAppSelector } from "../hooks/reduxHooks";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
 import useUpdateUser from "../hooks/useUpdateUser";
 import UserInterface from "../interfaces/UserInterface";
 
 const initialState = {
+    id: "",
     mail: "",
     password: "",
     firstName: "",
@@ -58,6 +58,7 @@ const userSlice = createSlice({
         builder.addCase(loginUser.fulfilled, (state, {payload}) => {
             state.isFetching = false;
             state.isSuccess = true;
+            state.id = payload.user._id;
             state.mail = payload.user.email;
             state.firstName = payload.user.firstname;
             state.lastName = payload.user.lastname;
