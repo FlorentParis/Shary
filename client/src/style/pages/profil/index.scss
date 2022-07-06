@@ -95,6 +95,10 @@
         }
     }
 
+    .contact-card {
+        background-color: rgb(198, 198, 198);
+    }
+
     .change-pw-card {
         height: min-content;
     }
@@ -113,6 +117,8 @@
     }
 
     .pref-card {
+        background-color: rgb(198, 198, 198);
+
         form {
             > .options-select {
                 display: grid;

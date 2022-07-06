@@ -1,22 +1,63 @@
+import { useState } from "react";
+import ButtonSave from "../../components/common/ButtonSave";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
-import { useAppSelector } from "../../hooks/reduxHooks";
+import { setLoggedUser, setUpdateUser, updateUser } from "../../features/userConnectedSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import UserInterface from "../../interfaces/UserInterface";
 
 export default function Profil() {
 
+    const dispatch = useAppDispatch();
+
+    const [update, setUpdate] = useState<boolean>(false);
+
     const userConnected = useAppSelector((state) => state.userConnected);
+
+    const [email, setEmail] = useState<string>('');
+    const [emailConfirm, setEmailConfirm] = useState<string>('');
+
+    const [profilInfo, setProfilInfo] = useState<UserInterface>({
+        lastname: userConnected.lastName,
+        firstname: userConnected.firstName,
+        email: userConnected.mail,
+        password: '',
+        passwordConfirm: ''
+    });
+
+    const handleChange = ({target}: any) => {
+        setUpdate(true);
+        setProfilInfo((prev: any) => ({
+            ...prev,
+            [target.name]: target.value
+        }))
+    }
+
+    const handleSubmit = () => {
+        if(profilInfo.password == profilInfo.passwordConfirm && email == emailConfirm) {
+            dispatch(updateUser(profilInfo))
+                .then(res => dispatch(setLoggedUser(res)))
+        }
+    };
 
     return (
         <>
             <PageBanner imgSrc="./icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
+            {update ? 
+                <div className="button-save">
+                    <div onClick={() => handleSubmit()}>
+                        <img src="./icons/save.svg" />
+                    </div>
+                </div>
+            : ''}
             <GridContainer>
                 <div className="page-profil">
                     <div className="grid-card gc-4 gr-2 infos-perso">
                         <span>Informations personnelles</span>
                         <form>
-                            <input type="text" placeholder="Nom" value={userConnected.lastName} />
-                            <input type="text" placeholder="Prénom" value={userConnected.firstName} />
+                            <input onChange={handleChange} type="text" placeholder="Nom" name="lastname" value={profilInfo.lastname} />
+                            <input onChange={handleChange} type="text" placeholder="Prénom" name="firstname" value={profilInfo.firstname} />
                             <div className="separator-ou">ou</div>
                             <input type="text" placeholder="Société" />
                             <div>
@@ -99,17 +140,17 @@ export default function Profil() {
                         <span>Changer d’adresse mail</span>
                         <form>
                             <p>Adresse mail actuelle</p>
-                            <span className="actual-mail">{userConnected.mail}</span>
+                            <span className="actual-mail">{profilInfo.email}</span>
                             <p>Changer d’adresse mail</p>
-                            <input placeholder="Nouvelle adresse mail" />
-                            <input placeholder="Confirmation nouvelle adresse mail" />
+                            <input type="mail" onChange={event => setEmail(event.target.value)} value={email} placeholder="Nouvelle adresse mail" />
+                            <input type="mail" onChange={event => setEmailConfirm(event.target.value)} value={emailConfirm} placeholder="Confirmation nouvelle adresse mail" />
                         </form>
                     </div>
                     <div className="grid-card gc-3 change-pw-card">
                         <span>Changer de mot de passe</span>
                         <form>
-                            <input type="password" placeholder="Nouveau mot de passe" />
-                            <input type="password" placeholder="Confirmation nouveau mot de passe" />
+                            <input onChange={handleChange} value={profilInfo.password} type="password" name="password" placeholder="Nouveau mot de passe" />
+                            <input onChange={handleChange} value={profilInfo.passwordConfirm} type="password" name="passwordConfirm" placeholder="Confirmation nouveau mot de passe" />
                         </form>
                     </div>
                     <div className="grid-card gc-3 pref-card">

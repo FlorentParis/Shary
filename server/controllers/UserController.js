@@ -109,7 +109,7 @@ const activateAccount = ((req, res) => {
 const UpdateUser = catchAsync(async (req, res,next) => {
     let id = await getUserID(req, res, next);
     const data = req.body
-    console.log(data.email)
+    console.log(req)
     /*const userUpdated = await User.findOneAndUpdate(
         {email: data.email},
         {$set: {
@@ -122,14 +122,17 @@ const UpdateUser = catchAsync(async (req, res,next) => {
         },
         {upsert: false}
     )*/
-    const userUpdated = await User.findByIdAndUpdate(id, data,{
+    User.findByIdAndUpdate(id, data,{
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    .then(res => console.log(res))
+    console.log(userUpdated);
     res.status(200).json({
         status:'success',
         data:{
-            userUpdated
+            userUpdated,
+            id
         }
     });
 })
