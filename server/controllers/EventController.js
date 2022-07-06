@@ -226,12 +226,29 @@ const getModuleStatusByEvent = catchAsync(async(req, res) => {
     let modules = events.modules
     res.status(200).json({
         status: 'success',
-        data: {
+        id_event : data._id,
+        test : modules.photoVideo,
+        data : {
             modules
         },
-        message : "Récuperation des modules de l'évènement " + data._id
+        //message : "Récuperation des modules de l'évènement " + data._id
     })
+})
 
+const updateModuleStatus = catchAsync(async (req, res)=>{
+    let data = req.body;
+    // Get modules of the event and change the value of one element of the array "modules"
+    const event = await Event.findById( data.idEvent )
+    event.modules[req.body.nameModule] = req.body.value
+    const event_updated = await Event.findByIdAndUpdate(data.idEvent, event)
+    // Send result json if success else catch error with catch Async and send error name
+    res.status(200).json({
+            status: 'success',
+            data: {
+                event_updated
+            }
+        }
+    );
 })
 
 const sendMail = catchAsync(async(userInfo,event) =>{
@@ -325,5 +342,6 @@ module.exports = {
     addParticipant,
     getParticipantsByEvent,
     getModuleStatusByEvent,
+    updateModuleStatus,
     cookieInvitation
 }
