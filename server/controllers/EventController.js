@@ -216,6 +216,24 @@ const getParticipantsByEvent = catchAsync(async(req, res) => {
  
 })
 
+const getModuleStatusByEvent = catchAsync(async(req, res) => {
+    data = req.query
+
+    /* Récupération de l'évènement grace a l'id_event */
+    let events = await Event.findById(data._id)
+
+    /* Récupération des participants de l'évènement */
+    let modules = events.modules
+    res.status(200).json({
+        status: 'success',
+        data: {
+            modules
+        },
+        message : "Récuperation des modules de l'évènement " + data._id
+    })
+
+})
+
 const sendMail = catchAsync(async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
@@ -306,5 +324,6 @@ module.exports = {
     getEventsByStatus,
     addParticipant,
     getParticipantsByEvent,
+    getModuleStatusByEvent,
     cookieInvitation
 }

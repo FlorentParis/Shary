@@ -11,6 +11,7 @@ const  {
     deleteEvent,
     addParticipant,
     getParticipantsByEvent,
+    getModuleStatusByEvent,
     cookieInvitation
 } = require('../controllers/EventController.js')
 
@@ -25,7 +26,7 @@ router.get('/getAllEventsByCreator', getAllEventsByCreator)
 router.get('/getAllEventsByParticipant', getAllEventsByParticipant)
 router.get('/getEventsByStatus', getEventsByStatus)
 router.get('/getParticipantsByEvent', getParticipantsByEvent)
-
+router.get('/getModules', getModuleStatusByEvent)
 
 
 module.exports = router
