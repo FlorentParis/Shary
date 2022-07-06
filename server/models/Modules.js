@@ -11,11 +11,6 @@ const ModulesSchema = new mongoose.Schema({
 
     photos_videos : {
 
-        is_activated : {
-            type : Boolean,
-            default : false
-        },
-
         availability_time : {
             type : Date, 
             required:true
@@ -68,11 +63,6 @@ const ModulesSchema = new mongoose.Schema({
 
     livre_d_or : {
 
-        is_activated : {
-            type : Boolean,
-            default : false
-        },
-
         availability_time : {
             type : Date, 
             required:true
@@ -121,11 +111,6 @@ const ModulesSchema = new mongoose.Schema({
     },
     
     fresque : {
-
-        is_activated : {
-            type : Boolean,
-            default : false
-        },
 
         availability_time : {
             type : Date, 
@@ -176,11 +161,6 @@ const ModulesSchema = new mongoose.Schema({
 
     playlist : {
 
-        is_activated : {
-            type : Boolean,
-            default : false
-        },
-
         availability_time : {
             type : Date, 
             required:true
@@ -219,11 +199,6 @@ const ModulesSchema = new mongoose.Schema({
     }, 
 
     chat : {
-
-        is_activated : {
-            type : Boolean,
-            default : false
-        },
 
         messages : {
             type : Map, 
