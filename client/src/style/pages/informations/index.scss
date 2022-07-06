@@ -98,16 +98,23 @@
         > div {
             display: flex;
             flex-direction: column;
-            row-gap: 20px;
 
-            > label:first-of-type {
-                font-weight: 500;
+            > input:last-of-type {
+                margin-bottom: 20px;
             }
 
-            > div {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-            }
+           .options-select {
+                padding-top: 20px;
+                display: flex;
+                flex-direction: column;
+                row-gap: 10px;
+
+                > div {
+                    display: flex;
+                    align-items: center;
+                    column-gap: 10px;
+                }
+           }
         }
     }
 }

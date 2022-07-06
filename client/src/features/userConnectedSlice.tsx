@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useAppSelector } from "../hooks/reduxHooks";
 import useLogin from "../hooks/useLogin";
 import useRegister from "../hooks/useRegister";
+import useUpdateUser from "../hooks/useUpdateUser";
 import UserInterface from "../interfaces/UserInterface";
 
 const initialState = {
@@ -27,12 +29,21 @@ export const loginUser = createAsyncThunk('users/loginUser', async(formInput: Us
         .then(res => res)
 })
 
+export const updateUser = createAsyncThunk('users/updateUser', async(formInput: UserInterface) => {
+    const update = useUpdateUser();
+    update(formInput)
+        .then(res => res)
+})
+
 const userSlice = createSlice({
     name: "user",
     initialState: initialState,
     reducers: {
         setLoggedUser: (state, action) => {
             state.token = action.payload;
+        },
+        setUpdateUser: (state, action) => {
+            console.log(action)
         },
         logoutLoggedUser: () => initialState
     },
@@ -54,7 +65,7 @@ const userSlice = createSlice({
     }
 })
 
-export const { setLoggedUser, logoutLoggedUser } = userSlice.actions;
+export const { setLoggedUser, setUpdateUser, logoutLoggedUser } = userSlice.actions;
 export default userSlice.reducer;
 
 export const userSelector = (state: any) => state.user;

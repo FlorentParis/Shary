@@ -110,13 +110,17 @@ const UpdateUser = catchAsync(async (req, res,next) => {
     }
 
     const userUpdated = await User.findByIdAndUpdate(id, data,{
+
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    .then(res => console.log(res))
+    console.log(userUpdated);
     res.status(200).json({
         status:'success',
         data:{
-            userUpdated
+            userUpdated,
+            id
         }
     });
 })
