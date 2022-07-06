@@ -27,6 +27,25 @@ const createModules = catchAsync(async(req, res, next) => {
 
 })
 
+const getModuleByEventId = catchAsync(async(req, res, next) => {
+    let data = req.body;
+    let nomModule = data.nameModule;
+
+    const myModule = await Modules.findOne( {id_event:data.idEvent} ).select(nomModule);
+
+    console.log(myModule)
+
+    // Send result json if success else catch error with catch Async and send error name
+    res.status(200).json({
+            status: 'success',
+            data: {
+                myModule
+            }
+        }
+    );
+
+})
+
 const deleteModules = catchAsync(async(req, res) => {
     data = req.body
     let result = await Modules.deleteOne(
@@ -290,5 +309,6 @@ module.exports = {
     uploadsModule,
     statusPhotosVideos,
     getAllPhotosVideos,
-    getAllPhotosVideosByStatus
+    getAllPhotosVideosByStatus,
+    getModuleByEventId
 }
