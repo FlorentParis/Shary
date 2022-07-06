@@ -11,6 +11,12 @@ var jwt  = require('jsonwebtoken');
 const { acceptInvitation } = require('../utils/acceptInvitation')
 const { isConnected } = require('../utils/isConnected')
 
+
+function hidePw(User){
+    User.password = undefined;
+    User.passwordConfirm = undefined;
+}
+
 const createUser = catchAsync(async(req, res, next) => {
     let data = req.body;
     //Take datas we want only
@@ -22,6 +28,7 @@ const createUser = catchAsync(async(req, res, next) => {
     const mailSent = await sendMailActivation(data);
     console.log(mailSent);
 
+    hidePw(newUser);
     // Send result json if success else catch error with catch Async and send error name
     res.status(200).json({
             status: 'success',
@@ -60,14 +67,21 @@ const sendMailActivation = async (data)=> {
 }
 
 const getAllUsers = catchAsync(async(req, res, next)=> { 
-    const users = await User.find();
+
+    let users = await User.find();    
+    users = users.map ( (user) => {
+        user.password = undefined;
+        user.passwordConfirm = undefined;
+        return user;
+    });
     res.status(200).json({
             status: 'success',
             results: users.length,
             data: {
-                users
+                users   
             }
     })
+    
 })
 
 // Function not used, we return the user objet when creating or connecting
@@ -77,6 +91,8 @@ const getCurrentUser = catchAsync(async(req, res, next)=> {
     if(!user){
         return next(new AppError('No User found with that ID', 404))
     }
+    hidePw(user);
+
     res.status(200).json({
         status:'success',
         data:{
@@ -114,6 +130,7 @@ const UpdateUser = catchAsync(async (req, res,next) => {
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    hidePw(userUpdated);
     console.log(userUpdated);
     res.status(200).json({
         status:'success',
@@ -141,6 +158,7 @@ const getLogin = catchAsync(async (req, res, next) => {
             if ( eventInvitation !== "" &&  eventInvitation !== undefined){
                 await acceptInvitation(req, res);
             }
+            hidePw(user);
             res.status(200).json({
                 status:"succes",
                 message:"connecté",
@@ -176,6 +194,7 @@ const deactivateAccount = catchAsync(async (req, res) => {
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    hidePw(user);
     res.status(200).json({
         status:'success',
         data:{
