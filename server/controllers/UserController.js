@@ -104,16 +104,32 @@ const activateAccount = ((req, res) => {
 
 const UpdateUser = catchAsync(async (req, res,next) => {
     let id = await isConnected(req, res);
-    const data = req.body
-    //console.log(data.email)
+    let data = req.body
+    console.log(data)
+    if(data.password == ""){
+        console.log("Password empty");
+        data = {
+            "lastname" : data.lastname,
+            "firstname" : data.firstname,
+            "email" : data.email,
+            "phone" : data.phone,
+            "birthday" : data.birthday,
+            "description" : data.description
+        }
+    }else{
+        data = req.body
+    }
+
     const userUpdated = await User.findByIdAndUpdate(id, data,{
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    console.log(userUpdated);
     res.status(200).json({
         status:'success',
         data:{
-            userUpdated
+            userUpdated,
+            id
         }
     });
 })
@@ -179,12 +195,6 @@ const deactivateAccount = catchAsync(async (req, res) => {
     });
 })
 /* TODO Mise à jour des mots de passe
-const updateUserPassword = catchAsync(async(req, res, next)=> {
-    // Récup des données envoyées par le front
-    // Vérifier que l'ancien mdp et le nouveau soit différent
-    // Mise à jour bdd
-})
-
 const updateForgottenPassword = catchAsync(async (res, res, next)=>{
     // Récup des données envoyées par le front
     // vérifier que l'email existe dans la bdd, si existe envoi un mail de redirection vers la page de "mot de passe oublié"

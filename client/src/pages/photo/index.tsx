@@ -5,7 +5,7 @@ import AsidePhoto from "./AsidePhoto";
 
 export default function Photo() {
 
-    const [displayUpload, setDisplayUpload] = useState<boolean>(false);
+    const [displayUpload, setDisplayUpload] = useState<boolean>(true);
     /* L'idée c'est de faire passer l'object dans le displayAside et le récupérer dans l'élément TSX */
     const [displayAside, setDisplayAside] = useState<any>(false);
 

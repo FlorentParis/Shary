@@ -40,24 +40,25 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default:false
     },
-    createdAt:{
-        type: Date,
-        default: Date.now()
+    description:{
+        type: String
     },
-    /* role: String, */
-    status: {
-        type: String,
-        enum: ['Pending', 'Active', 'Désactivé'],
-        default: 'Pending'
+    birthday:{
+      type : String
+    },
+    status : {
+        type : String,
+        enum : ['Pending', 'Active', 'Désactivé'],
+        default : 'Pending'
     },
     img:
     {
-        type: String,   
-        default: 'https://res.cloudinary.com/dr7db2zsv/image/upload/v1657014631/ij8qgts5uouifonqjj6w.png'
+        type : String,
+        default : 'https://res.cloudinary.com/dr7db2zsv/image/upload/v1657014631/ij8qgts5uouifonqjj6w.png'
     },
-    createAt: { 
-        type: Date,
-        default: Date.now
+    createAt : {
+        type : Date,
+        default : Date.now
     }
 })
 
