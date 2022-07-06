@@ -119,7 +119,7 @@ function App() {
                 <Route path="/moderation" element={<Moderation />} />
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/settings" element={<Settings />} />
-                <Route path="/contact-us" element={<Contact />} />
+                <Route path="/event/:id" element={<Information />} />
               </Routes>
             </div>
             <NavbarBottomMobile

@@ -5,12 +5,15 @@ import { useDispatch } from 'react-redux';
 import usersSlice from '../features/usersSlice';
 import modulesSlice from '../features/modulesSlice';
 import eventsSlice from '../features/eventsSlice';
+import currentEventSlice from '../features/currentEventSlice';
+
 
 export const store = configureStore({
     reducer: {
         events: eventsSlice,
         modules: modulesSlice,
         users: usersSlice,
+        targetEvent: currentEventSlice 
     }
 })
 
