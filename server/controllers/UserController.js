@@ -10,7 +10,6 @@ const { promisify } = require('util')
 var jwt  = require('jsonwebtoken');
 const { acceptInvitation } = require('../utils/acceptInvitation')
 const { isConnected } = require('../utils/isConnected')
-var generator = require('generate-password');
 
 
 function hidePw(User){
@@ -23,10 +22,7 @@ const createUser = catchAsync(async(req, res, next) => {
     //Take datas we want only
     const newUser = await User.create(data);
 
-    const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET);
-    res.cookie('access_token', token , {
-        httpOnly: false
-    })
+    //const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRES_IN});
 
     // Send email with a link to activate the account
     const mailSent = await sendMailActivation(data);
@@ -44,23 +40,6 @@ const createUser = catchAsync(async(req, res, next) => {
     );
 
 })
-
-const createParticipantAccount = async(myUser) => {
-    let password = generator.generate({
-        length: 10,
-        numbers: true
-    });
-    console.log(myUser)
-    myUser.lastname = "Unknown";
-    myUser.firstname = "Unknown";
-    myUser.password = password;
-    myUser.passwordConfirm = password;
-    myUser.status = "Active";
-
-    const newUser = await User.create(myUser);
-     
-    return newUser;
-}
 
 // Doc : https://nodemailer.com/usage/
 const sendMailActivation = async (data)=> {
@@ -247,6 +226,5 @@ module.exports = {
     UpdateUser,
     getLogin,
     getUserDeconnexion,
-    deactivateAccount,
-    createParticipantAccount
+    deactivateAccount
 }
