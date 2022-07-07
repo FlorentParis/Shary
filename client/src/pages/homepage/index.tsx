@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import { setEventsData } from "../../features/eventsSlice";
-import { addTargetEvent, setCurrentEventData } from "../../features/currentEventSlice";
+import {
+  addTargetEvent,
+  setCurrentEventData,
+} from "../../features/currentEventSlice";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import useGetEvents from "../../hooks/useGetEvents";
@@ -21,6 +24,13 @@ export default function Homepage() {
     getEvents().then((res) => {
       dispatch(setEventsData(res));
     });
+    //@ts-ignore
+    const sortedAsc = eventsData.sort((objA, objB) => 
+      //@ts-ignore
+      objA.start.getTime() - objB.start.getTime()
+    );
+
+    console.log(sortedAsc, "EVTDATA");
   }, []);
 
   return (
@@ -33,7 +43,7 @@ export default function Homepage() {
       <PageContainer>
         <div className="page-homepage">
           <div className="carousel">
-           <p>Vos évènements en cours</p>
+            <p>Vos évènements en cours</p>
             <div className="wrapper-container">
               <div
                 className="wrapper"
@@ -42,12 +52,16 @@ export default function Homepage() {
                 {eventsData?.map((event: any, index: number) => {
                   const eventStart = moment(event.start);
                   const eventEnd = moment(event.end);
-                  
+
                   return (
                     <>
                       {" "}
                       {moment().isBetween(eventStart, eventEnd) ? (
-                        <Link className="item" to={`/event/${event._id}`} onClick={e => dispatch(setCurrentEventData(event))}>
+                        <Link
+                          className="item"
+                          to={`/event/${event._id}`}
+                          onClick={(e) => dispatch(setCurrentEventData(event))}
+                        >
                           <div
                             style={{
                               backgroundImage: "url('./img/upload-demo.png')",
@@ -62,7 +76,7 @@ export default function Homepage() {
                             <span>{eventStart.format("DD/MM/YYYY")}</span>
                           </div>
                         </Link>
-                    ) : null}
+                      ) : null}
                     </>
                   );
                 })}
@@ -76,14 +90,18 @@ export default function Homepage() {
                 className="wrapper"
                 style={{ gridTemplateColumns: "repeat(12, 1fr)" }}
               >
-                 {eventsData?.map((event: any, index: number) => {
+                {eventsData?.map((event: any, index: number) => {
                   const eventStart = moment(event.start);
-                  
+
                   return (
                     <>
                       {" "}
                       {eventStart.isAfter(moment()) ? (
-                        <Link className="item" to={`/event/${event._id}`} onClick={e => dispatch(setCurrentEventData(event))}>
+                        <Link
+                          className="item"
+                          to={`/event/${event._id}`}
+                          onClick={(e) => dispatch(setCurrentEventData(event))}
+                        >
                           <div
                             style={{
                               backgroundImage: "url('./img/upload-demo.png')",
@@ -98,7 +116,7 @@ export default function Homepage() {
                             <span>{eventStart.format("DD/MM/YYYY")}</span>
                           </div>
                         </Link>
-                    ) : null}
+                      ) : null}
                     </>
                   );
                 })}
