@@ -7,13 +7,16 @@ export default function NavbarVertical() {
   const pathname = location.pathname;
   const splittedPath = pathname.split("/");
 
-  const targetEventData = useAppSelector((state) => state.targetEvent.data);
-//   const userAdminId = targetEventData.userId
+  const targetEventData = useAppSelector((state) => state.targetEvent);
+  const userConnectedData = useAppSelector((state) => state.userConnected);
+  //@ts-ignore
+  const userAdminId = targetEventData.data.userId;
+  const isAdmin = userConnectedData.id === userAdminId;
 
   const displayDynamicTools = () => {
     switch (splittedPath.length) {
       case 2:
-        if (splittedPath[1] === "event") {
+        if (splittedPath[1] === "event" && isAdmin) {
           return (
             <>
               {" "}
@@ -26,7 +29,7 @@ export default function NavbarVertical() {
         } else break;
 
       case 3:
-        if (splittedPath[1] === "event") {
+        if (splittedPath[1] === "event" && isAdmin) {
           return (
             <>
               <span className="line"></span>
