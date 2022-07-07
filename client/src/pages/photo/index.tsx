@@ -6,12 +6,12 @@ import useUploadCloudinary from "../../hooks/useUploadCloudinary";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import useUploadModule from "../../hooks/useUploadModule";
 import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
+import useGetUserById from "../../hooks/useGetUserById";
 const { io } = require("socket.io-client");
 
 
 const socket = io.connect("http://localhost:3031");
 const id_event = "629fad3334582a973da2f7cf"
-socket.emit("joinRoomEvent", "photo" + id_event);
 let receiveFile = false;
 let queryModule = false;
 
@@ -21,6 +21,8 @@ export default function Photo() {
 
     const [file, setFile] = useState<any>({});
     const [array, setArray] = useState<any[]>([])
+    const findUser = useGetUserById();   
+
 
     const formData = new FormData();
     
@@ -34,6 +36,11 @@ export default function Photo() {
             // @ts-ignore: Unreachable code error
             for (const [key, value] of Object.entries(data)) {
                 // @ts-ignore: Unreachable code error
+                findUser(value.id_author).then(res => {
+                    // @ts-ignore: Unreachable code error
+                    value.firstname = res.firstname
+                })
+                // @ts-ignore: Unreachable code error
                 /* if(value.status === "Finish"){ */
                     // @ts-ignore: Unreachable code error
                     setArray( array => [...array, value])
@@ -45,8 +52,16 @@ export default function Photo() {
     
 
     useEffect( () => {
-        const addFile = (data: any) => {setArray( array => [...array, data]); console.log(data)}; 
+        const addFile = (data: any) => {
+            findUser(data.id_author).then(res => {
+                // @ts-ignore: Unreachable code error
+                data.firstname = res.firstname
+            }).then(res => setArray( array => [...array, data]));
+
+        };
+
         if(receiveFile === false){
+            socket.emit("joinRoomEvent", "photo" + id_event);
             socket.on("receive_file", addFile)
         }
         return () => {
@@ -126,6 +141,10 @@ export default function Photo() {
                     const imageSocket = {event:"photo" + id_event, date:"à l'instant", content:fileURL, id_author:author}
                     socket.emit("upload_file", imageSocket);
                     const imageArray = {date:"à l'instant" + id_event,content:fileURL, id_author:author}
+                    findUser(imageArray.id_author).then(res => {
+                        // @ts-ignore: Unreachable code error
+                        imageArray.firstname = res.firstname
+                    })
                     setArray( array => [...array, imageArray])
                     uploadModule(fileURL, id_event, author, "photos_videos")
                     .then(res=>res.data);
@@ -182,7 +201,7 @@ export default function Photo() {
                                     <span></span>
                                     <img src={file!.content} />
                                 </div>
-                                <span>Photo de {file!.id_author}</span>
+                                <span>Photo de {file!.firstname}</span>
                                 <span>Postée le {file!.date}</span>
                             </div>
                                 )

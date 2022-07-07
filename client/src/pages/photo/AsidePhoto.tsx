@@ -28,7 +28,7 @@ export default function AsidePhoto(props:any) {
     };
     const findUser = useGetUserById();   
 
-    const authorUser = findUser(props.file.id_author).then(res => {
+    findUser(props.file.id_author).then(res => {
         setAuthorFirstname(res.firstname)
     })
 
