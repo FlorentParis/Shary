@@ -5,8 +5,8 @@ import { AppDispatch } from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { setEventsData } from "./features/eventsSlice";
-import { setUsersData } from "./features/usersSlice";
-import { setModulesData } from "./features/modulesSlice";
+/* import { setUsersData } from "./features/usersSlice";
+import { setModulesData } from "./features/modulesSlice"; */
 
 
 
@@ -53,7 +53,7 @@ function App() {
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const getEvents = useGetEvents();
-  const eventsData = useAppSelector((state) => state.events.data);
+/*   const eventsData = useAppSelector((state) => state.events.data); */
 
   if(token) {
     dispatch(setLoggedUser(token));
