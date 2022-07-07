@@ -92,7 +92,6 @@ const getCurrentUser = catchAsync(async(req, res, next)=> {
         return next(new AppError('No User found with that ID', 404))
     }
     hidePw(user);
-
     res.status(200).json({
         status:'success',
         data:{
@@ -111,9 +110,14 @@ const activateAccount = ((req, res) => {
 const UpdateUser = catchAsync(async (req, res,next) => {
     let id = await isConnected(req, res);
     let data = req.body
-    console.log(data)
+    const user = await User.findById(id) //User.findOne({ _id : req.params.id})
+    if(!user){
+        return next(new AppError('No User found with that ID', 404))
+    }
+    //console.log(data)
+    // Vérification mot de passe vide ou non
     if(data.password == ""){
-        console.log("Password empty");
+        console.log("Success update without password");
         data = {
             "lastname" : data.lastname,
             "firstname" : data.firstname,
@@ -123,7 +127,13 @@ const UpdateUser = catchAsync(async (req, res,next) => {
             "description" : data.description
         }
     }else{
-        data = req.body
+        if(data.oldPassword == user.password){
+            console.log("Success")
+            data = req.body
+        }else{
+            console.log("Error");
+            return next(new AppError("Ancien mot de passe non correct", 400))
+        }
     }
 
     const userUpdated = await User.findByIdAndUpdate(id, data,{
@@ -131,7 +141,7 @@ const UpdateUser = catchAsync(async (req, res,next) => {
         runValidators: true
     })
     hidePw(userUpdated);
-    console.log(userUpdated);
+    //console.log(userUpdated);
     res.status(200).json({
         status:'success',
         data:{
