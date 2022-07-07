@@ -138,7 +138,7 @@ const EventSchema = new mongoose.Schema({
         required : true
     },
     modules : {
-        photoVideo: {
+        photos_videos: {
             type: Boolean, 
             default: false
         },
@@ -146,7 +146,7 @@ const EventSchema = new mongoose.Schema({
             type: Boolean, 
             default: false
         },
-        livre: {
+        livre_d_or: {
             type: Boolean, 
             default: false
         },

@@ -10,7 +10,8 @@ const {
     uploadsModule,
     statusPhotosVideos,
     getAllPhotosVideos,
-    getAllPhotosVideosByStatus
+    getAllPhotosVideosByStatus,
+    getModuleByEventId
 
 } = require('../controllers/ModulesController.js')
 
@@ -22,6 +23,7 @@ router.post('/uploadsModule', uploadsModule)
 
 router.get('/getAllModules', getAllModules)
 router.get('/getModulesByEventId', getModulesByEventId)
+router.get('/getModuleByEventId', getModuleByEventId)
 router.get('/getAllPhotosVideos', getAllPhotosVideos)
 router.get('/getAllPhotosVideosByStatus', getAllPhotosVideosByStatus)
 
