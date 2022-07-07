@@ -11,7 +11,7 @@ const { io } = require("socket.io-client");
 
 const socket = io.connect("http://localhost:3031");
 const id_event = "629fad3334582a973da2f7cf"
-socket.emit("joinRoomEvent", "chat" + id_event);
+socket.emit("joinRoomEvent", "photo" + id_event);
 let receiveFile = false;
 let queryModule = false;
 
@@ -31,10 +31,8 @@ export default function Photo() {
         getModuleByEventId(id_event, "photos_videos").then((res:object) => {
             // @ts-ignore: Unreachable code error
             let data = res.photos_videos.medias
-            console.log(typeof(data))
             // @ts-ignore: Unreachable code error
             for (const [key, value] of Object.entries(data)) {
-                console.log(`${key}: ${value}`);
                 // @ts-ignore: Unreachable code error
                 /* if(value.status === "Finish"){ */
                     // @ts-ignore: Unreachable code error
@@ -47,7 +45,7 @@ export default function Photo() {
     
 
     useEffect( () => {
-        const addFile = (data: any) => setArray( array => [...array, data]);
+        const addFile = (data: any) => {setArray( array => [...array, data]); console.log(data)}; 
         if(receiveFile === false){
             socket.on("receive_file", addFile)
         }
@@ -125,9 +123,9 @@ export default function Photo() {
                 uploadCloud("image", formData)
                 .then(res=> {
                     const fileURL = res.url
-                    const imageSocket = {event:"chat" + id_event,file:fileURL, author:author}
+                    const imageSocket = {event:"photo" + id_event, date:"à l'instant", content:fileURL, id_author:author}
                     socket.emit("upload_file", imageSocket);
-                    const imageArray = {data:Date.now() + id_event,content:fileURL, id_author:author}
+                    const imageArray = {date:"à l'instant" + id_event,content:fileURL, id_author:author}
                     setArray( array => [...array, imageArray])
                     uploadModule(fileURL, id_event, author, "photos_videos")
                     .then(res=>res.data);
