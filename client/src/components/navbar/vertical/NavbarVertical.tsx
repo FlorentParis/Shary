@@ -1,35 +1,54 @@
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+
 import { Link, useLocation } from "react-router-dom";
 
 export default function NavbarVertical() {
   const location = useLocation();
   const pathname = location.pathname;
   const splittedPath = pathname.split("/");
-  console.log(pathname, "LOC", splittedPath);
 
-  const display = () => {
+  const targetEventData = useAppSelector((state) => state.targetEvent.data);
+//   const userAdminId = targetEventData.userId
+
+  const displayDynamicTools = () => {
     switch (splittedPath.length) {
-      case 3:
-        console.log(splittedPath.length);
-        return (
-          <>
-            <Link to="/information">
-              <img src="./icons/params.svg" alt="" />
-            </Link>
-            <Link to="/guest-list">
-              <img src="./icons/guest.svg" alt="" />
-            </Link>
-            <Link to="/alert">
-              <img src="./icons/alert.svg" alt="" />
-            </Link>
-            <Link to="/modules">
-              <img src="./icons/modules.svg" alt="" />
-            </Link>
-            <Link to="/moderation">
-              <img src="./icons/moderation.svg" alt="" />
-            </Link>
-          </>
-        );
+      case 2:
+        if (splittedPath[1] === "event") {
+          return (
+            <>
+              {" "}
+              <span className="line"></span>
+              <Link to="/information">
+                <img src="./icons/params.svg" alt="" />
+              </Link>
+            </>
+          );
+        } else break;
 
+      case 3:
+        if (splittedPath[1] === "event") {
+          return (
+            <>
+              <span className="line"></span>
+
+              <Link to="/information">
+                <img src="./icons/params.svg" alt="" />
+              </Link>
+              <Link to="/guest-list">
+                <img src="./icons/guest.svg" alt="" />
+              </Link>
+              <Link to="/alert">
+                <img src="./icons/alert.svg" alt="" />
+              </Link>
+              <Link to="/modules">
+                <img src="./icons/modules.svg" alt="" />
+              </Link>
+              <Link to="/moderation">
+                <img src="./icons/moderation.svg" alt="" />
+              </Link>
+            </>
+          );
+        } else break;
       default:
         break;
     }
@@ -47,7 +66,7 @@ export default function NavbarVertical() {
       <Link to="/event-pass">
         <img src="./icons/event-pass.svg" alt="" />
       </Link>
-      <span className="line"></span>
+      {/* <span className="line"></span> */}
       {/* <Link to="/information">
         <img src="./icons/params.svg" alt="" />
       </Link>
@@ -63,7 +82,7 @@ export default function NavbarVertical() {
       <Link to="/moderation">
         <img src="./icons/moderation.svg" alt="" />
       </Link> */}
-      {display()}
+      {displayDynamicTools()}
     </nav>
   );
 }
