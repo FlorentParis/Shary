@@ -7,10 +7,10 @@ export default function NavbarVertical() {
   const pathname = location.pathname;
   const splittedPath = pathname.split("/");
 
-  const targetEventData = useAppSelector((state) => state.targetEvent);
+  const targetEventData = useAppSelector((state) => state.targetEvent.data);
   const userConnectedData = useAppSelector((state) => state.userConnected);
   //@ts-ignore
-  const userAdminId = targetEventData.data.userId;
+  const userAdminId = targetEventData.userId;
   const isAdmin = userConnectedData.id === userAdminId;
 
   const displayDynamicTools = () => {

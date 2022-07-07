@@ -3,7 +3,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import useGetEvents from '../hooks/useGetEvents';
 
 const initialState = {
-    data: []
+    data: [{
+      place: {},
+      notifications: {},
+      alerts: {},
+      modules: {},
+      _id: "",
+      userId: "",
+      name: "",
+      type: "",
+      description: "",
+      banniere: null,
+      status: "",
+      start: "",
+      end: "",
+      dresscode: "",
+      contacts: {},
+      participants: {},
+    },]
   };
 
 const eventsSlice = createSlice({
