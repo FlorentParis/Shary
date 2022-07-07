@@ -6,21 +6,20 @@ const initialState = {
     data: []
   };
 
-const eventsSlice = createSlice({
-  name: 'events',
+const currentEventSlice = createSlice({
+  name: 'currEvent',
   initialState, 
   reducers: {
-    setEventsData : (state, {payload}) => {
+    setCurrentEventData : (state, {payload}) => {
       state.data = payload;
     },
-    addEvents: (state, {payload}) => {
+    addTargetEvent: (state, {payload}) => {
       state.data = payload
     },
   }
 })
 
-  export const { setEventsData, addEvents } = eventsSlice.actions
-  export const getAllEvents = (state: any) => state.data
+  export const { setCurrentEventData, addTargetEvent } = currentEventSlice.actions
   
   
-  export default eventsSlice.reducer;
+  export default currentEventSlice.reducer;
