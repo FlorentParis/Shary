@@ -5,6 +5,6 @@ export default function useGetEvents() {
         return axios({
             url: "http://localhost:3030/api/event/getAllEvents",
             method:"get",
-        }).then(res=>res.data.data.events)
+        }).then(res=> res.data.data.events)
     }
 }
