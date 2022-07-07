@@ -4,11 +4,11 @@ import PageContainer from "../../components/common/PageContainer";
 export default function GoldenBook() {
     return (
         <>
-            <PageBanner imgSrc="./icons/modules-gradient.svg" title="Module livre d’or" desc="Écrivez un message personnalisé intemporel" />
+            <PageBanner imgSrc="/icons/modules-gradient.svg" title="Module livre d’or" desc="Écrivez un message personnalisé intemporel" />
             <PageContainer>
                 <div className="page-golden-book">
                     <div className="top-bar">
-                        <img src="./prov/pp.png" />
+                        <img src="/prov/pp.png" />
                         <select name="" id="">
                             <option value="">Times New Roman</option>
                             <option value="">Sans serif</option>
@@ -31,7 +31,7 @@ export default function GoldenBook() {
                     <div className="bot-bar">
                         <span>Cancel</span>
                         <button>
-                            <img src="./icons/send-plane.svg" />
+                            <img src="/icons/send-plane.svg" />
                         </button>
                     </div>
                 </div>

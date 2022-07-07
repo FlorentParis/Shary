@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import useGetEvents from "../../hooks/useGetEvents";
 import { AppDispatch } from "../../store";
 
+const moment = require("moment");
+
 export default function EventToCome() {
 
     const dispatch = useAppDispatch();
@@ -19,7 +21,7 @@ export default function EventToCome() {
 
     return (
         <>
-            <PageBanner imgSrc="./icons/event-to-come-gradient.svg" title="Evénements à venir" desc="Liste des évènements à venir auquel vous êtes rattaché" />
+            <PageBanner imgSrc="/icons/event-to-come-gradient.svg" title="Evénements à venir" desc="Liste des évènements à venir auquel vous êtes rattaché" />
             <PageContainer>
                 <div className="page-event-to-come">
                     <div className="bar-filter">
@@ -38,7 +40,9 @@ export default function EventToCome() {
                     </div>
                     <div className="grid-event-card">
                         {eventsData?.map((event: any, index: number) => {
-                            return <EventCard event={event} key={index} />
+                            if(moment().isBefore(event.end)) {
+                                return <EventCard event={event} key={index} />
+                            }
                         })}
                         <BtnAddEvent />
                     </div>

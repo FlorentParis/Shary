@@ -2,7 +2,7 @@ export default function GuestCard() {
     return (
         <div className="guest-card">
             <div className="container-img">
-                <img src="./img/guest-demo.png" />
+                <img src="/img/guest-demo.png" />
             </div>
             <span>Maude D. McKinney</span>
             <div>

@@ -7,6 +7,8 @@ import { setEventsData } from "../../features/eventsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import useGetEvents from "../../hooks/useGetEvents";
 
+const moment = require("moment");
+
 export default function EventPass() {
 
     const dispatch = useAppDispatch();
@@ -17,7 +19,7 @@ export default function EventPass() {
 
     return (
         <>
-            <PageBanner imgSrc="./icons/event-passed-gradient.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
+            <PageBanner imgSrc="/icons/event-passed-gradient.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
             <PageContainer>
                 <div className="page-event-pass">
                     <div className="bar-filter">
@@ -36,7 +38,9 @@ export default function EventPass() {
                     </div>
                     <div className="grid-event-card">
                         {eventsData?.map((event: any, index: number) => {
-                            return <EventCard event={event} key={index} />
+                            if(moment().isAfter(event.end)) {
+                                return <EventCard event={event} key={index} />
+                            }
                         })}
                         <BtnAddEvent />
                     </div>

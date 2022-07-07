@@ -6,7 +6,7 @@ export default function ModalAddGuest(props: any) {
                 <p>Renseigner le mail de l'invité</p>
                 <input type="mail" placeholder="exemple@shary.com" value={props.mailGuest} onChange={props.change}/>
                 <button onClick={() => props.submit()}>Envoyer l'invitation</button>
-                <img onClick={() => props.close(false)} src="./icons/cross-black.svg" />
+                <img onClick={() => props.close(false)} src="/icons/cross-black.svg" />
             </div>
         </div>
     )

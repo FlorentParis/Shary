@@ -5,12 +5,12 @@ export default function Alert() {
     return (
         <div className="container-alert">
             <div>
-                <PageBanner imgSrc="./icons/announce-gradient.svg" title="Ecrire une annonce" desc="Annonces ratachées à l'évènement" />
+                <PageBanner imgSrc="/icons/announce-gradient.svg" title="Ecrire une annonce" desc="Annonces ratachées à l'évènement" />
                 <PageContainer>
                     <div className="page-alert">
                         <div>
                             <div>
-                                <img src="./prov/pp.png" />
+                                <img src="/prov/pp.png" />
                                 <input type="text" placeholder="Titre" />
                             </div>
                             <div>
@@ -29,7 +29,7 @@ export default function Alert() {
                             <textarea name="" placeholder="Message..."></textarea>
                             <div>
                                 <span>Cancel</span>
-                                <button className="btn-send"><img src="./icons/send-plane.svg" /></button>
+                                <button className="btn-send"><img src="/icons/send-plane.svg" /></button>
                             </div>
                         </form>
                     </div>
@@ -43,7 +43,7 @@ export default function Alert() {
                         <div>
                             <span>Message du XX/XX/XXXX : Date repoussée</span>
                             <button>
-                                <img src="./icons/arrow-message.svg" />
+                                <img src="/icons/arrow-message.svg" />
                             </button>
                         </div>
                         <p>
@@ -55,7 +55,7 @@ export default function Alert() {
                         <div>
                             <span>Message du XX/XX/XXXX : Date repoussée</span>
                             <button>
-                                <img src="./icons/arrow-message.svg" />
+                                <img src="/icons/arrow-message.svg" />
                             </button>
                         </div>
                         <p>
@@ -67,7 +67,7 @@ export default function Alert() {
                         <div>
                             <span>Message du XX/XX/XXXX : Date repoussée</span>
                             <button>
-                                <img src="./icons/arrow-message.svg" />
+                                <img src="/icons/arrow-message.svg" />
                             </button>
                         </div>
                         <p>

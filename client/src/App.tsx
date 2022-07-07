@@ -53,7 +53,7 @@ function App() {
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
   const getEvents = useGetEvents();
-/*   const eventsData = useAppSelector((state) => state.events.data); */
+  const eventsData = useAppSelector((state) => state.events.data);
 
   if(token) {
     dispatch(setLoggedUser(token));
@@ -98,6 +98,7 @@ function App() {
             <div className="main-layout">
               <Routes>
                 <Route path="/*" element={<Error404/>} />
+                <Route path="/event/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/golden-book" element={<GoldenBook />} />
