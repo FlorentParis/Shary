@@ -24,13 +24,13 @@ export default function Homepage() {
     getEvents().then((res) => {
       dispatch(setEventsData(res));
     });
-    //@ts-ignore
-    const sortedAsc = eventsData.sort((objA, objB) => 
-      //@ts-ignore
-      objA.start.getTime() - objB.start.getTime()
-    );
+    // //@ts-ignore
+    // const sortedAsc = eventsData.sort((objA, objB) => 
+    //   //@ts-ignore
+    //   objA.start.getTime() - objB.start.getTime()
+    // );
 
-    console.log(sortedAsc, "EVTDATA");
+    // console.log(sortedAsc, "EVTDATA");
   }, []);
 
   return (
