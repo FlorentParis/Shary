@@ -31,7 +31,7 @@ export const loginUser = createAsyncThunk('users/loginUser', async(formInput: Us
 
 export const updateUser = createAsyncThunk('users/updateUser', async(formInput: UserInterface) => {
     const update = useUpdateUser();
-    update(formInput)
+    return update(formInput)
         .then(res => res)
 })
 
@@ -43,7 +43,9 @@ const userSlice = createSlice({
             state.token = action.payload;
         },
         setUpdateUser: (state, action) => {
-            console.log(action)
+            state.mail = action.payload.data.userUpdated.email;
+            state.firstName = action.payload.data.userUpdated.firstname;
+            state.lastName = action.payload.data.userUpdated.lastname;
         },
         logoutLoggedUser: () => initialState
     },

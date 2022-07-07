@@ -3,7 +3,7 @@ import ButtonSave from "../../components/common/ButtonSave";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
-import { setLoggedUser, setUpdateUser, updateUser } from "../../features/userConnectedSlice";
+import { setUpdateUser, updateUser } from "../../features/userConnectedSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import UserInterface from "../../interfaces/UserInterface";
 
@@ -37,7 +37,7 @@ export default function Profil() {
     const handleSubmit = () => {
         if(profilInfo.password == profilInfo.passwordConfirm && email == emailConfirm) {
             dispatch(updateUser(profilInfo))
-                .then(res => dispatch(setLoggedUser(res)))
+                .then(res => dispatch(setUpdateUser(res.payload)))
         }
     };
 
