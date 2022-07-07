@@ -7,6 +7,16 @@ import ModalAddGuest from "./ModalAddGuest";
 export default function GuestList() {
 
     const [displayModalAddGuest, setDisplayModalAddGuest] = useState<boolean>(false);
+    let [mailGuest, setMailGuest] = useState<string>("");
+
+    const handleChange = ({target}: any) => {
+        setMailGuest(target.value)
+    }
+
+    const handleSubmit = () => {
+        console.log(mailGuest)
+        /* Envoyer mailGuest */
+    }
 
     return (
         <>
@@ -30,7 +40,7 @@ export default function GuestList() {
                     </div>
                 </div>
             </PageContainer>
-            {displayModalAddGuest ? <ModalAddGuest close={setDisplayModalAddGuest} /> : ""}
+            {displayModalAddGuest ? <ModalAddGuest close={setDisplayModalAddGuest} mailGuest={mailGuest} change={handleChange} submit={handleSubmit} /> : ""}
         </>
     )
 }

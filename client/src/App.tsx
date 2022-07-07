@@ -35,6 +35,7 @@ import useGetEvents from './hooks/useGetEvents';
 import { useAppDispatch, useAppSelector } from './hooks/reduxHooks';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
+import Error404 from './pages/error/Error404';
 
 function App() {
 
@@ -81,7 +82,7 @@ function App() {
             <NavbarLeft />
             <div className="main-layout" >
               <Routes>
-                <Route path="/*" element={<Navigate to="/" />} />
+                <Route path="/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/golden-book" element={<GoldenBook />} />
