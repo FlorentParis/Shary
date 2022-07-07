@@ -27,8 +27,10 @@ export default function Login() {
     const handleSubmit = (e: any) => {
         e.preventDefault();
         dispatch(loginUser(formInput))
-        .then(res => dispatch(setLoggedUser(res.payload)))
-        navigate('/');
+        .then(res => {
+            dispatch(setLoggedUser(res.payload))
+            navigate('/')
+        })
     };
 
     return (

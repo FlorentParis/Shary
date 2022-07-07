@@ -42,6 +42,7 @@ import useGetEvents from './hooks/useGetEvents';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
+import Chat from "./pages/chat";
 
 function App() {
 
@@ -96,7 +97,7 @@ function App() {
             <NavbarLeft />
             <div className="main-layout">
               <Routes>
-                <Route path="*" element={<Error404/>} />
+                <Route path="/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/golden-book" element={<GoldenBook />} />
@@ -111,6 +112,8 @@ function App() {
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/event/:id" element={<Information />} />
+                <Route path="/contact-us" element={<Contact />} />
+                <Route path="/chat" element={<Chat />} />
               </Routes>
             </div>
             <NavbarBottomMobile
