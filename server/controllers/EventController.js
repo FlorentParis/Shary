@@ -1,12 +1,15 @@
 const Event = require('../models/Event.js');
 const User = require('../models/User.js');
 var Cookies = require( "cookies" )
+var jwt  = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 const catchAsync = require('../utils/catchAsync');
 const e = require('express');
 require('dotenv').config();
 const { isConnected } = require('../utils/isConnected')
 const { acceptInvitation } = require('../utils/acceptInvitation')
+
+const  { createParticipantAccount } = require('../controllers/UserController.js')
 
 const createEvent = catchAsync(async(req, res) => {
     var data = req.body
@@ -129,46 +132,32 @@ const updateEvent = catchAsync(async(req, res) => {
     })    
 })
 
-const addParticipant = catchAsync(async(req, res) => {
+const addParticipant = catchAsync(async(req, res, next) => {
 
     var data = req.body
 
-    let event = await Event.find(
-        {
-            _id: data.idEvent,
-        }
-    )
+    let event = await Event.find({ _id: data.idEvent })
 
-    if (!event)
-        return res.status(500).send("Event not found")
-
+    if (!event) {
+        return new AppError(`Event not found`, 400)
+    }
     
-    let userInfo = await User.find({
-        firstname: data.user.firstname,
-        name: data.user.name,
-        email: data.user.email
-    })
+    let userInfo = await User.find({email: data.email})
 
     let userInfoObject = {}
 
-    if(userInfo.length !== 0){
-        userInfoObject = {
-            userId: userInfo[0]._id,
-            email: userInfo[0].email,
-            role: data.user.role
-        }
-    }else{
-        userInfoObject = {
-            email: data.user.email,
-            role: data.user.role
-        } 
+    if (userInfo.length !== 0) {
+        userInfoObject = { userId: userInfo[0]._id, email: userInfo[0].email, role: data.role }
+    } else {
+        myUser = { email: data.email, role: data.role } 
+        myNewUser = createParticipantAccount( myUser);
+        userInfoObject = { userId: myNewUser._id, email: myNewUser.email, role: data.role }
+        const token = jwt.sign({ id: myNewUser.id }, process.env.JWT_SECRET);
+        res.cookie('access_token', token , { httpOnly: false })
     }
-    
-    
-    if(!event[0].participants){
-        event[0].participants = {
-            "0": userInfoObject
-        }
+
+    if (!event[0].participants) {
+        event[0].participants = { "0": userInfoObject }
         const result = await Event.replaceOne({_id: event[0]._id},event[0])
         await sendMail(userInfoObject,event[0])
         res.status(200).json({
