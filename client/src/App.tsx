@@ -67,7 +67,6 @@ function App() {
 
   useEffect(() => {
     getEvents().then(res => dispatch(setEventsData(res)))
-
   }, []);
 
   useEffect(() => {
@@ -97,8 +96,7 @@ function App() {
             <NavbarLeft />
             <div className="main-layout">
               <Routes>
-                <Route path="/*" element={<Error404/>} />
-                <Route path="/event/*" element={<Error404/>} />
+                <Route path="*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/golden-book" element={<GoldenBook />} />

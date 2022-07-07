@@ -4,6 +4,7 @@
     cursor: pointer;
     padding: 5px 5px 15px 5px;
     border-radius: 15px;
+    text-decoration: none;
 
     &:hover {
         box-shadow: 0px 4px 55px -19px rgba(0, 0, 0, 0.15);
@@ -37,8 +38,6 @@
             margin-left: 5px;
             font-weight: 700;
             font-size: 8px;
-            color: #DEB655;
-            background: #FEF5E7;
             border-radius: 5px;
             margin-right: 8px;
             padding: 1px 2px;

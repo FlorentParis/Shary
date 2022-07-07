@@ -1,7 +1,26 @@
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
+import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function Information() {
+
+    const navigate = useNavigate();
+
+    const eventId = useParams().id;
+    const eventsData = useAppSelector((state) => state.events.data);
+
+    useEffect(() => {
+        let good;
+        eventsData.map(event => {
+            if ( event["_id"] === eventId ) {
+                good = true;
+            }
+        })
+        good ? console.log("good") : navigate("/404")
+    }, [eventId])
+
     return (
         <>
             <PageBanner imgSrc="/icons/params-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
