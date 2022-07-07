@@ -1,76 +1,159 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import AsidePhoto from "./AsidePhoto";
 import useUploadCloudinary from "../../hooks/useUploadCloudinary";
 import { useAppSelector } from "../../hooks/reduxHooks";
 import useUploadModule from "../../hooks/useUploadModule";
+import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
+const { io } = require("socket.io-client");
+
+
+const socket = io.connect("http://localhost:3031");
+const id_event = "629fad3334582a973da2f7cf"
+socket.emit("joinRoomEvent", "chat" + id_event);
+let receiveFile = false;
+let queryModule = false;
 
 
 
 export default function Photo() {
 
-    const { io } = require("socket.io-client");
-    const socket = io.connect("http://localhost:3031");
-    socket.emit("joinRoomEvent", "chat" + "629fad3334582a973da2f7cf");
-    let [file, setFile] = useState<any>({});
-    const formData = new FormData();
-    formData.append("upload_preset", "modules");
-    formData.append("cloud_name", "dr7db2zsv");
+    const [file, setFile] = useState<any>({});
+    const [array, setArray] = useState<any[]>([])
 
+    const formData = new FormData();
+    
+    formData.append("upload_preset", "modules");
+    const getModuleByEventId = useGetModuleByEventId();
+
+    if(queryModule === false){
+        getModuleByEventId(id_event, "photos_videos").then((res:object) => {
+            // @ts-ignore: Unreachable code error
+            let data = res.photos_videos.medias
+            console.log(typeof(data))
+            // @ts-ignore: Unreachable code error
+            for (const [key, value] of Object.entries(data)) {
+                console.log(`${key}: ${value}`);
+                // @ts-ignore: Unreachable code error
+                /* if(value.status === "Finish"){ */
+                    // @ts-ignore: Unreachable code error
+                    setArray( array => [...array, value])
+                /* } */
+            }
+            queryModule = true
+        })
+    }
+    
+
+    useEffect( () => {
+        const addFile = (data: any) => setArray( array => [...array, data]);
+        if(receiveFile === false){
+            socket.on("receive_file", addFile)
+        }
+        return () => {
+            // turning of socket listner on unmount
+          socket.off('receive_file', addFile);
+        }
+    }, [])
+
+    useEffect( () => {
+        console.log("la tableau des photos de l event")
+        console.log(array)
+    }, [array])
+    
+/*  useEffect( () => {
+        if(receiveFile === false){
+            console.log(receiveFile);
+            console.log("receiveFile")
+            socket.on('receive_file', (data:any) => {
+                console.log('in socket_on testgege = '+testgege)
+                console.log(data)
+                console.log("type de 'data' : " + typeof(data))
+                console.log(array)
+                console.log("type de 'array' : " + typeof(array));
+                const newVal = testgege+1
+                console.log('new Val '+newVal)
+                setTestgege(newVal)
+                setArray([...array, {
+                    author: "meow",
+                    event: "meow",
+                    file: "meow"
+                }])
+            });
+            receiveFile = true
+
+            return () => {setTestgege(testgege);}
+        }
+    }, [receiveFile])
+    */
+    /*
+    if(receiveFile === false){
+        console.log(receiveFile);
+        console.log("receiveFile")
+        socket.on('receive_file', (data:any) => {
+            console.log(data)
+            console.log("type de 'data' : " + typeof(data))
+            console.log(array)
+            console.log("type de 'array' : " + typeof(array));
+            setTestgege('tagazog')
+            setArray([...array, {
+                author: "meow",
+                event: "meow",
+                file: "meow"
+            }])
+        });
+        receiveFile = true
+    }*/
 
     const [displayUpload, setDisplayUpload] = useState<boolean>(true);
     /* L'idée c'est de faire passer l'object dans le displayAside et le récupérer dans l'élément TSX */
     const [displayAside, setDisplayAside] = useState<any>(false);
+    const [fileSelectionned, setFileSelectionned] = useState<any>();
+
 
     const author = useAppSelector((state) => state.userConnected.id)
-    const id_event = "629fad3334582a973da2f7cf"
 
     const uploadCloud = useUploadCloudinary();
     const uploadModule = useUploadModule(); 
 
-    const inputFileChange = (e: any) => {
-        setFile(e.target.files![0])
-    };
-
     useEffect(() => {
-
-        if(file.name) {
-            formData.append("file", file);
-
-            uploadCloud("image", formData)
-            .then(res=> {
-                const fileURL = res.url
-                const imageSocket = {event:id_event,file:fileURL}
-                socket.emit("upload_file", imageSocket);
-                uploadModule(fileURL, id_event, author, "photos_videos")
-                .then(res=>res.data);
-            })
-        }else {
-            console.log()
+        if(file !== undefined) {
+            if(file.name) {
+                console.log("test")
+                formData.append("file", file);
+                uploadCloud("image", formData)
+                .then(res=> {
+                    const fileURL = res.url
+                    const imageSocket = {event:"chat" + id_event,file:fileURL, author:author}
+                    socket.emit("upload_file", imageSocket);
+                    const imageArray = {data:Date.now() + id_event,content:fileURL, id_author:author}
+                    setArray( array => [...array, imageArray])
+                    uploadModule(fileURL, id_event, author, "photos_videos")
+                    .then(res=>res.data);
+                })
+                setFile({})
+            }else {
+                console.log()
+            }
         }
         
     }, [file])
 
-    useEffect(() => {
-        socket.on("receive_file", (data:any) => {
-          console.log(data.file)
-        });
-      }, [socket]);
 
     return (
         <>
-            <PageBanner imgSrc="/icons/modules-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
+            <PageBanner imgSrc="./icons/modules-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
             <PageContainer>
                 <div className="page-photo">
                     <div className="bar-filter-photo">
                         <div>
                             <div onClick={() => setDisplayUpload(true)}>
-                                <span style={displayUpload ? {fontWeight: "700"} : {}}>Upload de photos & vidéos</span>
+                                <span>Upload de photos & vidéos</span>
                                 <span className="underline" style={displayUpload ? {} : {display: 'none'}}></span>
                             </div>
                             <div onClick={() => setDisplayUpload(false)}>
-                                <span style={displayUpload ? {} : {fontWeight: "700"}}>Galerie photos et vidéos</span>
+                                <span>Galerie photos et vidéos</span>
                                 <span className="underline" style={displayUpload ? {display: "none"} : {}}></span>
                             </div>
                         </div>
@@ -82,58 +165,35 @@ export default function Photo() {
                     {displayUpload ? 
                         <div className="upload">
                             <form >
-                                <input type="file" onChange={inputFileChange}/>
+                            <input
+                                type="file"
+                                onChange={(event) => {
+                                    setFile(event.target.files![0]);
+                                }}
+                            />
                                 <label>Envoyez votre photo ou vidéo ici</label>
                             </form>
                         </div> 
                     : ""}
                     {displayUpload ? "" :
                         <div className="grid-photo">
-                            <div onClick={() => setDisplayAside(true)}>
+                            {array.map((file:any) => {
+                                return (
+                                <div onClick={() => {setDisplayAside(true); setFileSelectionned(file)}}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="/img/demo.png" />
+                                    <img src={file!.content} />
                                 </div>
-                                <span>Photo de Marie Louise</span>
-                                <span>Postée le 01/01/2022</span>
+                                <span>Photo de {file!.id_author}</span>
+                                <span>Postée le {file!.date}</span>
                             </div>
-                            <div onClick={() => setDisplayAside(true)}>
-                                <div className="container-img">
-                                    <span></span>
-                                    <img src="/prov/pp.png" />
-                                </div>
-                                <span>Photo de Marie Louise</span>
-                                <span>Postée le 01/01/2022</span>
-                            </div>
-                            <div onClick={() => setDisplayAside(true)}>
-                                <div className="container-img">
-                                    <span></span>
-                                    <img src="/img/demo.png" />
-                                </div>
-                                <span>Photo de Marie Louise</span>
-                                <span>Postée le 01/01/2022</span>
-                            </div>
-                            <div onClick={() => setDisplayAside(true)}>
-                                <div className="container-img">
-                                    <span></span>
-                                    <img src="/prov/pp.png" />
-                                </div>
-                                <span>Photo de Marie Louise</span>
-                                <span>Postée le 01/01/2022</span>
-                            </div>
-                            <div onClick={() => setDisplayAside(true)}>
-                                <div className="container-img">
-                                    <span></span>
-                                    <img src="/prov/pp.png" />
-                                </div>
-                                <span>Photo de Marie Louise</span>
-                                <span>Postée le 01/01/2022</span>
-                            </div>
+                                )
+                            })}
                         </div>
                     }
                 </div>
             </PageContainer>
-            {displayAside ? <AsidePhoto /> : ""}
+            {displayAside ? <AsidePhoto file={fileSelectionned}/> : ""}
         </>
     )
 }
