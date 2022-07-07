@@ -66,11 +66,11 @@ export default function Photo() {
                     <div className="bar-filter-photo">
                         <div>
                             <div onClick={() => setDisplayUpload(true)}>
-                                <span>Upload de photos & vidéos</span>
+                                <span style={displayUpload ? {fontWeight: "700"} : {}}>Upload de photos & vidéos</span>
                                 <span className="underline" style={displayUpload ? {} : {display: 'none'}}></span>
                             </div>
                             <div onClick={() => setDisplayUpload(false)}>
-                                <span>Galerie photos et vidéos</span>
+                                <span style={displayUpload ? {} : {fontWeight: "700"}}>Galerie photos et vidéos</span>
                                 <span className="underline" style={displayUpload ? {display: "none"} : {}}></span>
                             </div>
                         </div>
