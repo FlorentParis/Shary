@@ -43,11 +43,11 @@ export default function Profil() {
 
     return (
         <>
-            <PageBanner imgSrc="./icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
+            <PageBanner imgSrc="/icons/user.svg" title="Profil" desc="Consultez ou modifiez votre profil" />
             {update ? 
                 <div className="button-save">
                     <div onClick={() => handleSubmit()}>
-                        <img src="./icons/save.svg" />
+                        <img src="/icons/save.svg" />
                     </div>
                 </div>
             : ''}
@@ -72,28 +72,28 @@ export default function Profil() {
                     <div className="grid-card gc-3 date-card">
                         <span>Photo de profil</span>
                         <form>
-                            <div className="add-pp" style={{backgroundImage: "url('./prov/pp.png')"}}>
-                                <input type="image" src="./icons/download_black.svg" />
+                            <div className="add-pp" style={{backgroundImage: "url('/prov/pp.png')"}}>
+                                <input type="image" src="/icons/download_black.svg" />
                             </div>
                             <p>Suggéré pour vous</p>
                             <div className="suggestion-pp">
                                 <div>
-                                    <img src="./img/suggestion-pp-1.jpg" />
+                                    <img src="/img/suggestion-pp-1.jpg" />
                                 </div>
                                 <div>
-                                    <img src="./img/suggestion-pp-2.jpg" />
+                                    <img src="/img/suggestion-pp-2.jpg" />
                                 </div>
                                 <div>
-                                    <img src="./img/suggestion-pp-3.jpg" />
+                                    <img src="/img/suggestion-pp-3.jpg" />
                                 </div>
                                 <div>
-                                    <img src="./img/suggestion-pp-4.jpg" />
+                                    <img src="/img/suggestion-pp-4.jpg" />
                                 </div>
                                 <div>
-                                    <img src="./img/suggestion-pp-5.jpg" />
+                                    <img src="/img/suggestion-pp-5.jpg" />
                                 </div>
                                 <div>
-                                    <img src="./img/suggestion-pp-6.jpg" />
+                                    <img src="/img/suggestion-pp-6.jpg" />
                                 </div>
                             </div>
                         </form>

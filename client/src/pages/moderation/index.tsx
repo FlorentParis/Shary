@@ -5,7 +5,7 @@ import MediaCard from "./MediaCard";
 export default function Moderation() {
     return (
         <>
-            <PageBanner imgSrc="./icons/moderation-gradient.svg" title="Moderation" desc="Moderez les flux de votre évènement" />
+            <PageBanner imgSrc="/icons/moderation-gradient.svg" title="Moderation" desc="Moderez les flux de votre évènement" />
             <PageContainer>
                 <div className="page-moderation">
                     <div className="bar-filter">

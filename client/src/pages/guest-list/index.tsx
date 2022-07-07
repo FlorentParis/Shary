@@ -7,10 +7,20 @@ import ModalAddGuest from "./ModalAddGuest";
 export default function GuestList() {
 
     const [displayModalAddGuest, setDisplayModalAddGuest] = useState<boolean>(false);
+    let [mailGuest, setMailGuest] = useState<string>("");
+
+    const handleChange = ({target}: any) => {
+        setMailGuest(target.value)
+    }
+
+    const handleSubmit = () => {
+        console.log(mailGuest)
+        /* Envoyer mailGuest */
+    }
 
     return (
         <>
-            <PageBanner imgSrc="./icons/guest-list-gradient.svg" title="Liste des invités" desc="Liste des invités de votre évènement" />
+            <PageBanner imgSrc="/icons/guest-list-gradient.svg" title="Liste des invités" desc="Liste des invités de votre évènement" />
             <PageContainer>
                 <div className="page-guest-list">
                     <div className="grid-guest-list">
@@ -30,7 +40,7 @@ export default function GuestList() {
                     </div>
                 </div>
             </PageContainer>
-            {displayModalAddGuest ? <ModalAddGuest close={setDisplayModalAddGuest} /> : ""}
+            {displayModalAddGuest ? <ModalAddGuest close={setDisplayModalAddGuest} mailGuest={mailGuest} change={handleChange} submit={handleSubmit} /> : ""}
         </>
     )
 }

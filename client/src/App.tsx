@@ -5,8 +5,8 @@ import { AppDispatch } from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { setEventsData } from "./features/eventsSlice";
-import { setUsersData } from "./features/usersSlice";
-import { setModulesData } from "./features/modulesSlice";
+/* import { setUsersData } from "./features/usersSlice";
+import { setModulesData } from "./features/modulesSlice"; */
 
 
 
@@ -41,6 +41,7 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetEvents from './hooks/useGetEvents';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
+import Error404 from './pages/error/Error404';
 
 function App() {
 
@@ -96,7 +97,8 @@ function App() {
             <NavbarLeft />
             <div className="main-layout">
               <Routes>
-                <Route path="/*" element={<Navigate to="/" />} />
+                <Route path="/*" element={<Error404/>} />
+                <Route path="/event/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/golden-book" element={<GoldenBook />} />

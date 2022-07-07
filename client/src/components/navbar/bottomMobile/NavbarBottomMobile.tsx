@@ -16,19 +16,19 @@ export default function NavbarBottomMobile({displayMenuProfil, setDisplayMenuPro
     return (
         <div className="navbar-bottom"  onClick={closeProfileNav}>
             <Link to="/">
-                <img src="./icons/home.svg" alt="" />
+                <img src="/icons/home.svg" alt="" />
             </Link>
             <Link to="/event-to-come">
-                <img src="./icons/event-to-come.svg" alt="" />
+                <img src="/icons/event-to-come.svg" alt="" />
             </Link>
             <button>
                 +
             </button>
             <Link to="/event-pass">
-                <img src="./icons/event-pass.svg" alt="" />
+                <img src="/icons/event-pass.svg" alt="" />
             </Link>
             <div onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
-                <img src="./icons/user.svg" alt="" />
+                <img src="/icons/user.svg" alt="" />
             </div>
         </div>
     )

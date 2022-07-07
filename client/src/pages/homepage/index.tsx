@@ -36,7 +36,7 @@ export default function Homepage() {
   return (
     <>
       <PageBanner
-        imgSrc="./icons/home.svg"
+        imgSrc="/icons/home.svg"
         title="Accueil"
         desc="Retrouvez un aperçu de vos évènements à venir et passés ou créez en un rapidement"
       />
@@ -64,7 +64,7 @@ export default function Homepage() {
                         >
                           <div
                             style={{
-                              backgroundImage: "url('./img/upload-demo.png')",
+                              backgroundImage: "url('/img/upload-demo.png')",
                             }}
                           >
                             <div>
@@ -104,7 +104,7 @@ export default function Homepage() {
                         >
                           <div
                             style={{
-                              backgroundImage: "url('./img/upload-demo.png')",
+                              backgroundImage: "url('/img/upload-demo.png')",
                             }}
                           >
                             <div>

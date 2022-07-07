@@ -5,7 +5,7 @@ export default function EventCard(props: any) {
     return (
         <div className="event-card">
             <div className="container-img">
-                <img src="./img/demo.png" />
+                <img src="/img/demo.png" />
             </div>
             <span>{props.event.name}</span>
             <div>

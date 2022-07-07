@@ -4,7 +4,7 @@ import PageBanner from "../../components/common/PageBanner";
 export default function Information() {
     return (
         <>
-            <PageBanner imgSrc="./icons/params-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
+            <PageBanner imgSrc="/icons/params-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
             <GridContainer>
                 <div>
                     <div className="grid-card gc-4 gr-2">
@@ -23,10 +23,10 @@ export default function Information() {
                             </textarea>
                         </form>
                     </div>
-                    <div className="grid-card gc-6 image-upload-card" style={{background: "url(./img/upload-demo.png)"}}>
+                    <div className="grid-card gc-6 image-upload-card" style={{background: "url(/img/upload-demo.png)"}}>
                         <div>
                             <span>Importer l'image de votre bannière</span>
-                            <input type="image" src="./icons/download.svg" />
+                            <input type="image" src="/icons/download.svg" />
                         </div>
                     </div>
                     <div className="grid-card gc-3 date-card">

@@ -54,7 +54,7 @@ const EventSchema = new mongoose.Schema({
             required:[true, "Please provide your the event's city"]
         },
         access:{
-            transport:{
+            train:{
                 type:Boolean,
                 default:false
             },
@@ -62,11 +62,12 @@ const EventSchema = new mongoose.Schema({
                 type:Boolean,
                 default:false
             },
-            pedestrian:{
-                type:Boolean,
+
+            autres:{
+                type: Boolean,
                 default:false
             },
-            autres:{
+            precision:{
                 type: String
             }
         }

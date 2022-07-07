@@ -60,7 +60,7 @@ export default function Photo() {
 
     return (
         <>
-            <PageBanner imgSrc="./icons/modules-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
+            <PageBanner imgSrc="/icons/modules-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
             <PageContainer>
                 <div className="page-photo">
                     <div className="bar-filter-photo">
@@ -92,7 +92,7 @@ export default function Photo() {
                             <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="./img/demo.png" />
+                                    <img src="/img/demo.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
                                 <span>Postée le 01/01/2022</span>
@@ -100,7 +100,7 @@ export default function Photo() {
                             <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="./prov/pp.png" />
+                                    <img src="/prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
                                 <span>Postée le 01/01/2022</span>
@@ -108,7 +108,7 @@ export default function Photo() {
                             <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="./img/demo.png" />
+                                    <img src="/img/demo.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
                                 <span>Postée le 01/01/2022</span>
@@ -116,7 +116,7 @@ export default function Photo() {
                             <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="./prov/pp.png" />
+                                    <img src="/prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
                                 <span>Postée le 01/01/2022</span>
@@ -124,7 +124,7 @@ export default function Photo() {
                             <div onClick={() => setDisplayAside(true)}>
                                 <div className="container-img">
                                     <span></span>
-                                    <img src="./prov/pp.png" />
+                                    <img src="/prov/pp.png" />
                                 </div>
                                 <span>Photo de Marie Louise</span>
                                 <span>Postée le 01/01/2022</span>

@@ -10,32 +10,32 @@ export default function BurgerMenu() {
         <div className="burger-menu">
             <div>
                 <div className="img-container">
-                    <img src="./prov/pp.png" />
+                    <img src="/prov/pp.png" />
                 </div>
                 <span>Hi *nom* !</span>
             </div>
             <ul>
                 <li>
                     <Link to="/profil">
-                        <img src="./icons/user.svg" alt="icon user" />
+                        <img src="/icons/user.svg" alt="icon user" />
                         <span>Profil</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/profil">
-                        <img src="./icons/bell.svg" alt="icon notifs" />
+                        <img src="/icons/bell.svg" alt="icon notifs" />
                         <span>Notification</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/settings">
-                        <img src="./icons/params.svg" alt="icon settings" />
+                        <img src="/icons/params.svg" alt="icon settings" />
                         <span>Paramètres</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="/contact-us">
-                        <img src="./icons/contact.svg" alt="icon contact" />
+                        <img src="/icons/contact.svg" alt="icon contact" />
                         <span>Nous contacter</span>
                     </Link>
                 </li>
