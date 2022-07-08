@@ -7,11 +7,11 @@ import { useAppSelector } from "../../hooks/reduxHooks";
 import useUploadModule from "../../hooks/useUploadModule";
 import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
 import useGetUserById from "../../hooks/useGetUserById";
+import { useParams } from "react-router";
 const { io } = require("socket.io-client");
 
 
 const socket = io.connect("http://localhost:3031");
-const id_event = "629fad3334582a973da2f7cf"
 let receiveFile = false;
 let queryModule = false;
 
@@ -23,6 +23,7 @@ export default function Photo() {
     const [array, setArray] = useState<any[]>([])
     const findUser = useGetUserById();   
 
+    const id_event : any = useParams().id
 
     const formData = new FormData();
     
@@ -41,10 +42,7 @@ export default function Photo() {
                     value.firstname = res.firstname
                 })
                 // @ts-ignore: Unreachable code error
-                /* if(value.status === "Finish"){ */
-                    // @ts-ignore: Unreachable code error
-                    setArray( array => [...array, value])
-                /* } */
+                setArray( array => [...array, value])  
             }
             queryModule = true
         })
@@ -74,50 +72,6 @@ export default function Photo() {
         console.log("la tableau des photos de l event")
         console.log(array)
     }, [array])
-    
-/*  useEffect( () => {
-        if(receiveFile === false){
-            console.log(receiveFile);
-            console.log("receiveFile")
-            socket.on('receive_file', (data:any) => {
-                console.log('in socket_on testgege = '+testgege)
-                console.log(data)
-                console.log("type de 'data' : " + typeof(data))
-                console.log(array)
-                console.log("type de 'array' : " + typeof(array));
-                const newVal = testgege+1
-                console.log('new Val '+newVal)
-                setTestgege(newVal)
-                setArray([...array, {
-                    author: "meow",
-                    event: "meow",
-                    file: "meow"
-                }])
-            });
-            receiveFile = true
-
-            return () => {setTestgege(testgege);}
-        }
-    }, [receiveFile])
-    */
-    /*
-    if(receiveFile === false){
-        console.log(receiveFile);
-        console.log("receiveFile")
-        socket.on('receive_file', (data:any) => {
-            console.log(data)
-            console.log("type de 'data' : " + typeof(data))
-            console.log(array)
-            console.log("type de 'array' : " + typeof(array));
-            setTestgege('tagazog')
-            setArray([...array, {
-                author: "meow",
-                event: "meow",
-                file: "meow"
-            }])
-        });
-        receiveFile = true
-    }*/
 
     const [displayUpload, setDisplayUpload] = useState<boolean>(true);
     /* L'idée c'est de faire passer l'object dans le displayAside et le récupérer dans l'élément TSX */
@@ -140,7 +94,8 @@ export default function Photo() {
                     const fileURL = res.url
                     const imageSocket = {event:"photo" + id_event, date:"à l'instant", content:fileURL, id_author:author}
                     socket.emit("upload_file", imageSocket);
-                    const imageArray = {date:"à l'instant" + id_event,content:fileURL, id_author:author}
+                    const imageArray = {date:"à l'instant",content:fileURL, id_author:author}
+                    console.log(imageArray)
                     findUser(imageArray.id_author).then(res => {
                         // @ts-ignore: Unreachable code error
                         imageArray.firstname = res.firstname

@@ -39,7 +39,11 @@ export default function AsidePhoto(props:any) {
                 <img src={props.file.content} />
             </div>
             <span>Photo de {authorFirstname}</span>
+            {props.file.date === "à l'instant" ?
+            <span>Postée {props.file.date}</span>
+            :
             <span>Postée le {props.file.date}</span>
+            }
             <a href={props.file.content} download onClick={e => download(e)}>Télécharger</a>
             {/* <button>Télécharger</button> */}
             <span>Signaler cette photo</span>
