@@ -14,6 +14,7 @@ export default function Register() {
         password: '',
         lastname: '',
         firstname: '',
+        img: '',
         passwordConfirm: ''
     })
 

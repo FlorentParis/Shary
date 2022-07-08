@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useAppSelector } from "../../../hooks/reduxHooks";
 
 interface NavbarTopInterface {
     displayMenuProfil: boolean,
@@ -6,6 +7,8 @@ interface NavbarTopInterface {
 }
 
 export default function NavbarTop({displayMenuProfil, setDisplayMenuProfil}: NavbarTopInterface) {
+
+    const userConnected = useAppSelector((state) => state.userConnected);
 
     const closeProfileNav= () => {
         if (displayMenuProfil == true) {
@@ -28,7 +31,7 @@ export default function NavbarTop({displayMenuProfil, setDisplayMenuProfil}: Nav
                     </div>
                     <button id="btn-pp" onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
                         <div className="img-container">
-                            <img src="/prov/pp.png" alt="profil picture" />
+                            <img src={userConnected.img} alt="profil picture" />
                         </div>
                         {displayMenuProfil ? <span></span> : ""}
                     </button>
