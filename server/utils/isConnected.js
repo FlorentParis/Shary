@@ -17,7 +17,12 @@ async function isConnected(req, res, next){
         }
     }
     else {
-        return next(new AppError("Tu n'es pas connecté", 404));
+        if (next){
+            return next(new AppError("Tu n'es pas connecté", 404));
+        } else
+        {
+            return "Not connected"
+        }
     }
 }
 

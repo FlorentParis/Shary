@@ -7,10 +7,11 @@ const e = require('express');
 require('dotenv').config();
 const { isConnected } = require('../utils/isConnected')
 const { acceptInvitation } = require('../utils/acceptInvitation')
+const AppError = require("../utils/appError");
 
 const createEvent = catchAsync(async(req, res) => {
     var data = req.body
-    /* 
+    /*
     data.participants = {}
     for(contact in data.contacts){
         try {
@@ -25,9 +26,9 @@ const createEvent = catchAsync(async(req, res) => {
             }
             data.participants[contact] = object
         } catch (err) {
-            return res.status(500).send("you're contacts need to create them account")
+            return res.status(500).send("you're contacts need to create their own account")
         }
-    } 
+    }
     */
 
     const event = await Event.create(data)
@@ -38,7 +39,6 @@ const createEvent = catchAsync(async(req, res) => {
         },
         message : ""
     })
-
 })
 
 const getAllEvents = catchAsync(async(req, res) => {
@@ -50,7 +50,7 @@ const getAllEvents = catchAsync(async(req, res) => {
             events
         },
         message : ""
-    })  
+    })
 })
 
 const getAllEventsByCreator = catchAsync(async(req, res) => {
@@ -80,7 +80,7 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
     let userEvent = []
     events.forEach(event =>
         event.participants.forEach(function(participant){
-            if(participant.userId == data._id && participant.status == "Active"){
+            if(participant.userId == data._id && participant.status == "Accepted"){
                 return userEvent.push(event)
             }
         })
@@ -93,7 +93,6 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
         },
         message : "Récuperation des évènements l'utilisateur " + data._id + " est participant"
     })
- 
 })
 
 const getEventsByStatus = catchAsync(async(req, res) => {
@@ -109,7 +108,7 @@ const getEventsByStatus = catchAsync(async(req, res) => {
         },
         message : "Récuperation des évènements ayant pour status : " + data.status
     })
- 
+
 })
 
 const updateEvent = catchAsync(async(req, res) => {
@@ -124,7 +123,7 @@ const updateEvent = catchAsync(async(req, res) => {
             event
         },
         message : "L'event a bien été modifié !"
-    })    
+    })
 })
 
 const addParticipant = catchAsync(async(req, res, next) => {
@@ -140,7 +139,7 @@ const addParticipant = catchAsync(async(req, res, next) => {
     if (!event)
         return res.status(500).send("Event not found")
 
-    
+
     let userInfo = await User.find({
         firstname: data.user.firstname,
         name: data.user.name,
@@ -159,10 +158,9 @@ const addParticipant = catchAsync(async(req, res, next) => {
         userInfoObject = {
             email: data.user.email,
             role: data.user.role
-        } 
+        }
     }
-    
-    
+
     if(!event[0].participants){
         event[0].participants = {
             "0": userInfoObject
@@ -172,7 +170,7 @@ const addParticipant = catchAsync(async(req, res, next) => {
         res.status(200).json({
             status: 'success',
             data: {
-                result, 
+                result,
                 userInfoObject
             },
             message : "Une personne a été ajouté a la liste des participants"
@@ -189,7 +187,7 @@ const addParticipant = catchAsync(async(req, res, next) => {
         res.status(200).json({
             status: 'success',
             data: {
-                result, 
+                result,
                 userInfoObject
             },
             message : "Une personne a été ajouté a la liste des participants"
@@ -208,29 +206,38 @@ const getParticipantsByEvent = catchAsync(async(req, res) => {
     let list_participant = []
     let user_info = {}
     for (const participant of participants) {
-            console.log(participant)
-            let id = participant[1]._id.toString()
+        console.log(participant)
+        let id = participant[1].userId
+        console.log("Function Get participants Event ", id)
         if(id){
+            id = id.toString()
+            console.log("Participant a un compte", id)
             let user = await User.findById(id)
-            //console.log("TEST", user)
+            console.log("TEST", user)
             user_info = {
+                "email" : participant[1].email,
                 "role" : participant[1].role,
-                "status" : participant[1].status ,
+                "status_invit" : participant[1].status ,
                 "img" : user.img,
                 "lastname": user.lastname,
-                "firstname" : user.firstname
+                "firstname" : user.firstname,
+                "status_account" : user.status
             }
         }else{
+            console.log("Participant n'a pas de compte")
+
             user_info = {
+                "email" : participant[1].email,
                 "role" : participant[1].role,
-                "status" : participant[1].status ,
+                "status_invit" : participant[1].status ,
                 "img" : "https://res.cloudinary.com/dr7db2zsv/image/upload/v1657014631/ij8qgts5uouifonqjj6w.png",
                 "lastname": "",
-                "firstname" : ""
+                "firstname" : "",
+                "status_account" : "Pas de compte"
             }
         }
-            list_participant.push(user_info)
-        }
+        list_participant.push(user_info)
+    }
     console.log(list_participant)
 
     res.status(200).json({
@@ -240,7 +247,6 @@ const getParticipantsByEvent = catchAsync(async(req, res) => {
         },
         message : "Récuperation information des participants de l'évènement " + data._id
     })
- 
 })
 
 const getModuleStatusByEvent = catchAsync(async(req, res) => {
@@ -279,28 +285,28 @@ const updateModuleStatus = catchAsync(async (req, res)=>{
 })
 
 const sendMail = async(userInfo,event) =>{
+    console.log("sendMail invitation")
     const userEvent = await User.find({
         _id: event.userId,
     })
-    console.log(userInfo)
     const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
     const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
     if(userInfo.email){
-        var transporter = nodemailer.createTransport({  
-            service: 'gmail',  
-            auth: {  
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
                 type: "OAuth2",
-                user: "symchowiczbenji@gmail.com",  
-                clientId: "828571010780-5qkqqvb2d0ensbl7qqtq8scsi967r6cc.apps.googleusercontent.com",  
+                user: "symchowiczbenji@gmail.com",
+                clientId: "828571010780-5qkqqvb2d0ensbl7qqtq8scsi967r6cc.apps.googleusercontent.com",
                 clientSecret: process.env.GOOGLE_OAUTH2_KEYS,
-                refreshToken: "1//04Xq2X3b-NsYbCgYIARAAGAQSNwF-L9IrYZkIO6cNd8ERMuWJJArLPXplJM7xv-0s4Z2Z-vGV2zih2VGU2Dlq0hrHjC7E1iKQ41M"  
-            }  
-        });  
-        var message = {  
-            from: "symchowiczbenji@gmail.com", // sender address  
-            to: userInfo.email, // list of receivers  
-            subject: subject, // Subject line  
-            text: "data.contenu", // plaintext body  
+                refreshToken: "1//04Xq2X3b-NsYbCgYIARAAGAQSNwF-L9IrYZkIO6cNd8ERMuWJJArLPXplJM7xv-0s4Z2Z-vGV2zih2VGU2Dlq0hrHjC7E1iKQ41M"
+            }
+        });
+        var message = {
+            from: "symchowiczbenji@gmail.com", // sender address
+            to: userInfo.email, // list of receivers
+            subject: subject, // Subject line
+            text: "data.contenu", // plaintext body
             html:html
         }
         return await transporter.sendMail(message);
@@ -308,21 +314,24 @@ const sendMail = async(userInfo,event) =>{
 }
 
 const cookieInvitation = catchAsync(async(req, res, next) => {
-
+    console.log("Function cookie Invitation")
     const data = req.query
     res.cookie('eventInvitation', data.eventId, {
         httpOnly: true
     })
     const result = await acceptInvitation(req, res, data.eventId);
+    if(result === 401){
+        return next(new AppError("Tu n'es pas connecté", 401))
+    }
     res.status(200).json({
         status: 'success',
         message : "abcdef",
         data: {
             result
         },
-    }) 
+    })
     // res.redirect("http://localhost:3000/")
-    
+
 })
 
 const deleteEvent = catchAsync(async(req, res) => {
@@ -331,13 +340,13 @@ const deleteEvent = catchAsync(async(req, res) => {
         {_id:data.eventId}
     )
     res.status(200).json({
-        status: 'success',
-        data: {
-            result
-        },
-        message : "L'event ayant pour iD" + data.eventId + "a été supprimé"
-    }
-);
+            status: 'success',
+            data: {
+                result
+            },
+            message : "L'event ayant pour iD" + data.eventId + "a été supprimé"
+        }
+    );
 
 })
 
