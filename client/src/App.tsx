@@ -25,6 +25,8 @@ import Contact from "./pages/contact-us";
 import Photo from "./pages/photo";
 import GoldenBook from "./pages/golden-book";
 import Playlist from "./pages/playlist";
+// @ts-ignore: Unreachable code error
+import Chat from "./pages/chat";
 
 /* Components */
 import NavbarLeft from "./components/navbar/vertical/NavbarVertical";
@@ -41,7 +43,6 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
-import Chat from "./pages/chat";
 import useGetEventsByUser from "./hooks/useGetEventsByUser";
 
 function App() {
