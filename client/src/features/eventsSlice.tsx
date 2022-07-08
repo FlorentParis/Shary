@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { useSelector, useDispatch } from 'react-redux';
-import useGetEvents from '../hooks/useGetEvents';
 
 const initialState = {
     data: [{

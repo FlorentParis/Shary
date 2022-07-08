@@ -38,11 +38,11 @@ import NavbarBottomMobile from './components/navbar/bottomMobile/NavbarBottomMob
 import MenuProfil from './components/navbar/top/MenuProfil';
 
 /* Hooks */
-import useGetEvents from './hooks/useGetEvents';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
 import Chat from "./pages/chat";
+import useGetEventsByUser from "./hooks/useGetEventsByUser";
 
 function App() {
 
@@ -53,8 +53,10 @@ function App() {
   // const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
-  const getEvents = useGetEvents();
+  const getEvents = useGetEventsByUser();
   const eventsData = useAppSelector((state) => state.events.data);
+
+  const userConnected = useAppSelector((state) => state.userConnected);
 
   if(token) {
     dispatch(setLoggedUser(token));
@@ -67,11 +69,11 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents().then(res => dispatch(setEventsData(res)))
+    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
   }, []);
 
   useEffect(() => {
-    getEvents()
+    getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res))
     })

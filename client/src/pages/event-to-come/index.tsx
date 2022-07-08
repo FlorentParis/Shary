@@ -6,7 +6,6 @@ import BtnAddEvent from "../../components/event-pages/BtnAddEvent";
 import EventCard from "../../components/event-pages/EventCard";
 import { setEventsData } from "../../features/eventsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import useGetEvents from "../../hooks/useGetEvents";
 import { AppDispatch } from "../../store";
 
 const moment = require("moment");
@@ -16,7 +15,6 @@ export default function EventToCome() {
     const dispatch = useAppDispatch();
 
     /* Events */
-    const getEvents = useGetEvents();
     const eventsData = useAppSelector((state) => state.events.data);
 
     return (
