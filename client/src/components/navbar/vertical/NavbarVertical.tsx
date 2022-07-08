@@ -15,6 +15,8 @@ export default function NavbarVertical() {
   //@ts-ignore
   const eventId = targetEventData._id;
 
+  const pageLocation = splittedPath[splittedPath.length - 1];
+
   const displayDynamicTools = () => {
     switch (splittedPath.length) {
       case 2:
@@ -67,7 +69,7 @@ export default function NavbarVertical() {
               </Link>
 
               <Link to={`/event/${eventId}/guest-list`}>
-                <img src="/icons/guest.svg" alt="" />
+                <img src={pageLocation == "guest-list" ? "/icons/guest.svg" /* actif */ : /* Non actif */ "/icons/params.svg"} alt="" />
               </Link>
 
               <Link to={`/event/${eventId}/alert`}>
