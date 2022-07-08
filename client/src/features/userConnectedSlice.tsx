@@ -10,6 +10,7 @@ const initialState = {
     password: "",
     firstName: "",
     lastName: "",
+    img: "",
     token: "",
     isFetching: false,
     isSuccess: false,
@@ -46,6 +47,7 @@ const userSlice = createSlice({
             state.mail = action.payload.data.userUpdated.email;
             state.firstName = action.payload.data.userUpdated.firstname;
             state.lastName = action.payload.data.userUpdated.lastname;
+            state.img = action.payload.data.userUpdated.img;
         },
         logoutLoggedUser: () => initialState
     },
@@ -64,6 +66,7 @@ const userSlice = createSlice({
             state.mail = payload.user.email;
             state.firstName = payload.user.firstname;
             state.lastName = payload.user.lastname;
+            state.img = payload.user.img;
         })
     }
 })

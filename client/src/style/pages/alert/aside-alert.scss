@@ -5,12 +5,15 @@
     padding: 30px 40px;
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 10;
 
     > span {
         font-family: 'Montserrat';
         font-weight: 700;
         font-size: 28px;
         color: #1C2C65;
+        padding-bottom: 5px;
     }
 
     > p {

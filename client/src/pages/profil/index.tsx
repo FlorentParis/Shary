@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonSave from "../../components/common/ButtonSave";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import { setUpdateUser, updateUser } from "../../features/userConnectedSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
+import useUploadCloudinary from "../../hooks/useUploadCloudinary";
 import UserInterface from "../../interfaces/UserInterface";
 
 export default function Profil() {
@@ -15,6 +16,11 @@ export default function Profil() {
 
     const userConnected = useAppSelector((state) => state.userConnected);
 
+    const formData = new FormData();
+    formData.append("upload_preset", "modules");
+
+    const uploadCloud = useUploadCloudinary();
+
     const [email, setEmail] = useState<string>('');
     const [emailConfirm, setEmailConfirm] = useState<string>('');
 
@@ -22,9 +28,26 @@ export default function Profil() {
         lastname: userConnected.lastName,
         firstname: userConnected.firstName,
         email: userConnected.mail,
+        img: userConnected.img,
         password: '',
         passwordConfirm: ''
     });
+
+    const [selectedImage, setSelectedImage] = useState<any>();
+
+    useEffect(() => {
+        formData.append("file", selectedImage);
+        uploadCloud("image", formData)
+        .then((res: any) => {
+            let newObj = {...profilInfo};
+            newObj["img"] = res.url;
+            setProfilInfo(newObj);
+        })
+    }, [selectedImage])
+
+    useEffect(() => {
+        console.log(profilInfo)
+    }, [profilInfo])
 
     const handleChange = ({target}: any) => {
         setUpdate(true);
@@ -37,7 +60,10 @@ export default function Profil() {
     const handleSubmit = () => {
         if(profilInfo.password == profilInfo.passwordConfirm && email == emailConfirm) {
             dispatch(updateUser(profilInfo))
-                .then(res => dispatch(setUpdateUser(res.payload)))
+                .then(res => {
+                    dispatch(setUpdateUser(res.payload))
+                    window.location.reload();
+                })
         }
     };
 
@@ -72,8 +98,9 @@ export default function Profil() {
                     <div className="grid-card gc-3 date-card">
                         <span>Photo de profil</span>
                         <form>
-                            <div className="add-pp" style={{backgroundImage: "url('/prov/pp.png')"}}>
-                                <input type="image" src="/icons/download_black.svg" />
+                            <div className="add-pp" style={{backgroundImage: `url('${userConnected.img}')`}}>
+                                <img src="/icons/download_black.svg" />
+                                <input type="file" onChange={(event) => {console.log(event.target.files![0]); setSelectedImage(event.target.files![0])}} />
                             </div>
                             <p>Suggéré pour vous</p>
                             <div className="suggestion-pp">

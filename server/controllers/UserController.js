@@ -138,6 +138,7 @@ const UpdateUser = catchAsync(async (req, res,next) => {
             "firstname" : data.firstname,
             "email" : data.email,
             "phone" : data.phone,
+            "img": data.img,
             "birthday" : data.birthday,
             "description" : data.description
         }

@@ -13,6 +13,7 @@ export default function Login() {
         email: '',
         password: '',
         passwordConfirm: '',
+        img: '',
         lastname: '',
         firstname: ''
     })

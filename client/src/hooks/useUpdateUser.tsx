@@ -12,6 +12,7 @@ export default function useUpdateUser() {
                 lastname: user.lastname,
                 firstname: user.firstname,
                 email: user.email,
+                img: user.img,
                 password: user.password,
             }),
             withCredentials: true
