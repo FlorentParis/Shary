@@ -160,7 +160,7 @@ export default function Photo() {
 
     return (
         <>
-            <PageBanner imgSrc="./icons/modules-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
+            <PageBanner imgSrc="/icons/gradient/photo-gradient.svg" title="Module photos & vidéos" desc="Retrouvez ici toutes les annonces qui ont été faites pour l’évènement en cours" />
             <PageContainer>
                 <div className="page-photo">
                     <div className="bar-filter-photo">

@@ -4,7 +4,7 @@ import PageContainer from "../../components/common/PageContainer";
 export default function GoldenBook() {
     return (
         <>
-            <PageBanner imgSrc="/icons/modules-gradient.svg" title="Module livre d’or" desc="Écrivez un message personnalisé intemporel" />
+            <PageBanner imgSrc="/icons/gradient/golden-book-gradient.svg" title="Module livre d’or" desc="Écrivez un message personnalisé intemporel" />
             <PageContainer>
                 <div className="page-golden-book">
                     <div className="top-bar">

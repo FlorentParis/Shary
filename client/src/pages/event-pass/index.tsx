@@ -19,7 +19,7 @@ export default function EventPass() {
 
     return (
         <>
-            <PageBanner imgSrc="/icons/event-passed-gradient.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
+            <PageBanner imgSrc="/icons/gradient/event-pass-gradient.svg" title="Evénements passés" desc="Liste des évènements passés auquel vous êtes rattaché" />
             <PageContainer>
                 <div className="page-event-pass">
                     <div className="bar-filter">

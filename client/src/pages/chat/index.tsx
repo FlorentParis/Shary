@@ -2,7 +2,7 @@ import PageBanner from "../../components/common/PageBanner";
 
 export default function Chat() {
     return <>
-        <PageBanner imgSrc="/icons/chat.svg" title="Chat" desc="Discutez avec tous les invités"/>
+        <PageBanner imgSrc="/icons/gradient/chat-gradient.svg" title="Chat" desc="Discutez avec tous les invités"/>
         <div className="page-chat">
             <div className="message-container">
                 <div>

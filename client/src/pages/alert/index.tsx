@@ -5,7 +5,7 @@ export default function Alert() {
     return (
         <div className="container-alert">
             <div>
-                <PageBanner imgSrc="/icons/announce-gradient.svg" title="Ecrire une annonce" desc="Annonces ratachées à l'évènement" />
+                <PageBanner imgSrc="/icons/gradient/alert-gradient.svg" title="Ecrire une annonce" desc="Annonces ratachées à l'évènement" />
                 <PageContainer>
                     <div className="page-alert">
                         <div>

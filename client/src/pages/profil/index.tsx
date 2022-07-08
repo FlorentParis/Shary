@@ -99,7 +99,7 @@ export default function Profil() {
                         <span>Photo de profil</span>
                         <form>
                             <div className="add-pp" style={{backgroundImage: `url('${userConnected.img}')`}}>
-                                <img src="/icons/download_black.svg" />
+                                <img src="/icons/download-black.svg" />
                                 <input type="file" onChange={(event) => {console.log(event.target.files![0]); setSelectedImage(event.target.files![0])}} />
                             </div>
                             <p>Suggéré pour vous</p>

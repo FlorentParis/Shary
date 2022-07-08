@@ -36,7 +36,7 @@ export default function Homepage() {
   return (
     <>
       <PageBanner
-        imgSrc="/icons/home.svg"
+        imgSrc="/icons/gradient/home-gradient.svg"
         title="Accueil"
         desc="Retrouvez un aperçu de vos évènements à venir et passés ou créez en un rapidement"
       />
