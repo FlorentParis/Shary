@@ -145,6 +145,39 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
     })
 })
 
+const getAllEventsByUser = catchAsync(async(req, res) => {
+    let data = req.query
+    console.log(data)
+    let events = await Event.find({})
+    let userEvent = {}
+
+    let creationEvent = []
+    events.forEach(function(event){
+        if(event.userId == data._id){
+            return creationEvent.push(event)
+        }
+    });
+    userEvent.creator = creationEvent
+
+    let participationEvent = []
+    events.forEach(event =>
+        event.participants.forEach(function(participant){
+            if(participant.userId == data._id && participant.status == "Accepted"){
+                return participationEvent.push(event)
+            }
+        })
+    );
+    userEvent.participant = participationEvent
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            userEvent
+        },
+        message : "Récuperation des évènements creer par l'utilisateur :" + data._id
+    })
+})
+
 const getEventsByStatus = catchAsync(async(req, res) => {
     data = req.query
 
@@ -483,5 +516,6 @@ module.exports = {
     getParticipantsByEvent,
     getModuleStatusByEvent,
     updateModuleStatus,
-    cookieInvitation
+    cookieInvitation,
+    getAllEventsByUser
 }
