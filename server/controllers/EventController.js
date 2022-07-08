@@ -113,10 +113,8 @@ const getEventsByStatus = catchAsync(async(req, res) => {
 })
 
 const updateEvent = catchAsync(async(req, res) => {
-    data = req.body
-    let event = ''
-
-    event = await Event.findByIdAndUpdate(data._id, data,{
+    const data = req.body
+    let event = await Event.findByIdAndUpdate(data._id, data,{
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
@@ -129,7 +127,7 @@ const updateEvent = catchAsync(async(req, res) => {
     })    
 })
 
-const addParticipant = catchAsync(async(req, res) => {
+const addParticipant = catchAsync(async(req, res, next) => {
 
     var data = req.body
 
@@ -170,7 +168,7 @@ const addParticipant = catchAsync(async(req, res) => {
             "0": userInfoObject
         }
         const result = await Event.replaceOne({_id: event[0]._id},event[0])
-        await sendMail(userInfoObject,event[0])
+        let mailSent = await sendMail(userInfoObject,event[0])
         res.status(200).json({
             status: 'success',
             data: {
@@ -186,7 +184,8 @@ const addParticipant = catchAsync(async(req, res) => {
         string = 'participants.' + count
         object['participants.'+count] = userInfoObject
         const result = await Event.update({ _id: data.idEvent}, { "$set": object })
-        await sendMail(userInfoObject,event[0])
+        let mailSent = await sendMail(userInfoObject,event[0])
+        console.log(mailSent)
         res.status(200).json({
             status: 'success',
             data: {
@@ -206,12 +205,40 @@ const getParticipantsByEvent = catchAsync(async(req, res) => {
 
     /* Récupération des participants de l'évènement */
     let participants = events.participants
+    let list_participant = []
+    let user_info = {}
+    for (const participant of participants) {
+            console.log(participant)
+            let id = participant[1]._id.toString()
+        if(id){
+            let user = await User.findById(id)
+            //console.log("TEST", user)
+            user_info = {
+                "role" : participant[1].role,
+                "status" : participant[1].status ,
+                "img" : user.img,
+                "lastname": user.lastname,
+                "firstname" : user.firstname
+            }
+        }else{
+            user_info = {
+                "role" : participant[1].role,
+                "status" : participant[1].status ,
+                "img" : "https://res.cloudinary.com/dr7db2zsv/image/upload/v1657014631/ij8qgts5uouifonqjj6w.png",
+                "lastname": "",
+                "firstname" : ""
+            }
+        }
+            list_participant.push(user_info)
+        }
+    console.log(list_participant)
+
     res.status(200).json({
         status: 'success',
         data: {
-            participants
+            list_participant
         },
-        message : "Récuperation des participants de l'évènement " + data._id
+        message : "Récuperation information des participants de l'évènement " + data._id
     })
  
 })
@@ -251,10 +278,11 @@ const updateModuleStatus = catchAsync(async (req, res)=>{
     );
 })
 
-const sendMail = catchAsync(async(userInfo,event) =>{
+const sendMail = async(userInfo,event) =>{
     const userEvent = await User.find({
         _id: event.userId,
     })
+    console.log(userInfo)
     const subject = "Invation à l'évènement de " + userEvent[0].firstname + " " + userEvent[0].lastname
     const html = "<a href='http://localhost:3030/api/event/cookieInvitation/?eventId=" + event._id + "'>Accepter l'invitation</a>"
     if(userInfo.email){
@@ -274,27 +302,10 @@ const sendMail = catchAsync(async(userInfo,event) =>{
             subject: subject, // Subject line  
             text: "data.contenu", // plaintext body  
             html:html
-        }  
-        transporter.sendMail(message, function(error, info){  
-                if(error){   
-                    res.status(400);  
-                    res.json(data);        
-                    next();  
-                }    
-                else{  
-                    res.status(200).json({
-                        status: 'success',
-                        data: {
-                            data
-                        },
-                        message : "Un mail a été envoyé, le destinataire est :" + userInfo.email
-                    })
-                    next();  
-                }     
-            }
-        );  
+        }
+        return await transporter.sendMail(message);
     }
-})
+}
 
 const cookieInvitation = catchAsync(async(req, res, next) => {
 

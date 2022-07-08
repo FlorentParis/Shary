@@ -13,7 +13,7 @@ const EventSchema = new mongoose.Schema({
     },
     type : {
         type: String,
-        enum: ['mariage', 'anniversaire', 'autre'],
+        enum: ['mariage', 'anniversaire', "soirée", "workshop", "escapade"],
         required:[true, "Please provide the event's type"]
     },
     description : {

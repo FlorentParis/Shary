@@ -26,8 +26,8 @@ export default function Register() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        dispatch(signupUser(formInput));
-        navigate('/');
+        dispatch(signupUser(formInput))
+        .then(res => navigate('/'));
     };
     
     return (

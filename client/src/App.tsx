@@ -42,6 +42,7 @@ import useGetEvents from './hooks/useGetEvents';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
+import Chat from "./pages/chat";
 
 function App() {
 
@@ -67,7 +68,6 @@ function App() {
 
   useEffect(() => {
     getEvents().then(res => dispatch(setEventsData(res)))
-
   }, []);
 
   useEffect(() => {
@@ -103,6 +103,7 @@ function App() {
                 <Route path="/event-pass" element={<EventPass />} />
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/contact-us" element={<Contact />} />
                 
                 {/* //EVENTS */}
                 <Route path="/event/*" element={<Error404/>} />
@@ -115,6 +116,7 @@ function App() {
                 <Route path="/event/:id/playlist" element={<Playlist />} />
                 <Route path="/event/:id/modules" element={<Modules />} />
                 <Route path="/event/:id/moderation" element={<Moderation />} />
+                <Route path="/event/:id/chat" element={<Chat />} />
               </Routes>
             </div>
             <NavbarBottomMobile

@@ -84,6 +84,19 @@ const getAllUsers = catchAsync(async(req, res, next)=> {
     
 })
 
+const getUserById = catchAsync(async(req, res, next)=> { 
+    let data = req.query
+    let user = await User.findById(data._id);
+    //console.log("GET USER BY ID : " + user)
+
+    res.status(200).json({
+            status: 'success',
+            data: {
+                user
+            }
+    })
+})
+
 // Function not used, we return the user objet when creating or connecting
 const getCurrentUser = catchAsync(async(req, res, next)=> {
     let id = await isConnected(req, res);
@@ -236,5 +249,6 @@ module.exports = {
     UpdateUser,
     getLogin,
     getUserDeconnexion,
-    deactivateAccount
+    deactivateAccount,
+    getUserById
 }

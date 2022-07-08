@@ -28,7 +28,7 @@ const createModules = catchAsync(async(req, res, next) => {
 })
 
 const getModuleByEventId = catchAsync(async(req, res, next) => {
-    let data = req.body;
+    let data = req.query;
     let nomModule = data.nameModule;
 
     const myModule = await Modules.findOne( {id_event:data.idEvent} ).select(nomModule);
@@ -111,8 +111,7 @@ const getModulesByEventId = catchAsync(async(req, res) => {
             if(module.id_event == data.id_event){
                 return eventModules.push(modules)
             }
-        })
-
+    })
     res.status(200).json({
         status: 'success', 
         data: {

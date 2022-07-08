@@ -1,17 +1,41 @@
+import 'moment/locale/fr';
+import { Link } from 'react-router-dom';
+const moment = require("moment");
+moment.locale('fr');
+
 export default function EventCard(props: any) {
 
-    console.log(props)
+    function capitalizeFirstLetter(element: string) {
+        return element.charAt(0).toUpperCase() + element.slice(1)
+    }
+
+    function styleEventType(type: any) {
+        switch(type) {
+            case "birthday":
+                return {color: "#DEB655", background: "#FEF5E7"}
+                break;
+            case "mariage":
+                return {color: "#3FACBB", background: "#D8F9FE"}
+                break;
+            case "workshops":
+                return {color: "#EC5358", background: "#FFEAED"}
+                break;
+            case "escapades":
+                return {color: "#08F2B6", background: "#BEFFE"}
+                break;
+        }
+    }
 
     return (
-        <div className="event-card">
+        <Link className="event-card" to={`/event/${props.event._id}`}>
             <div className="container-img">
                 <img src="/img/demo.png" />
             </div>
             <span>{props.event.name}</span>
             <div>
-                <span>33 participants</span>
-                <span>Mardi 5 juin 2022</span>
+                <span style={styleEventType(props.event.type)}>{Object.keys(props.event.participants).length} participants</span>
+                <span>{capitalizeFirstLetter(moment.utc(props.event.start).format('dddd DD MMMM YYYY'))}</span>
             </div>
-        </div>
+        </Link>
     )
 }
