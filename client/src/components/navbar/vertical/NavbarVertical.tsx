@@ -15,6 +15,8 @@ export default function NavbarVertical() {
   //@ts-ignore
   const eventId = targetEventData._id;
 
+  console.log(userConnectedData.id)
+
   const pageLocation = splittedPath[splittedPath.length - 1];
 
   const displayDynamicTools = () => {
