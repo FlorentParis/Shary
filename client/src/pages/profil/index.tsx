@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import ButtonSave from "../../components/common/ButtonSave";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
-import PageContainer from "../../components/common/PageContainer";
 import { setUpdateUser, updateUser } from "../../features/userConnectedSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import useUploadCloudinary from "../../hooks/useUploadCloudinary";
@@ -36,13 +34,20 @@ export default function Profil() {
     const [selectedImage, setSelectedImage] = useState<any>();
 
     useEffect(() => {
-        formData.append("file", selectedImage);
-        uploadCloud("image", formData)
-        .then((res: any) => {
+        setUpdate(true);
+        if (typeof selectedImage != 'string'){
+            formData.append("file", selectedImage);
+            uploadCloud("image", formData)
+            .then((res: any) => {
+                let newObj = {...profilInfo};
+                newObj["img"] = res.url;
+                setProfilInfo(newObj);
+            })
+        }else {
             let newObj = {...profilInfo};
-            newObj["img"] = res.url;
+            newObj["img"] = selectedImage;
             setProfilInfo(newObj);
-        })
+        }
     }, [selectedImage])
 
     useEffect(() => {
@@ -98,29 +103,34 @@ export default function Profil() {
                     <div className="grid-card gc-3 date-card">
                         <span>Photo de profil</span>
                         <form>
+<<<<<<< HEAD
                             <div className="add-pp" style={{backgroundImage: `url('${userConnected.img}')`}}>
                                 <img src="/icons/download-black.svg" />
+=======
+                            <div className="add-pp" style={{backgroundImage: `url('${profilInfo.img}')`}}>
+                                <img src="/icons/download_black.svg" />
+>>>>>>> 81429e2bfdd6d62675dc6424b811d305233529c0
                                 <input type="file" onChange={(event) => {console.log(event.target.files![0]); setSelectedImage(event.target.files![0])}} />
                             </div>
                             <p>Suggéré pour vous</p>
                             <div className="suggestion-pp">
                                 <div>
-                                    <img src="/img/suggestion-pp-1.jpg" />
+                                    <img src="/img/suggestion-pp-1.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-1.jpg'))} />
                                 </div>
                                 <div>
-                                    <img src="/img/suggestion-pp-2.jpg" />
+                                    <img src="/img/suggestion-pp-2.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-2.jpg'))} />
                                 </div>
                                 <div>
-                                    <img src="/img/suggestion-pp-3.jpg" />
+                                    <img src="/img/suggestion-pp-3.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-3.jpg'))} />
                                 </div>
                                 <div>
-                                    <img src="/img/suggestion-pp-4.jpg" />
+                                    <img src="/img/suggestion-pp-4.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-4.jpg'))} />
                                 </div>
                                 <div>
-                                    <img src="/img/suggestion-pp-5.jpg" />
+                                    <img src="/img/suggestion-pp-5.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-5.jpg'))} />
                                 </div>
                                 <div>
-                                    <img src="/img/suggestion-pp-6.jpg" />
+                                    <img src="/img/suggestion-pp-6.jpg" onClick={(() => setSelectedImage(process.env.PUBLIC_URL + '/img/suggestion-pp-6.jpg'))} />
                                 </div>
                             </div>
                         </form>

@@ -8,20 +8,22 @@ import {
 } from "../../features/currentEventSlice";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import useGetEvents from "../../hooks/useGetEvents";
 import { Link } from "react-router-dom";
+import useGetEventsByUser from "../../hooks/useGetEventsByUser";
 
 const moment = require("moment");
 
 export default function Homepage() {
   const dispatch = useAppDispatch();
 
+  const userConnected = useAppSelector((state) => state.userConnected);
+
   /* Events */
-  const getEvents = useGetEvents();
+  const getEvents = useGetEventsByUser();
   const eventsData = useAppSelector((state) => state.events.data);
 
   useEffect(() => {
-    getEvents().then((res) => {
+    getEvents(userConnected.id).then((res) => {
       dispatch(setEventsData(res));
     });
     // //@ts-ignore

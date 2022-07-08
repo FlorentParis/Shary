@@ -11,27 +11,77 @@ const AppError = require("../utils/appError");
 
 const createEvent = catchAsync(async(req, res) => {
     var data = req.body
-    /*
-    data.participants = {}
-    for(contact in data.contacts){
-        try {
-            let userInfo = await User.find({
-                firstname: data.contacts[contact].firstname,
-                phone: data.contacts[contact].phone
-            })
-            data.contacts[contact]._id = userInfo[0]._id
-            let object = {
-                user_id: userInfo[0]._id,
-                role: "Admin"
+    let contact = {}
+    let contact2 = {}
+    let contacts = {}
+    if(data.contactName !== "" && data.contactPhone !== "") {
+        //console.log("Contact 1 créé")
+        contact = {
+            "0": {
+                "name": data.contactName,
+                "phone": data.contactPhone,
+                "appel": data.contactCall,
+                "sms": data.contactText
             }
-            data.participants[contact] = object
-        } catch (err) {
-            return res.status(500).send("you're contacts need to create their own account")
         }
     }
-    */
+    if(data.contactNameSec !== "" && data.contactPhoneSec !== "") {
+        //console.log("Contact créé 2")
+        contact2 = {
+            "1": {
+                "name": data.contactNameSec,
+                "phone": data.contactPhoneSec,
+                "appel": data.contactCallSec,
+                "sms": data.contactTextSec
+            }
+        }
+    }
 
-    const event = await Event.create(data)
+    contacts = Object.assign({}, contact, contact2)
+    console.log("Contacts : ", contacts)
+
+    let eventInfo = {}
+    eventInfo = {
+        "userId" : data.userId,
+        "name" : data.name,
+        "type" : data.type,
+        "description" : data.description,
+        "banniere" : data.img,
+        "start" : data.start,
+        "end" : data.end,
+        "dresscode" : data.dresscode,
+        "place" : {
+            "address" : data.address,
+            "zipcode" : data.zipcode,
+            "city" : data.city,
+            "access" : {
+                "train" : data.train,
+                "parking" : data.car,
+                "autres" : data.autre,
+                "precision" : data.precision
+            }
+        },
+        "contacts" : contacts,
+        "notifications" : {
+            "inviteAccepted" : data.inviteAccepted,
+            "inviteRefused" : data.inviteRefused,
+            "announcement" : data.newClaim
+        },
+        "alerts" : {
+            "date" : data.alertDate,
+            "description" : data.alertDescription
+        },
+        "participants" : {},
+        "modules" : {
+            "photos_videos" : false,
+            "chat" : false,
+            "livre_d_or" : false,
+            "articifice" : false,
+            "fresque" : false,
+            "playlist" : false
+        }
+    }
+    const event = await Event.create(eventInfo)
     return res.status(200).json({
         status: 'success',
         data: {
@@ -113,7 +163,77 @@ const getEventsByStatus = catchAsync(async(req, res) => {
 
 const updateEvent = catchAsync(async(req, res) => {
     const data = req.body
-    let event = await Event.findByIdAndUpdate(data._id, data,{
+    let contact = {}
+    let contact2 = {}
+    let contacts = {}
+    if(data.contactName !== "" && data.contactPhone !== "") {
+        //console.log("Contact 1 créé")
+        contact = {
+            "0": {
+                "name": data.contactName,
+                "phone": data.contactPhone,
+                "appel": data.contactCall,
+                "sms": data.contactText
+            }
+        }
+    }
+    if(data.contactNameSec !== "" && data.contactPhoneSec !== "") {
+        //console.log("Contact créé 2")
+        contact2 = {
+            "1": {
+                "name": data.contactNameSec,
+                "phone": data.contactPhoneSec,
+                "appel": data.contactCallSec,
+                "sms": data.contactTextSec
+            }
+        }
+    }
+
+    contacts = Object.assign({}, contact, contact2)
+    console.log("Contacts : ", contacts)
+
+    let eventInfo = {}
+    eventInfo = {
+        "userId" : data.userId,
+        "name" : data.name,
+        "type" : data.type,
+        "description" : data.description,
+        "banniere" : data.img,
+        "start" : data.start,
+        "end" : data.end,
+        "dresscode" : data.dresscode,
+        "place" : {
+            "address" : data.address,
+            "zipcode" : data.zipcode,
+            "city" : data.city,
+            "access" : {
+                "train" : data.train,
+                "parking" : data.car,
+                "autres" : data.autre,
+                "precision" : data.precision
+            }
+        },
+        "contacts" : contacts,
+        "notifications" : {
+            "inviteAccepted" : data.inviteAccepted,
+            "inviteRefused" : data.inviteRefused,
+            "announcement" : data.newClaim
+        },
+        "alerts" : {
+            "date" : data.alertDate,
+            "description" : data.alertDescription
+        },
+        "participants" : {},
+        "modules" : {
+            "photos_videos" : false,
+            "chat" : false,
+            "livre_d_or" : false,
+            "articifice" : false,
+            "fresque" : false,
+            "playlist" : false
+        }
+    }
+    let event = await Event.findByIdAndUpdate(data._id, eventInfo,{
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })

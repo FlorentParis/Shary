@@ -76,17 +76,18 @@ const EventSchema = new mongoose.Schema({
         type:Map,
         of: {
             name:{
-                type:String,
-                required:[true, "Please provide a name"]
+                type:String
             },
             phone:{
-                type:String,
-                required:[true, "Please provide the phone number"]
+                type:String
             },
-            contactBy:{
-                    type: String, 
-                    enum: ['call', 'SMS', 'all'],
-                    default: 'all'
+            appel :{
+                type: Boolean,
+                default: false
+            },
+            sms : {
+                type : Boolean,
+                default : false
             }
         }
     },
@@ -106,8 +107,8 @@ const EventSchema = new mongoose.Schema({
     },
     alerts:{
         date : {
-                type:Date,
-                required:[true, "Please provide the alert's date"]
+            type:Date,
+            required:[true, "Please provide the alert's date"]
         },
         description : {
             type:String,
@@ -126,12 +127,12 @@ const EventSchema = new mongoose.Schema({
                 unique:true
             },
             role: {
-                type: String, 
+                type: String,
                 enum: ['Admin', 'User', 'Moderator'],
                 default: 'User'
             },
             status: {
-                type: String, 
+                type: String,
                 enum: ['Pending', 'Accepted'],
                 default: 'Pending'
             }
@@ -140,27 +141,27 @@ const EventSchema = new mongoose.Schema({
     },
     modules : {
         photos_videos: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         },
         chat: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         },
         livre_d_or: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         },
         artifice: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         },
         fresque: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         },
         playlist: {
-            type: Boolean, 
+            type: Boolean,
             default: false
         }
     }
