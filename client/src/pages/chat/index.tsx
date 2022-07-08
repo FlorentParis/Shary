@@ -24,7 +24,13 @@ export default function Chat() {
 
     useEffect( () => {
         const addMessage = (data: any) => {
-            setListMessage(listMessage => [...listMessage, data])
+            getUserById(data.id_author).then((res:any) => {
+                data.firstname = res.firstname
+                data.lastname = res.lastname
+                data.img = res.img
+            }).then((res:any) => {
+                setListMessage(listMessage => [...listMessage, data])
+            })
         };
         if(receiveMessage === false){
             getModuleByEventId(id_event, "chat").then((res:any) => {
@@ -32,9 +38,16 @@ export default function Chat() {
                 for (const [key, value] of Object.entries(messages)) {
                     // @ts-ignore: Unreachable code error
                     getUserById(value.id_author).then((res:any) => {
-                        console.log("!!!!!!!!!!!!!!!!!" + res)
+                        // @ts-ignore: Unreachable code error
+                        value.firstname = res.firstname
+                        // @ts-ignore: Unreachable code error
+                        value.lastname = res.lastname
+                        // @ts-ignore: Unreachable code error
+                        value.img = res.img
+                        console.log(messageData)
+                    }).then((res:any) => {
+                        setListMessage(listMessage => [...listMessage, value])
                     })
-                    setListMessage(listMessage => [...listMessage, value])
                 }
             })
             socket.emit("joinRoomEvent", "chat" + id_event);
@@ -77,7 +90,16 @@ export default function Chat() {
 
     const handlePostMessage = async (e:any) => {
         await socket.emit("send_message", messageData)
+        // @ts-ignore: Unreachable code error
+
+        getUserById(messageData.id_author).then((res:any) => {
+            // @ts-ignore: Unreachable code error
+            messageData.firstname = res.firstname
+            // @ts-ignore: Unreachable code error
+            messageData.lastname = res.lastname
+        })
         setListMessage(listMessage => [...listMessage, messageData])
+        setMessageContent("")
     }
 
     return <>
@@ -86,33 +108,33 @@ export default function Chat() {
             <div className="message-container">
                 <div>
                     {listMessage.map((message: any) => {
-                        return message.id_author == user.id ?
+                        return (message.id_author === user.id ?
                         <div className="message-container me">
                             <div className="message">
                                 <div className="message-top">
                                     <div className="img-container">
                                         <img src={user.img} />
                                     </div>
-                                    <span>{message.id_author}</span>
+                                    <span>{message.lastname + " " + message.firstname}</span>
                                     <span>{message!.date}</span>
                                 </div>
                                 <p>{message!.content}</p>
                             </div>
                         </div>
                         :
-                        <div className="message-container me">
+                        <div className="message-container">
                             <div className="message">
                                 <div className="message-top">
                                     <div className="img-container">
-                                        <img src="/prov/pp.png" />
+                                        <img src={message.img} />
                                     </div>
-                                    <span>{message!.id_author}</span>
+                                    <span>{message.lastname + " " + message.firstname}</span>
                                     <span>Hier à {message!.date}</span>
                                 </div>
                                 <p>{message!.content}</p>
                             </div>
                         </div>
-                    })}
+                    )})}
                 </div>
             </div>
             <div className="form-chat">
@@ -120,7 +142,7 @@ export default function Chat() {
                     <div className="img-container">
                         <img src={user.img} />
                     </div>
-                    <input type="text" placeholder="Début de votre message" onChange={(e:any) => setMessageContent(e.target.value)}/>
+                    <input type="text" placeholder="Début de votre message" value={messageContent} onChange={(e:any) => setMessageContent(e.target.value)}/>
                     <button onClick={handlePostMessage}>
                         <img src="/icons/send-plane.svg" />
                     </button>
