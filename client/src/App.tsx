@@ -98,21 +98,23 @@ function App() {
             <div className="main-layout">
               <Routes>
                 <Route path="/*" element={<Error404/>} />
-                <Route path="/event/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
-                <Route path="/golden-book" element={<GoldenBook />} />
                 <Route path="/event-pass" element={<EventPass />} />
-                <Route path="/information" element={<Information />} />
-                <Route path="/guest-list" element={<GuestList />} />
-                <Route path="/alert" element={<Alert />} />
-                <Route path="/photo" element={<Photo />} />
-                <Route path="playlist" element={<Playlist />} />
-                <Route path="/modules" element={<Modules />} />
-                <Route path="/moderation" element={<Moderation />} />
                 <Route path="/profil" element={<Profil />} />
                 <Route path="/settings" element={<Settings />} />
+                
+                {/* //EVENTS */}
+                <Route path="/event/*" element={<Error404/>} />
+                <Route path="/event/:id/information" element={<Information />} />
                 <Route path="/event/:id" element={<Information />} />
+                <Route path="/event/:id/golden-book" element={<GoldenBook />} />
+                <Route path="/event/:id/guest-list" element={<GuestList />} />
+                <Route path="/event/:id/alert" element={<Alert />} />
+                <Route path="/event/:id/photo" element={<Photo />} />
+                <Route path="/event/:id/playlist" element={<Playlist />} />
+                <Route path="/event/:id/modules" element={<Modules />} />
+                <Route path="/event/:id/moderation" element={<Moderation />} />
               </Routes>
             </div>
             <NavbarBottomMobile
