@@ -15,7 +15,6 @@ export default function NavbarVertical() {
   //@ts-ignore
   const eventId = targetEventData._id;
 
-<<<<<<< HEAD
   let isModerator = false;
 
   for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
@@ -24,9 +23,6 @@ export default function NavbarVertical() {
       isModerator = true;
     }
   }
-=======
-  console.log(userConnectedData.id)
->>>>>>> 81429e2bfdd6d62675dc6424b811d305233529c0
 
   const pageLocation = splittedPath[splittedPath.length - 1];
 

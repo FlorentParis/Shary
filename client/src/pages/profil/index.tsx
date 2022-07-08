@@ -103,13 +103,8 @@ export default function Profil() {
                     <div className="grid-card gc-3 date-card">
                         <span>Photo de profil</span>
                         <form>
-<<<<<<< HEAD
                             <div className="add-pp" style={{backgroundImage: `url('${userConnected.img}')`}}>
                                 <img src="/icons/download-black.svg" />
-=======
-                            <div className="add-pp" style={{backgroundImage: `url('${profilInfo.img}')`}}>
-                                <img src="/icons/download_black.svg" />
->>>>>>> 81429e2bfdd6d62675dc6424b811d305233529c0
                                 <input type="file" onChange={(event) => {console.log(event.target.files![0]); setSelectedImage(event.target.files![0])}} />
                             </div>
                             <p>Suggéré pour vous</p>
