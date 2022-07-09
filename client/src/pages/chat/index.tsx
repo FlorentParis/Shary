@@ -45,7 +45,6 @@ export default function Chat() {
                         value.lastname = res.lastname
                         // @ts-ignore: Unreachable code error
                         value.img = res.img
-                        console.log(messageData)
                     }).then((res:any) => {
                         setListMessage(listMessage => [...listMessage, value])
                     })
@@ -98,8 +97,9 @@ export default function Chat() {
             messageData.firstname = res.firstname
             // @ts-ignore: Unreachable code error
             messageData.lastname = res.lastname
+            setListMessage(listMessage => [...listMessage, messageData])
+            console.log(messageData)
         })
-        setListMessage(listMessage => [...listMessage, messageData])
         setMessageContent("")
     }
 
