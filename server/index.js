@@ -103,21 +103,20 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", catchAsync(async(data) => {
-    socket.to(data.event).emit("receive_message", data);
+    console.log("le salon de provenance du message : chat" + data.event)
+    console.log("La data :" + data)
+    socket.to("chat" + data.event).emit("receive_message", data);
     let modules = await Modules.findOne({id_event:data.event})
     count = modules.chat.messages.size
 
     let infosMessage = {}
 
     infosMessage['chat.messages.message'+count] = {
-        content : data.message,
-        id_author : data.author
+        content : data.content,
+        id_author : data.id_author
     }
-    console.log(infosMessage)
 
     result = await Modules.updateOne({ id_event: data.event}, { "$set": infosMessage })
-    
-    console.log(result)
   }));
 
   socket.on("upload_file", catchAsync(async(data) => {

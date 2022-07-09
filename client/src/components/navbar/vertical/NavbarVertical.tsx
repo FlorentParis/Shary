@@ -62,7 +62,6 @@ export default function NavbarVertical() {
         if (splittedPath[1] === "event" && (isAdmin || isModerator )) {
           return (
             <>
-              <button>+</button>
               <Link to="/">
                 <img src={pageLocation == "/" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
               </Link>
@@ -72,6 +71,7 @@ export default function NavbarVertical() {
               <Link to="/event-pass">
                 <img src={pageLocation == "event-pass" ? "/icons/gradient/event-pass-gradient.svg" : "/icons/event-pass.svg"} alt="" />
               </Link>
+
               <span className="line"></span>
 
               <Link to={`/event/${eventId}/information`}>
@@ -99,7 +99,6 @@ export default function NavbarVertical() {
         if (splittedPath[1] === "event" && !(isAdmin || isModerator )) {
           return (
             <>
-              <button>+</button>
               <Link to="/">
                 <img src={pageLocation == "/" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
               </Link>
@@ -109,7 +108,9 @@ export default function NavbarVertical() {
               <Link to={`/event/${eventId}/announce`}>
                 <img src={pageLocation == "announce" ? "/icons/gradient/alert-gradient.svg" : "/icons/alert.svg"} alt="" />
               </Link>
+
               <span className="line"></span>
+              
               <Link to={`/event/${eventId}/photo`}>
                 <img src={pageLocation == "photo" ? "/icons/gradient/photo-gradient.svg" : "/icons/photo.svg"} alt="" />
               </Link>

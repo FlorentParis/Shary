@@ -9,6 +9,6 @@ export default function useGetUserById() {
                 _id: id
             }),
             withCredentials: true
-        }).then((res:any)=> res.data.results[0])
+        }).then((res:any)=> res.data.data.user)
     }
 }

@@ -25,6 +25,8 @@ import Contact from "./pages/contact-us";
 import Photo from "./pages/photo";
 import GoldenBook from "./pages/golden-book";
 import Playlist from "./pages/playlist";
+// @ts-ignore: Unreachable code error
+import Chat from "./pages/chat";
 
 /* Components */
 import NavbarLeft from "./components/navbar/vertical/NavbarVertical";
@@ -41,8 +43,7 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
-import Chat from "./pages/chat";
-import useGetEventsByUser from "./hooks/useGetEventsByUser";
+import useGetEvents from "./hooks/useGetEvents";
 
 function App() {
 
@@ -53,7 +54,7 @@ function App() {
   // const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
   const dispatch: AppDispatch = useDispatch();
-  const getEvents = useGetEventsByUser();
+  const getEvents = useGetEvents();
   const eventsData = useAppSelector((state) => state.events.data);
 
   const userConnected = useAppSelector((state) => state.userConnected);
@@ -69,11 +70,11 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
+    getEvents().then(res => dispatch(setEventsData(res)))
   }, []);
 
   useEffect(() => {
-    getEvents(userConnected.id)
+    getEvents()
     .then(res => {
       dispatch(setEventsData(res))
     })
