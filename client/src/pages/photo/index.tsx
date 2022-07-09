@@ -8,20 +8,21 @@ import useUploadModule from "../../hooks/useUploadModule";
 import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
 import useGetUserById from "../../hooks/useGetUserById";
 import { useParams } from "react-router";
+
 const { io } = require("socket.io-client");
-
-
 const socket = io.connect("http://localhost:3031");
 let receiveFile = false;
-let queryModule = false;
-
-
 
 export default function Photo() {
 
     const [file, setFile] = useState<any>({});
     const [array, setArray] = useState<any[]>([])
-    const findUser = useGetUserById();   
+
+    const findUser = useGetUserById();
+
+    const [displayUpload, setDisplayUpload] = useState<boolean>(true);
+    const [displayAside, setDisplayAside] = useState<any>(false);
+    const [fileSelectionned, setFileSelectionned] = useState<any>();
 
     const id_event : any = useParams().id
 
@@ -30,7 +31,12 @@ export default function Photo() {
     formData.append("upload_preset", "modules");
     const getModuleByEventId = useGetModuleByEventId();
 
-    if(queryModule === false){
+    const author = useAppSelector((state) => state.userConnected.id)
+
+    const uploadCloud = useUploadCloudinary();
+    const uploadModule = useUploadModule(); 
+    
+    useEffect(() => {
         getModuleByEventId(id_event, "photos_videos").then((res:object) => {
             // @ts-ignore: Unreachable code error
             let data = res.photos_videos.medias
@@ -42,52 +48,39 @@ export default function Photo() {
                     value.firstname = res.firstname
                 })
                 // @ts-ignore: Unreachable code error
-                setArray( array => [...array, value])  
+                setArray( array => [...array, value])
             }
-            queryModule = true
         })
-    }
-    
+    }, [])
 
-    useEffect( () => {
+    useEffect(() => {
         const addFile = (data: any) => {
-            findUser(data.id_author).then(res => {
+            findUser(data.id_author)
+            .then(res => {
                 // @ts-ignore: Unreachable code error
                 data.firstname = res.firstname
-            }).then(res => setArray( array => [...array, data]));
-
+            })
+            .then(res => setArray( array => [...array, data]));
         };
 
         if(receiveFile === false){
             socket.emit("joinRoomEvent", "photo" + id_event);
             socket.on("receive_file", addFile)
         }
+        
         return () => {
             // turning of socket listner on unmount
           socket.off('receive_file', addFile);
         }
-    }, [])
-
-    useEffect( () => {
-        console.log("la tableau des photos de l event")
-        console.log(array)
     }, [array])
 
-    const [displayUpload, setDisplayUpload] = useState<boolean>(true);
-    /* L'idée c'est de faire passer l'object dans le displayAside et le récupérer dans l'élément TSX */
-    const [displayAside, setDisplayAside] = useState<any>(false);
-    const [fileSelectionned, setFileSelectionned] = useState<any>();
-
-
-    const author = useAppSelector((state) => state.userConnected.id)
-
-    const uploadCloud = useUploadCloudinary();
-    const uploadModule = useUploadModule(); 
+    useEffect( () => {
+        console.log("la tableau des photos de l event", array)
+    }, [array])
 
     useEffect(() => {
         if(file !== undefined) {
             if(file.name) {
-                console.log("test")
                 formData.append("file", file);
                 uploadCloud("image", formData)
                 .then(res=> {
@@ -95,7 +88,6 @@ export default function Photo() {
                     const imageSocket = {event:"photo" + id_event, date:"à l'instant", content:fileURL, id_author:author}
                     socket.emit("upload_file", imageSocket);
                     const imageArray = {date:"à l'instant",content:fileURL, id_author:author}
-                    console.log(imageArray)
                     findUser(imageArray.id_author).then(res => {
                         // @ts-ignore: Unreachable code error
                         imageArray.firstname = res.firstname
@@ -105,13 +97,9 @@ export default function Photo() {
                     .then(res=>res.data);
                 })
                 setFile({})
-            }else {
-                console.log()
             }
         }
-        
     }, [file])
-
 
     return (
         <>

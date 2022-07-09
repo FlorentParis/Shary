@@ -51,9 +51,8 @@ function App() {
 
   const [needsUpdate, setNeedsUpdate] = useState<boolean>(false);
 
-  // const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
-  const dispatch: AppDispatch = useDispatch();
   const getEvents = useGetEvents();
   const eventsData = useAppSelector((state) => state.events.data);
 

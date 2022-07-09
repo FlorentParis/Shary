@@ -3,7 +3,6 @@ import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import { setEventsData } from "../../features/eventsSlice";
 import {
-  addTargetEvent,
   setCurrentEventData,
 } from "../../features/currentEventSlice";
 
@@ -22,7 +21,7 @@ export default function Homepage() {
   const getEvents = useGetEvents();
   const eventsData = useAppSelector((state) => state.events.data);
 
-  useEffect(() => {
+  /* useEffect(() => {
     getEvents().then((res) => {
       dispatch(setEventsData(res));
     });
@@ -33,7 +32,7 @@ export default function Homepage() {
     // );
 
     // console.log(sortedAsc, "EVTDATA");
-  }, []);
+  }, []); */
 
   return (
     <>
