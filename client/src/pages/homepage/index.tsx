@@ -60,7 +60,7 @@ export default function Homepage() {
                       {moment().isBetween(eventStart, eventEnd) ? (
                         <Link
                           className="item"
-                          to={`/event/${event._id}`}
+                          to={`/event/${event._id}/information`}
                           onClick={(e) => dispatch(setCurrentEventData(event))}
                         >
                           <div
@@ -100,7 +100,7 @@ export default function Homepage() {
                       {eventStart.isAfter(moment()) ? (
                         <Link
                           className="item"
-                          to={`/event/${event._id}`}
+                          to={`/event/${event._id}/information`}
                           onClick={(e) => dispatch(setCurrentEventData(event))}
                         >
                           <div

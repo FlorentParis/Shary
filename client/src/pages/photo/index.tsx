@@ -74,10 +74,6 @@ export default function Photo() {
         }
     }, [array])
 
-    useEffect( () => {
-        console.log("la tableau des photos de l event", array)
-    }, [array])
-
     useEffect(() => {
         if(file !== undefined) {
             if(file.name) {
