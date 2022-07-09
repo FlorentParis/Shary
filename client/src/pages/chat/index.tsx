@@ -7,9 +7,10 @@ import useGetUserById from "../../hooks/useGetUserById";
 
 const { io } = require("socket.io-client");
 const socket = io.connect("http://localhost:3031");
-let receiveMessage = false;
+
 
 export default function Chat() {
+    let receiveMessage = false;
     const [messageContent, setMessageContent] = useState<string>("");
     const [messageData, setMessageData] = useState<object>({});
     const [listMessage, setListMessage] = useState<any[]>([]);
