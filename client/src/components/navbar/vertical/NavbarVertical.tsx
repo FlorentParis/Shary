@@ -62,6 +62,7 @@ export default function NavbarVertical() {
         if (splittedPath[1] === "event" && (isAdmin || isModerator )) {
           return (
             <>
+            <button><img src="/icons/white-gradient/play-white-gradient.svg" alt="" /></button>
               <Link to="/">
                 <img src={pageLocation == "/" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
               </Link>
