@@ -44,6 +44,7 @@ import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
 import useGetEvents from "./hooks/useGetEvents";
+import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
 
 function App() {
 
@@ -79,6 +80,8 @@ function App() {
     })
   }, [needsUpdate])
 
+  const [modalDiapo, setModalDiapo] = useState<boolean>(false);
+
   return (
     <>
       <HideIfLogged>
@@ -96,7 +99,7 @@ function App() {
           {displayMenuProfil ? <MenuProfil /> : ""}
           {displayMenuProfil ? <BurgerMenu /> : ""}
           <div className="content-layout" onClick={closeProfile}>
-            <NavbarLeft />
+            <NavbarLeft setModalDiapo={setModalDiapo} />
             <div className="main-layout">
               <Routes>
                 <Route path="/*" element={<Error404/>} />
@@ -125,6 +128,7 @@ function App() {
               displayMenuProfil={displayMenuProfil}
               setDisplayMenuProfil={setDisplayMenuProfil}
             />
+            {modalDiapo ? <ContainerModalDiapo setModalDiapo={setModalDiapo} /> : ''}
           </div>
         </>
       </HideIfNotLogged>

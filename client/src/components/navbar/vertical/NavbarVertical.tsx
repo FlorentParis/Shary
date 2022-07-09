@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 
 import { Link, useLocation } from "react-router-dom";
 
-export default function NavbarVertical() {
+export default function NavbarVertical(props: any) {
   const location = useLocation();
   const pathname = location.pathname;
   const splittedPath = pathname.split("/");
@@ -63,7 +63,7 @@ export default function NavbarVertical() {
           return (
             <>
               <button>
-                <img src="/icons/white-gradient/play-white-gradient.svg" alt="" />
+                <img src="/icons/white-gradient/play-white-gradient.svg" onClick={() => props.setModalDiapo(true)} alt="" />
               </button>
               <Link to="/">
                 <img src={pageLocation == "/" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
