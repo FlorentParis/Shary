@@ -54,6 +54,8 @@ function App() {
 
   const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
+  const [displayMenuModule, setDisplayMenuModule] = useState<boolean>(false);
+
   const getEvents = useGetEvents();
   const eventsData = useAppSelector((state) => state.events.data);
 
@@ -112,6 +114,7 @@ function App() {
                 
                 {/* //EVENTS */}
                 <Route path="/event/*" element={<Error404/>} />
+                <Route path="/event/:id/modules" element={<Modules displayMenuModule={displayMenuModule} setDisplayMenuModule={setDisplayMenuModule}/>} />
                 <Route path="/event/:id/information" element={<Information />} />
                 <Route path="/event/:id" element={<Information />} />
                 <Route path="/event/:id/golden-book" element={<GoldenBook />} />
@@ -119,7 +122,7 @@ function App() {
                 <Route path="/event/:id/alert" element={<Alert />} />
                 <Route path="/event/:id/photo" element={<Photo />} />
                 <Route path="/event/:id/playlist" element={<Playlist />} />
-                <Route path="/event/:id/modules" element={<Modules />} />
+                {/* <Route path="/modules" element={<Modules displayMenuModule={displayMenuModule} setDisplayMenuModule={setDisplayMenuModule}/>} /> */}
                 <Route path="/event/:id/moderation" element={<Moderation />} />
                 <Route path="/event/:id/chat" element={<Chat />} />
               </Routes>
