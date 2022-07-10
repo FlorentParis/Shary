@@ -6,6 +6,10 @@
         display: flex;
         column-gap: 30px;
         padding-bottom: 40px;
+
+        > .name-user {
+            display: none;
+        }
         
         > img {
             border-radius: 100%;
