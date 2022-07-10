@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import GridContainer from "../../components/common/GridContainer";
 import PageBanner from "../../components/common/PageBanner";
 import { useAppSelector } from "../../hooks/reduxHooks";
+import Informations from "../../interfaces/Informations"
+import {useState} from 'react'
 
 export default function Information() {
 
@@ -10,6 +12,82 @@ export default function Information() {
 
     const eventId = useParams().id;
     const eventsData = useAppSelector((state) => state.events.data);
+
+    const [eventForm, setEventForm] = useState<Informations>({
+
+        userId: Math.random(),
+
+        // GENERAL
+        name: '',
+        type: 'none',
+        description: '',
+
+        // LIEU
+        address: '',
+        zipcode: '',
+        city: '',
+        train: false,
+        car: false,
+        autre: false,
+        precision: '',
+
+        // PERSONNE A CONTACTER
+        contactName: '',
+        contactPhone: '',
+        contactCall: false,
+        contactText: false,
+
+        // PERSONNE A CONTACTER 2
+        contactNameSec: '',
+        contactPhoneSec: '',
+        contactCallSec: false,
+        contactTextSec: false,
+
+        //DRESSCODE
+        dresscode: '',
+
+        //EVENT START
+        start: '',
+        eventStartHour: '',
+
+        //EVENT END
+        end: '',
+        eventEndHour: '',
+
+        //ALERT RAPPEL
+        alertDate: '',
+        alertDescription: '',
+        alertHour: '',
+
+        //NOTIFACATIONS
+        inviteAccepted: false,
+        inviteRefused: false,
+        newClaim: false,
+
+        //UPLOAD IMAGE
+        image:'',
+    })
+
+
+    const handleChange = ({target}: any) => {
+        setEventForm((prev: any) => ({
+            ...prev,
+            [target.name]: target.value
+        }))
+
+        if (target.checked) {
+            setEventForm((prev: any) => ({
+                ...prev,
+                [target.name]: true
+            }))
+        }        
+        console.log(eventForm)
+    }
+    const sendForm = (e:any) => {
+        e.preventDefault()
+        console.log(eventForm)
+    }
+
 
     useEffect(() => {
         let good;
@@ -21,31 +99,33 @@ export default function Information() {
         good ? console.log("good") : navigate("/404")
     }, [eventId])
 
+   
     return (
         <>
-            <PageBanner imgSrc="/icons/gradient/infos-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
+            <PageBanner imgSrc="./icons/params-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
+            <form action="">
             <GridContainer>
                 <div>
                     <div className="grid-card gc-4 gr-2">
                         <span>Générales</span>
                         <form>
-                            <input placeholder="Nom de l'évènement" />
-                            <select>
+                            <input onChange={handleChange} name="name" placeholder="Nom de l'évènement" />
+                            <select  onChange={handleChange} name="type">
                                 <option>Type d’évènement</option>
                                 <option>Mariage</option>
-                                <option>Anniversaires</option>
+                                <option >Anniversaires</option>
                                 <option>Workshops</option>
                                 <option>Escapades</option>
                             </select>
-                            <textarea placeholder="Description de votre évènement">
+                            <textarea onChange={handleChange} name="description" placeholder="Description de votre évènement">
                                 
                             </textarea>
                         </form>
                     </div>
-                    <div className="grid-card gc-6 image-upload-card" style={{background: "url(/img/upload-demo.png)", backgroundRepeat: "no-repeat", backgroundSize: "105%", backgroundPosition: "center"}}>
+                    <div className="grid-card gc-6 image-upload-card" style={{background: "url(./img/upload-demo.png)"}}>
                         <div>
                             <span>Importer l'image de votre bannière</span>
-                            <input type="image" src="/icons/download.svg" />
+                            <input onChange={handleChange} name="image" type="file" multiple accept="image/*" src="./icons/download.svg" />
                         </div>
                     </div>
                     <div className="grid-card gc-3 date-card">
@@ -53,11 +133,11 @@ export default function Information() {
                         <form>
                             <div>
                                 <label>Date</label>
-                                <input type="date" />
+                                <input onChange={handleChange} name="start" type="date" />
                             </div>
                             <div>
                                 <label>Heure</label>
-                                <input type="time" />
+                                <input onChange={handleChange} name="eventStartHour" type="time" />
                             </div>
                         </form>
                     </div>
@@ -66,37 +146,38 @@ export default function Information() {
                         <form>
                             <div>
                                 <label>Date</label>
-                                <input type="date" />
+                                <input onChange={handleChange} name="end" type="date" />
                             </div>
                             <div>
                                 <label>Heure</label>
-                                <input type="time" />
+                                <input onChange={handleChange} name="eventEndHour" type="time" />
                             </div>
                         </form>
                     </div>
                     <div className="grid-card gc-4 place-card">
                         <span>Lieu</span>
                         <form>
-                            <input placeholder="Adresse" />
+                            <input onChange={handleChange} name="address" placeholder="Adresse" />
                             <div>
-                                <input placeholder="Code Postal" />
-                                <input placeholder="Ville" />
+                                <input onChange={handleChange} name="zipcode" placeholder="Code Postal" />
+                                <input onChange={handleChange} name="city" placeholder="Ville" />
                             </div>
                             <label>Accès</label>
                             <div>
                                 <div>
-                                    <input type="checkbox" />
-                                    <label>Transports</label>
+                                    <input onChange={handleChange} name="train" type="checkbox" />
+                                    <label>Train</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" />
-                                    <label>Transports</label>
+                                    <input onChange={handleChange} name="car" type="checkbox" />
+                                    <label>Voiture (parking)</label>
                                 </div>
                                 <div>
-                                    <input type="checkbox" />
-                                    <label>Transports</label>
+                                    <input onChange={handleChange} name="autre" type="checkbox" />
+                                    <label>Autre</label>
                                 </div>
-                                <input type="text" placeholder="autre"/>
+
+                                <input onChange={handleChange} name="precision" type="text" placeholder="Précision"/>
                             </div>
                         </form>
                     </div>
@@ -106,32 +187,32 @@ export default function Information() {
                             <p>Définissez les personnes que pourront contacter vos invités.</p>
                             <div>
                                 <label>contact n°1</label>
-                                <input placeholder="Prénom" />
-                                <input placeholder="Téléphone" />
+                                <input onChange={handleChange} name="contactName" placeholder="Prénom" />
+                                <input onChange={handleChange} name="contactPhone"  placeholder="Téléphone" />
                                 <label>Privilégier le contact par</label>
                                 <div className="options-select">
                                     <div>
-                                        <input type="checkbox" />
+                                        <input onChange={handleChange} name="contactCall"  type="checkbox" />
                                         <label>Appel</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
+                                        <input onChange={handleChange} name="contactText"  type="checkbox" />
                                         <label>SMS</label>
                                     </div>
                                 </div>
                             </div>
                             <div>
                                 <label>contact n°2</label>
-                                <input placeholder="Prénom" />
-                                <input placeholder="Téléphone" />
+                                <input  onChange={handleChange} name="contactNameSec" placeholder="Prénom" />
+                                <input  onChange={handleChange} name="contactPhoneSec" placeholder="Téléphone" />
                                 <label>Privilégier le contact par</label>
                                 <div className="options-select">
                                     <div>
-                                        <input type="checkbox" />
+                                        <input  onChange={handleChange} name="contactCallSec" type="checkbox" />
                                         <label>Appel</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" />
+                                        <input  onChange={handleChange} name="contactTextSec" type="checkbox" />
                                         <label>SMS</label>
                                     </div>
                                 </div>
@@ -142,7 +223,7 @@ export default function Information() {
                         <span>Dresscode / Thème</span>
                         <form>
                             <p>Communiquez un thème ou un dresscode à vos invités</p>
-                            <textarea placeholder="Dresscode"></textarea>
+                            <textarea  onChange={handleChange} name="dresscode" placeholder="Dresscode"></textarea>
                         </form>
                     </div>
                     <div className="grid-card gc-4 notifs-card">
@@ -150,15 +231,15 @@ export default function Information() {
                         <form>
                             <p>Définissez les évènements pour lesquels vous souhaitez recevoir une notification</p>
                             <div>
-                                <input type="checkbox" />
+                                <input onChange={handleChange} name="inviteAccepted" type="checkbox" />
                                 <label>Invitation acceptée</label>
                             </div>
                             <div>
-                                <input type="checkbox" />
+                                <input onChange={handleChange} type="checkbox" name="inviteRefused" />
                                 <label>Invitation déclinée</label>
                             </div>
                             <div>
-                                <input type="checkbox" />
+                                <input onChange={handleChange} type="checkbox" name="newClaim" />
                                 <label>Nouvelle annonce créée</label>
                             </div>
                         </form>
@@ -168,14 +249,17 @@ export default function Information() {
                         <form>
                             <p>Envoyer un rappel aux invités</p>
                             <div>
-                                <input type="time" name="" id="" />
-                                <input type="date" name="" id="" />
+                                <input onChange={handleChange} name="alertDate" type="time"  id="" />
+                                <input onChange={handleChange} name="alertHour" type="date"  id="" />
                             </div>
-                            <textarea placeholder="Message personnalisé"></textarea>
+                            <textarea onChange={handleChange} name="alertDescription" placeholder="Message personnalisé"></textarea>
                         </form>
                     </div>
                 </div>
+                
             </GridContainer>
+            <button onClick={sendForm}>send</button>
+            </form>
         </>
     )
 }
