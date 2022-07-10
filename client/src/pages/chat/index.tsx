@@ -5,6 +5,7 @@ import {useAppSelector}  from "../../hooks/reduxHooks"
 import { useNavigate, useParams } from "react-router";
 import useGetUserById from "../../hooks/useGetUserById";
 
+const moment = require("moment");
 const { io } = require("socket.io-client");
 const socket = io.connect("http://localhost:3031");
 
@@ -130,7 +131,7 @@ export default function Chat() {
                                         <img src={message.img} />
                                     </div>
                                     <span>{message.lastname + " " + message.firstname}</span>
-                                    <span>Hier à {message!.date}</span>
+                                    <span>{moment(message!.date).startOf('minute').fromNow()}</span>
                                 </div>
                                 <p>{message!.content}</p>
                             </div>
