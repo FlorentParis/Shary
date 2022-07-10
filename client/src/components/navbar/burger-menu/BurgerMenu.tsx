@@ -14,11 +14,12 @@ export default function BurgerMenu() {
     const userConnectedData = useAppSelector((state) => state.userConnected);
 
     let isModerator = false;
-
-    for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
-        //@ts-ignore
-        if (targetEventData.participants[i].userId == userConnectedData.id) {
-        isModerator = true;
+    if(targetEventData.participants){
+        for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
+            //@ts-ignore
+            if (targetEventData.participants[i].userId == userConnectedData.id) {
+            isModerator = true;
+            }
         }
     }
 
