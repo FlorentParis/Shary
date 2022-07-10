@@ -159,14 +159,16 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
 
     events.forEach(function(event){
         if(event.userId == data._id){
-            return userEvent.push(event)
+            userEvent.push(event)
+            delete event
         }
     });
 
     events.forEach(event =>
         event.participants.forEach(function(participant){
             if(participant.userId == data._id && participant.status == "Accepted"){
-                return userEvent.push(event)
+                userEvent.push(event)
+                delete event
             }
         })
     );
