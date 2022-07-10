@@ -61,12 +61,20 @@ const deleteModules = catchAsync(async(req, res) => {
 })
 
 const updateModules = catchAsync(async(req, res) => {
-    data = req.body
 
+
+    data = req.body
+    console.log(data);
     /* Recuperation des modules grace a l'id_event */
     let modules = await Modules.findOne(
         {id_event:data.id_event}
     )
+
+    console.log("--------------------------------------")
+
+    console.log(modules);
+
+    console.log("--------------------------------------")
     
     /* Modifications des modules en fonction de la data recuperée */
     for (const key of Object.keys(data)) {
@@ -76,6 +84,8 @@ const updateModules = catchAsync(async(req, res) => {
                 modules[key] = data[key]
             }
     }
+
+    console.log(modules);
 
     /* Remplacement des modules par les nouveaux */
     const result = await Modules.replaceOne({id_event:data.id_event},modules)

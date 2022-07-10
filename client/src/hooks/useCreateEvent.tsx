@@ -1,12 +1,11 @@
 import axios from "axios";
 
-export default function useUpdateEvent() {
+export default function useCreateEvent() {
   return (eventForm: any) => {
     return axios({
-      url: "http://localhost:3030/api/event/updateEvent",
+      url: "http://localhost:3030/api/event/createEvent",
       method: "post",
       data: new URLSearchParams({
-        _id: eventForm._id,
         userId: eventForm.userId,
         name: eventForm.name,
         type: eventForm.type,
