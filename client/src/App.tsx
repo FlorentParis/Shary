@@ -116,7 +116,7 @@ function App() {
                 <Route path="/event/*" element={<Error404/>} />
                 <Route path="/event/:id/modules" element={<Modules displayMenuModule={displayMenuModule} setDisplayMenuModule={setDisplayMenuModule}/>} />
                 <Route path="/event/:id/information" element={<Information />} />
-                <Route path="/event/:id" element={<Information />} />
+                <Route path="/event/information" element={<Information />} />
                 <Route path="/event/:id/golden-book" element={<GoldenBook />} />
                 <Route path="/event/:id/guest-list" element={<GuestList />} />
                 <Route path="/event/:id/alert" element={<Alert />} />
