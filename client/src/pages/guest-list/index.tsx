@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useLocation } from "react-router";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import { useAppSelector } from "../../hooks/reduxHooks";
+import useAddParticipants from "../../hooks/useAddParticipants";
 import GuestCard from "./GuestCard";
 import ModalAddGuest from "./ModalAddGuest";
 
@@ -10,13 +12,19 @@ export default function GuestList() {
     const [displayModalAddGuest, setDisplayModalAddGuest] = useState<boolean>(false);
     let [mailGuest, setMailGuest] = useState<string>("");
 
+    const addParticipants = useAddParticipants();
+
+    const arrayQuery = useLocation().pathname.split('/');
+    const id_event = arrayQuery[2];
+
     const handleChange = ({target}: any) => {
         setMailGuest(target.value)
     }
 
     const handleSubmit = () => {
-        console.log(mailGuest)
-        /* Envoyer mailGuest */
+        console.log(mailGuest, id_event)
+        addParticipants(id_event, mailGuest)
+        .then(res => console.log(res))
     }
 
     const participantsEvent = useAppSelector((state) => state.targetEvent.data.participants);

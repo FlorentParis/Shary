@@ -43,7 +43,7 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
-import useGetEvents from "./hooks/useGetEvents";
+import useGetEventsByUser from "./hooks/useGetEventsByUser";
 import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
 
   const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
-  const getEvents = useGetEvents();
+  const getEvents = useGetEventsByUser();
   const eventsData = useAppSelector((state) => state.events.data);
 
   const userConnected = useAppSelector((state) => state.userConnected);
@@ -70,11 +70,11 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents().then(res => dispatch(setEventsData(res)))
+    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
   }, []);
 
   useEffect(() => {
-    getEvents()
+    getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res))
     })

@@ -294,9 +294,7 @@ const addParticipant = catchAsync(async(req, res, next) => {
 
 
     let userInfo = await User.find({
-        firstname: data.user.firstname,
-        name: data.user.name,
-        email: data.user.email
+        email: data.email
     })
 
     let userInfoObject = {}
@@ -305,12 +303,12 @@ const addParticipant = catchAsync(async(req, res, next) => {
         userInfoObject = {
             userId: userInfo[0]._id,
             email: userInfo[0].email,
-            role: data.user.role
+            role: "user"
         }
     }else{
         userInfoObject = {
-            email: data.user.email,
-            role: data.user.role
+            email: data.email,
+            role: "user"
         }
     }
 
