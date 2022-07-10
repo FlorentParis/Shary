@@ -122,3 +122,18 @@
         }
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .page-homepage {
+        row-gap: 20px;
+        padding: 40px 0 40px 40px;
+
+        > div:last-of-type {
+            padding-right: 40px;
+
+            > button {
+                width: 100%;
+            }
+        }
+    }
+}
