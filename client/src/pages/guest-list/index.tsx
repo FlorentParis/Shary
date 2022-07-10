@@ -1,6 +1,7 @@
 import { useState } from "react";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import GuestCard from "./GuestCard";
 import ModalAddGuest from "./ModalAddGuest";
 
@@ -18,6 +19,8 @@ export default function GuestList() {
         /* Envoyer mailGuest */
     }
 
+    const participantsEvent = useAppSelector((state) => state.targetEvent.data.participants);
+
     return (
         <>
             <PageBanner imgSrc="/icons/gradient/guest-list-gradient.svg" title="Liste des invités" desc="Liste des invités de votre évènement" />
@@ -30,13 +33,10 @@ export default function GuestList() {
                             </div>
                             <span>Ajouter de nouveaux participants</span>
                         </div>
-                        <GuestCard />
-                        <GuestCard />
-                        <GuestCard />
-                        <GuestCard />
-                        <GuestCard />
-                        <GuestCard />
-                        <GuestCard />
+                        {Object.keys(participantsEvent).map((key: any) => {
+                            //@ts-ignore
+                            return <GuestCard guest={participantsEvent[key]} />
+                        })}
                     </div>
                 </div>
             </PageContainer>
