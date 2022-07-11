@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSliceLivreDOr } from "../../features/modulesSlice";
+import { updateModuleSliceLivreDOr } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
     setDisplayMenuModule: Function,
     moduleLivreDorActive: boolean,
-    setModuleLivreDorActive: any, eventId:any
+    setModuleLivreDorActive: any, 
+    eventId:any,
+    livreDOrForm:any,
+    setModulesForm:any
 }
 
 export default function ModuleLivreDor({displayMenuModule, 
     setDisplayMenuModule, 
     moduleLivreDorActive,
-    setModuleLivreDorActive, eventId
+    setModuleLivreDorActive, 
+    eventId,
+    livreDOrForm,
+    setModulesForm
 }: ModuleInterface) {
 
     const closeModuleMenuLivreDor = (e:any) => {
@@ -22,7 +28,7 @@ export default function ModuleLivreDor({displayMenuModule,
             moduleMenuLivreDor.classList.remove("active");;
         }
         e.preventDefault();
-        dispatch(activeModuleSliceLivreDOr(formInput));
+        dispatch(updateModuleSliceLivreDOr(formInput));
     }
 
     useEffect(() => {
@@ -69,11 +75,49 @@ export default function ModuleLivreDor({displayMenuModule,
                 ...prev,
                 [target.name]: target.checked
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                livre_d_or:{
+                    ...prev.livre_d_or,
+                    [target.name]: target.checked
+                }
+            }))
         }else{
             setFormInput((prev: any) => ({
                 ...prev,
                 [target.name]: target.value
             })) 
+            
+            if(target.name=="is_private"){
+                console.log(target.name);
+                console.log(target.value);
+                if(target.value=="publique"){
+                    setModulesForm((prev:any) =>({
+                        ...prev,
+                        livre_d_or:{
+                            ...prev.livre_d_or,
+                            [target.name]: false
+                        }
+                    }))
+                }else if(target.value=="prive"){
+                    setModulesForm((prev:any) =>({
+                        ...prev,
+                        livre_d_or:{
+                            ...prev.livre_d_or,
+                            [target.name]: true
+                        }
+                    }))
+                }
+            }else{
+                setModulesForm((prev:any) =>({
+                    ...prev,
+                    livre_d_or:{
+                        ...prev.livre_d_or,
+                        [target.name]: target.value
+                    }
+                }))
+            }
+            
         }
     }
 
@@ -98,6 +142,25 @@ export default function ModuleLivreDor({displayMenuModule,
     const handleTermesChange = (e:any) => {
         setFormTermes(e.target.value);
     }
+
+    useEffect(() => {
+        const videosLivreDOr = document.getElementById("checkboxVideosLivreDOr") as HTMLInputElement;
+        if(livreDOrForm.videos == false){
+            videosLivreDOr.checked = false;
+        }else{
+            videosLivreDOr.checked = true;
+        }
+
+        const priveLivreDOr = document.getElementById("priveLivreDOr") as HTMLInputElement;
+        const publiqueLivreDOr = document.getElementById("publiqueLivreDOr") as HTMLInputElement;
+        if(livreDOrForm.is_private == false){
+            priveLivreDOr.checked = false;
+            publiqueLivreDOr.checked = true;
+        }else if(livreDOrForm.is_private == true){
+            priveLivreDOr.checked = true;
+            publiqueLivreDOr.checked = false;
+        }
+    }) 
 
     return (
         <div className="module-group module-livre-dor">
@@ -147,7 +210,7 @@ export default function ModuleLivreDor({displayMenuModule,
                     <div className="autoriser-video">
                         <div className="container-slider">
                             <label className="switch">
-                                <input name="autorisationVideo" onChange={handleChange} type="checkbox" id="checkbox" />
+                                <input name="videos" onChange={handleChange} type="checkbox" id="checkboxVideosLivreDOr" />
                                 <div className="slider round"></div>
                             </label>
                         </div>
@@ -173,14 +236,14 @@ export default function ModuleLivreDor({displayMenuModule,
                     <div className="lecture-container">
                         <div>
                             <label className="label-prive">
-                                <input name="lecture" value="prive" onChange={handleChange} type="radio"/>
+                                <input name="is_private" value="prive" onChange={handleChange} type="radio" id="priveLivreDOr"/>
                                 <div className="prive-container">
                                     <p>Lecture privé</p>
                                     <p className="prive-text">La lecture des messages personnels laissés n’est disponible que pour les administrateurs de l’évènement.</p>
                                 </div>
                             </label>
                             <label className="label-publique">
-                                <input name="lecture" value="publique" onChange={handleChange} type="radio"/>
+                                <input name="is_private" value="publique" onChange={handleChange} type="radio" id="publiqueLivreDOr"/>
                                 <div className="publique-container">
                                     <p>Lecture publique</p>
                                     <p className="publique-text">Tout le monde peut lire le contenu du livre d’or</p>

@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSlicePlaylist } from "../../features/modulesSlice";
+import { updateModuleSlicePlaylist } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
     setDisplayMenuModule: Function,
     modulePlaylistActive:boolean,
-    setModulePlaylistActive: any, eventId:any
+    setModulePlaylistActive: any, 
+    eventId:any,
+    playlistForm:any,
+    setModulesForm:any
 }
 
-export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule, modulePlaylistActive, setModulePlaylistActive, eventId}: ModuleInterface) {
+export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule, modulePlaylistActive, setModulePlaylistActive, eventId, playlistForm, setModulesForm}: ModuleInterface) {
 
     const closeModuleMenuPlaylist = (e:any) => {
         const moduleMenuPlaylist = document.getElementsByClassName("module-playlist")[0] as HTMLElement;
@@ -18,7 +21,7 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
             moduleMenuPlaylist.classList.remove("active");
         }
         e.preventDefault();
-        dispatch(activeModuleSlicePlaylist(formInput));
+        dispatch(updateModuleSlicePlaylist(formInput));
     }
 
     useEffect(() => {
@@ -49,7 +52,7 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
         nom:"playlist",
         active: "",
         disponbilitePlaylistUnite: "",
-        disponbilitePlaylistValue: ""
+        module_display_time: ""
     })
 
     const handleChange = ({target}: any) => {
@@ -58,11 +61,25 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
                 ...prev,
                 [target.name]: target.checked
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                playlist:{
+                    ...prev.playlist,
+                    [target.name]: target.checked
+                }
+            }))
         }else{
             setFormInput((prev: any) => ({
                 ...prev,
                 [target.name]: target.value
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                playlist:{
+                    ...prev.playlist,
+                    [target.name]: target.value
+                }
+            }))
         }
     }
 
@@ -87,7 +104,7 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
                 <div className="disponibilite-container">
                     <p>Disponibilité du module</p>
                     <div className="disponibilite-playlist">
-                        <input name="disponbilitePlaylistValue" onChange={handleChange} className="premier-input-après" type="number" placeholder="0"></input>
+                        <input name="module_display_time" onChange={handleChange} className="premier-input-après" type="number" placeholder="0" value ={playlistForm.module_display_time}></input>
                         <input name="disponbilitePlaylistUnite" onChange={handleChange} list="datalist-deuxieme-input-après" className="deuxieme-input-après" placeholder="jour(s)"></input>
                         <datalist id="datalist-deuxieme-input-après">
                             <option value="jour(s)"></option>

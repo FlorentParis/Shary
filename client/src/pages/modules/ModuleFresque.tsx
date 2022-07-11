@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSliceFresque } from "../../features/modulesSlice";
+import { updateModuleSliceFresque } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
     setDisplayMenuModule: Function,
     moduleFresqueActive: boolean,
-    setModuleFresqueActive:any, eventId:any
+    setModuleFresqueActive:any, 
+    eventId:any,
+    fresqueForm:any,
+    setModulesForm:any
 }
 
 export default function ModuleFresque({displayMenuModule, 
     setDisplayMenuModule, 
     moduleFresqueActive,
-    setModuleFresqueActive, eventId
+    setModuleFresqueActive, 
+    eventId,
+    fresqueForm,
+    setModulesForm
 }: ModuleInterface) {
 
     const closeModuleMenuFresque = (e:any) => {
@@ -22,7 +28,7 @@ export default function ModuleFresque({displayMenuModule,
             moduleMenuFresque.classList.remove("active");
         }
         e.preventDefault();
-        dispatch(activeModuleSliceFresque(formInput));
+        dispatch(updateModuleSliceFresque(formInput));
     }
 
     useEffect(() => {
@@ -53,9 +59,10 @@ export default function ModuleFresque({displayMenuModule,
         nom:"fresque",
         active: "",
         disponibliteFresqueUnite:"",
-        disponibliteFresqueValue:""
+        module_display_time:""
         
     })
+    
 
     const handleChange = ({target}: any) => {
         if(target.type=="checkbox"){
@@ -63,14 +70,30 @@ export default function ModuleFresque({displayMenuModule,
                 ...prev,
                 [target.name]: target.checked
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                fresque:{
+                    ...prev.fresque,
+                    [target.name]: target.checked
+                }
+            }))
+            
         }else{
             setFormInput((prev: any) => ({
                 ...prev,
                 [target.name]: target.value
             })) 
+            console.log(target.value);
+            setModulesForm((prev:any) =>({
+                ...prev,
+                fresque:{
+                    ...prev.fresque,
+                    [target.name]: target.value
+                }
+            }))
+           
         }
     }
-
     
 
     
@@ -96,7 +119,7 @@ export default function ModuleFresque({displayMenuModule,
                 <div className="disponibilite-container">
                     <p>Disponibilité du module</p>
                     <div className="disponibilite-fresque">
-                        <input name="disponibliteFresqueValue" onChange={handleChange} className="premier-input-apres" type="number" placeholder="0"></input>
+                        <input name="module_display_time" onChange={handleChange} className="premier-input-apres" type="number" placeholder="0" value={fresqueForm.module_display_time}></input>
                         <input name="disponibliteFresqueUnite" onChange={handleChange} list="datalist-deuxieme-input-apres" className="deuxieme-input-apres" placeholder="jour(s)"></input>
                         <datalist id="datalist-deuxieme-input-apres">
                             <option value="jour(s)"></option>

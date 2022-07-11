@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSlicePhotosVideos } from "../../features/modulesSlice";
+import { updateModuleSlicePhotosVideos } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
     setDisplayMenuModule: Function,
     modulePhotoVideoActive: boolean,
-    setModulePhotoVideoActive:any, eventId:any
+    setModulePhotoVideoActive:any, 
+    eventId:any
+    photosVideosForm:any,
+    setModulesForm:any
 }
 
-export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModule, modulePhotoVideoActive, setModulePhotoVideoActive, eventId}: ModuleInterface) {
+export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModule, modulePhotoVideoActive, setModulePhotoVideoActive, eventId, photosVideosForm, setModulesForm}: ModuleInterface) {
 
     const closeModuleMenu = (e:any) => {
         const moduleMenu = document.getElementsByClassName("module-photo-video")[0] as HTMLElement;
@@ -19,7 +22,7 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
             modulePhotoVideoActive = true;
         }
         e.preventDefault();
-        dispatch(activeModuleSlicePhotosVideos(formInput));
+        dispatch(updateModuleSlicePhotosVideos(formInput));
     }
 
     useEffect(() => {
@@ -50,7 +53,7 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
         nom:"photos_videos",
         active: "",
         autorisationLegendesCommentaires: "",
-        autorisationVideos: "",
+        videos: "",
         blacklist: [],
         disponibiliteApresEvenementUnite: "",
         disponibiliteApresEvenementValue: "",
@@ -58,7 +61,7 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
         dureeModuleMin: "",
         dureePhotoMin: "",
         dureePhotoSec: "",
-        lectureBoucle: "",
+        loop: "",
     })
 
     const handleChange = ({target}: any) => {
@@ -67,11 +70,25 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
                 ...prev,
                 [target.name]: target.checked
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                photos_videos:{
+                    ...prev.photos_videos,
+                    [target.name]: target.checked
+                }
+            }))
         }else{
             setFormInput((prev: any) => ({
                 ...prev,
                 [target.name]: target.value
             })) 
+            setModulesForm((prev:any) =>({
+                ...prev,
+                photos_videos:{
+                    ...prev.photos_videos,
+                    [target.name]: target.value
+                }
+            }))
         }
     }
 
@@ -96,7 +113,23 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
     const handleTermesChange = (e:any) => {
         setFormTermes(e.target.value);
     }
-    
+
+    useEffect(() => {
+        const loopPhotosVideos = document.getElementById("checkboxLoopPhotosVideos") as HTMLInputElement;
+        if(photosVideosForm.loop == false){
+            loopPhotosVideos.checked = false;
+        }else{
+            loopPhotosVideos.checked = true;
+        }
+
+
+        const videosPhotosVideos = document.getElementById("checkboxVideosPhotosVideos") as HTMLInputElement;
+        if(photosVideosForm.videos == false){
+            videosPhotosVideos.checked = false;
+        }else{
+            videosPhotosVideos.checked = true;
+        }
+    }) 
 
     return (
                 <div className="module-group module-photo-video">
@@ -137,7 +170,7 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
                             <div className="autoriser-video">
                                 <div className="container-slider">
                                     <label className="switch">
-                                        <input onChange={handleChange} name="autorisationVideos" type="checkbox" id="checkbox" />
+                                        <input onChange={handleChange} name="videos" type="checkbox" id="checkboxVideosPhotosVideos" />
                                         <div className="slider round"></div>
                                     </label>
                                 </div>
@@ -172,7 +205,7 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
                         <div className="lecture-container">
                             <div className="container-slider">
                                 <label className="switch">
-                                    <input onChange={handleChange} name="lectureBoucle" type="checkbox" id="checkbox" />
+                                    <input onChange={handleChange} name="loop" type="checkbox" id="checkboxLoopPhotosVideos"/>
                                     <div className="slider round"></div>
                                 </label>
                             </div>

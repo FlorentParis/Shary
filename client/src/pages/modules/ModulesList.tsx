@@ -14,6 +14,8 @@ interface ModuleInterface {
     setModuleFeuDArtificeActive: any,
     modulePlaylistActive: boolean,
     setModulePlaylistActive: any,
+    currentEventForm: any,
+    setcurrentEventForm: any
 }
 
 export default function ModulesList({setDisplayMenuModule, 
@@ -28,7 +30,9 @@ export default function ModulesList({setDisplayMenuModule,
     moduleFeuDArtificeActive, 
     setModuleFeuDArtificeActive, 
     modulePlaylistActive, 
-    setModulePlaylistActive 
+    setModulePlaylistActive ,
+    currentEventForm,
+    setcurrentEventForm
 }: ModuleInterface) {
 
     const openModuleMenuPhotosVideo = () => {
@@ -116,6 +120,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-photos-video") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(modulePhotoVideoActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;
@@ -147,6 +152,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-chat") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(moduleChatActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;
@@ -178,6 +184,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-livre-d-or") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(moduleLivreDorActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;
@@ -209,6 +216,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-fresque") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(moduleFresqueActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;
@@ -240,6 +248,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-feu-d-artifice") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(moduleFeuDArtificeActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;
@@ -271,6 +280,7 @@ export default function ModulesList({setDisplayMenuModule,
         const parentModule = document.getElementById("modules-card-playlist") as HTMLInputElement;
         parentModule.classList.toggle("activateModule");
         if(modulePlaylistActive==true){
+            parentModule.classList.toggle("activateModule");
             slider.checked = true;
         }else{
             slider.checked = false;

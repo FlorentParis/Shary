@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router";
 import { setModulesData } from "./features/modulesSlice"; */
 
 
+import { setModulesData } from "./features/modulesSlice";
 
 /* Pages */
 import Homepage from "./pages/homepage";
@@ -45,7 +46,9 @@ import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
 import Error from './pages/error/Error';
 import useGetEventsByUser from "./hooks/useGetEventsByUser";
+import useGetModuleByEventId from "./hooks/useGetModuleByEventId";
 import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
+import useGetModules from "./hooks/useGetModules";
 
 function App() {
 
@@ -57,6 +60,8 @@ function App() {
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
 
   const getEvents = useGetEventsByUser();
+
+  const getAllModules = useGetModules();
 
   const userConnected = useAppSelector((state) => state.userConnected);
 
@@ -88,6 +93,18 @@ function App() {
     getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res.data.userEvent))
+    })
+  }, [needsUpdate])
+
+  useEffect(() => {
+    getAllModules().then(res => dispatch(setModulesData(res.data.modules)))
+  }, []);
+
+  useEffect(() => {
+    getAllModules()
+    .then(res => {
+      dispatch(setModulesData(res.data.modules))
+      console.log(res)
     })
   }, [needsUpdate])
 

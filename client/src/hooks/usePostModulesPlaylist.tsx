@@ -6,7 +6,7 @@ import { ModulesInterface } from "../interfaces/ModulesInterface";
 export default function usePostModulesPlaylist() {
     return (module:any) => {
 
-        let unite = 86400;
+        let unite = module.module_display_time;
 
         if(module.disponbilitePlaylistUnite == "semaine(s)"){
             unite = unite * 7;
@@ -16,7 +16,7 @@ export default function usePostModulesPlaylist() {
             unite = unite * 365;
         };
 
-        const dureeModule = module.disponbilitePlaylistValue * unite;
+        const dureeModule = unite;
 
         const obj = {
                 availability_time:"2022-06-18T17:00:00.000Z",

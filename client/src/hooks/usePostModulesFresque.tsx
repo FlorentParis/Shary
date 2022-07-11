@@ -6,7 +6,7 @@ import { ModulesInterface } from "../interfaces/ModulesInterface";
 export default function usePostModulesFresque() {
     return (module:any) => {
 
-        let unite = 86400;
+        let unite = module.module_display_time;
 
         if(module.disponibliteFresqueUnite == "semaine(s)"){
             unite = unite * 7;
@@ -16,7 +16,7 @@ export default function usePostModulesFresque() {
             unite = unite * 365;
         };
 
-        const dureeModule = module.disponibliteFresqueValue * unite;
+        const dureeModule = unite;
 
         const obj = {
                 availability_time:"2022-06-18T17:00:00.000Z",

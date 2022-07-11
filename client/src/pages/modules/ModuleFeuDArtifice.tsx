@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSliceFeuDArtifice } from "../../features/modulesSlice";
+import { updateModuleSliceFeuDArtifice } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
@@ -21,7 +21,7 @@ export default function ModuleFeuDArtifice({displayMenuModule,
             moduleMenuFeuDArtifice.classList.remove("active");
         }
         e.preventDefault();
-        dispatch(activeModuleSliceFeuDArtifice(formInput));
+        dispatch(updateModuleSliceFeuDArtifice(formInput));
     }
 
     const activeArtifice = (e:any) => {

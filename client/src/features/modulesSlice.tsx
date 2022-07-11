@@ -10,43 +10,55 @@ import usePostModulesPlaylist from '../hooks/usePostModulesPlaylist';
 
 
 const initialState = {
-  };
+  data: [{
+    id_event:"",
+    photos_videos:{},
+    livre_d_or:{},
+    fresque:{},
+    playlist:{},
+    chat:{},
+  },]
+};
+  
 
-  /*CHAT / PHOTOS VIDEOS*/
-
-export const activeModule = createAsyncThunk('modules/activeModule', async(formModule:any) => {
+export const updateModule = createAsyncThunk('modules/updateModule', async(formModule:any) => {
     const updateModule = usePostModules();
     updateModule(formModule);
 })
 
-export const activeModuleSlicePhotosVideos = createAsyncThunk('modules/activeModulePhotosVideos', async(formModulePhotosVideos:any) => {
+export const updateModuleSlicePhotosVideos = createAsyncThunk('modules/updateModulePhotosVideos', async(formModulePhotosVideos:any) => {
   const updateModulePhotosVideos = usePostModulesPhotosVideos();
+  console.log(formModulePhotosVideos)
   updateModulePhotosVideos(formModulePhotosVideos);
 })
 
-export const activeModuleSliceChat = createAsyncThunk('modules/activeModuleChat', async(formModuleChat:any) => {
+export const updateModuleSliceChat = createAsyncThunk('modules/updateModuleChat', async(formModuleChat:any) => {
   const updateModuleChat = usePostModulesChat();
+  console.log(formModuleChat)
   updateModuleChat(formModuleChat);
 })
 
-export const activeModuleSliceLivreDOr = createAsyncThunk('modules/activeModuleLivreDOr', async(formModuleLivreDOr:any) => {
+export const updateModuleSliceLivreDOr = createAsyncThunk('modules/updateModuleLivreDOr', async(formModuleLivreDOr:any) => {
   const updateModuleLivreDOr = usePostModulesLivreDOr();
+  console.log(formModuleLivreDOr)
   updateModuleLivreDOr(formModuleLivreDOr);
 })
 
-export const activeModuleSliceFresque = createAsyncThunk('modules/activeModuleFresque', async(formModuleFresque:any) => {
+export const updateModuleSliceFresque = createAsyncThunk('modules/updateModuleFresque', async(formModuleFresque:any) => {
   const updateModuleFresque = usePostModulesFresque();
+  console.log(formModuleFresque)
   updateModuleFresque(formModuleFresque);
 })
 
 
-export const activeModuleSliceFeuDArtifice = createAsyncThunk('modules/activeModuleFeuDArtifice', async(formModuleChat:any) => {
+export const updateModuleSliceFeuDArtifice = createAsyncThunk('modules/updateModuleFeuDArtifice', async(formModuleChat:any) => {
   const updateModuleFeuDArtifice = usePostModulesFeuDArtifice();
   updateModuleFeuDArtifice(formModuleChat);
 })
 
-export const activeModuleSlicePlaylist = createAsyncThunk('modules/activeModulePlaylist', async(formModulePlaylist:any) => {
+export const updateModuleSlicePlaylist = createAsyncThunk('modules/updateModulePlaylist', async(formModulePlaylist:any) => {
   const updateModulePlaylist = usePostModulesPlaylist();
+  console.log(formModulePlaylist)
   updateModulePlaylist(formModulePlaylist);
 })
 
@@ -54,13 +66,13 @@ const modulesSlice = createSlice({
   name: 'modules',
   initialState: initialState, 
   reducers: {
-    addModules: (state, {payload}) => {
-      state = payload
+    setModulesData : (state, {payload}) => {
+      state.data = payload;
     },
   }
 })
 
-  export const { addModules } = modulesSlice.actions
+  export const { setModulesData } = modulesSlice.actions
   export const getAllModules = (state: any) => state.modules
   
   export default modulesSlice.reducer;

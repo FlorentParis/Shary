@@ -12,8 +12,8 @@ export default function usePostModulesPhotosVideos() {
                 availability_time : "2022-06-18T17:00:00.000Z", 
                 medias_display_time : dureePhoto,
                 module_display_time : dureeModule,
-                videos : module.autorisationVideos,
-                loop : module.lectureBoucle
+                videos : module.videos,
+                loop : module.loop
             }
 
         return axios({
@@ -28,18 +28,3 @@ export default function usePostModulesPhotosVideos() {
         .then(res=>res.data)
         }
 }
-/*
-        eventID: eventId,
-        nom:"photos_videos",
-        active: "",
-        autorisationLegendesCommentaires: "",
-        autorisationVideos: "",
-        blacklist: [],
-        disponibiliteApresEvenementUnite: "",
-        disponibiliteApresEvenementValue: "",
-        dureeModuleHeure: "",
-        dureeModuleMin: "",
-        dureePhotoMin: "",
-        dureePhotoSec: "",
-        lectureBoucle: "",
-*/

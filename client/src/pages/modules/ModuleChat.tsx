@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/reduxHooks";
-import { activeModuleSliceChat } from "../../features/modulesSlice";
+import { updateModuleSliceChat } from "../../features/modulesSlice";
 
 interface ModuleInterface {
     displayMenuModule: boolean,
@@ -20,7 +20,7 @@ export default function ModuleChat({displayMenuModule,
             moduleMenuChat.classList.remove("active");
         }
         e.preventDefault();
-        dispatch(activeModuleSliceChat(formInput));
+        dispatch(updateModuleSliceChat(formInput));
     }
 
     useEffect(() => {
