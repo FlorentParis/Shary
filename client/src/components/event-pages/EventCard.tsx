@@ -29,7 +29,7 @@ export default function EventCard(props: any) {
     return (
         <Link className="event-card" to={`/event/${props.event._id}`}>
             <div className="container-img">
-                <img src="/img/demo.png" />
+                <img src={props.event.banniere} />
             </div>
             <span>{props.event.name}</span>
             <div>

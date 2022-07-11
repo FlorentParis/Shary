@@ -88,7 +88,7 @@ export default function Homepage() {
                         >
                           <div
                             style={{
-                              backgroundImage: "url('/img/upload-demo.png')",
+                              backgroundImage: `url('${event.banniere}')`,
                             }}
                           >
                             <div>
