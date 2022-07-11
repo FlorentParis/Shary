@@ -60,13 +60,13 @@ export default function ModuleLivreDor({displayMenuModule,
         QRcode: "",
         active: "",
         autorisationPhotos: "",
-        autorisationVideo: "",
+        videos: "",
         blacklist:[],
         disponibliteModuleUnite: "",
         disponibliteModuleValue: "",
         disponiblitePhotoUnite: "",
         disponiblitePhotoValue: "",
-        lecture: ""
+        is_private: ""
     })
 
     const handleChange = ({target}: any) => {
@@ -99,6 +99,10 @@ export default function ModuleLivreDor({displayMenuModule,
                             [target.name]: false
                         }
                     }))
+                    setFormInput((prev: any) => ({
+                        ...prev,
+                        [target.name]: false
+                    })) 
                 }else if(target.value=="prive"){
                     setModulesForm((prev:any) =>({
                         ...prev,
@@ -107,6 +111,10 @@ export default function ModuleLivreDor({displayMenuModule,
                             [target.name]: true
                         }
                     }))
+                    setFormInput((prev: any) => ({
+                        ...prev,
+                        [target.name]: true
+                    })) 
                 }
             }else{
                 setModulesForm((prev:any) =>({

@@ -5,16 +5,9 @@ import { ModulesInterface } from "../interfaces/ModulesInterface";
 
 export default function usePostModulesLivreDOr() {
     return (module:any) => {
-        let lecture;
-        if(module.lecture=="publique"){
-            lecture = false;
-        }else if(module.lecture=="prive"){
-            lecture = true;
-        }
         const obj = {
                 availability_time : "2022-06-18T17:00:00.000Z",
-                videos: module.autorisationVideo,
-                is_private:lecture
+                is_private:module.is_private
             }
 
         return axios({
