@@ -50,10 +50,6 @@ export default function Profil() {
         }
     }, [selectedImage])
 
-    useEffect(() => {
-        console.log(profilInfo)
-    }, [profilInfo])
-
     const handleChange = ({target}: any) => {
         setUpdate(true);
         setProfilInfo((prev: any) => ({
@@ -103,9 +99,13 @@ export default function Profil() {
                     <div className="grid-card gc-3 date-card">
                         <span>Photo de profil</span>
                         <form>
-                            <div className="add-pp" style={{backgroundImage: `url('${userConnected.img}')`}}>
+                            <div className="add-pp" style={{backgroundImage: `url('${profilInfo.img}')`}}>
                                 <img src="/icons/download-black.svg" />
-                                <input type="file" onChange={(event) => {console.log(event.target.files![0]); setSelectedImage(event.target.files![0])}} />
+                                
+                                <input type="file" onChange={(event) => {setSelectedImage(event.target.files![0])}} onClick={(event)=> {
+                                    // @ts-ignore: Unreachable code error
+                                    event.target.value = null
+                                }} />
                             </div>
                             <p>Suggéré pour vous</p>
                             <div className="suggestion-pp">

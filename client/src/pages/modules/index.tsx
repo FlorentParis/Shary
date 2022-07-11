@@ -23,12 +23,9 @@ export default function Modules() {
 
     const eventId = useParams().id;
 
-    console.log(eventId);
-
-
     return (
         <>
-            <PageBanner imgSrc="./icons/modules-gradient.svg" title="Gestion des modules" desc="Lorem ipsum et bla bla  bla Lorem ipsum et bla bla bla Lorem ipsum et bla bla bla" />
+            <PageBanner imgSrc="/icons/gradient/modules-gradient.svg" title="Gestion des modules" desc="Lorem ipsum et bla bla  bla Lorem ipsum et bla bla bla Lorem ipsum et bla bla bla" />
             <div className="container">
                 <ModulesList setDisplayMenuModule={setDisplayMenuModule} 
                     modulePhotoVideoActive={modulePhotoVideoActive} 

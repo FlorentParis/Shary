@@ -22,9 +22,7 @@ export default function GuestList() {
     }
 
     const handleSubmit = () => {
-        console.log(mailGuest, id_event)
         addParticipants(id_event, mailGuest)
-        .then(res => console.log(res))
     }
 
     const participantsEvent = useAppSelector((state) => state.targetEvent.data.participants);

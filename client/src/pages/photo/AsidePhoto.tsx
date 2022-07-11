@@ -7,7 +7,6 @@ export default function AsidePhoto(props:any) {
 
     const download = (e:any) => {
         e.preventDefault();
-        console.log(e.target.href);
         fetch(e.target.href, {
           method: "GET",
           headers: {}

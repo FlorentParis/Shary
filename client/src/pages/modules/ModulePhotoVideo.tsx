@@ -41,7 +41,6 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
         }else{
             setModulePhotoVideoActive(false);
         }
-        console.log(modulePhotoVideoActive)
     }
 
     const dispatch = useAppDispatch();
@@ -74,16 +73,13 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
                 [target.name]: target.value
             })) 
         }
-        console.log(formInput);
     }
 
     const [words, setWords] = useState<any>([]);
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        if (!formTermes.replace(/\s/g, '').length){
-            console.log("que des espaces")
-        }else{
+        if (formTermes.replace(/\s/g, '').length){
             setWords((prevState:any) => [{terme: formTermes}, ...prevState])
             let temp:any = formInput["blacklist"];
             temp.push(formTermes);
@@ -92,7 +88,6 @@ export default function ModulePhotoVideo({displayMenuModule, setDisplayMenuModul
                 ["blacklist"]: temp
             })) 
         }
-        console.log(formInput)
     }
 
     const [formTermes, setFormTermes] = useState('');

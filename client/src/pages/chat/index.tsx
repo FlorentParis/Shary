@@ -67,7 +67,7 @@ export default function Chat() {
                 good = true;
             }
         })
-        good ? console.log("good") : navigate("/404")
+        good ? console.log() : navigate("/404")
     }, [id_event])
 
     useEffect(() => {
@@ -98,7 +98,6 @@ export default function Chat() {
             // @ts-ignore: Unreachable code error
             messageData.lastname = res.lastname
             setListMessage(listMessage => [...listMessage, messageData])
-            console.log(messageData)
         })
         setMessageContent("")
     }

@@ -44,7 +44,6 @@ export default function ModuleFresque({displayMenuModule,
         }else{
             setModuleFresqueActive(false);
         }
-        console.log(moduleFresqueActive)
     }
 
     const dispatch = useAppDispatch();
@@ -70,7 +69,6 @@ export default function ModuleFresque({displayMenuModule,
                 [target.name]: target.value
             })) 
         }
-        console.log(formInput);
     }
 
     

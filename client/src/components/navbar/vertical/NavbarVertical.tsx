@@ -19,7 +19,6 @@ export default function NavbarVertical(props: any) {
   
   //@ts-ignore
   if(targetEventData.participants && targetEventData.participants.userId){
-    console.log(targetEventData)
     for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
       //@ts-ignore
       if (targetEventData.participants[i].userId == userConnectedData.id) {
