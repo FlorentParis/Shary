@@ -171,9 +171,10 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
             }
         })
     );
-
-    let uniqueArray = [...new Map(userEvent.map(item => [item.userId, item])).values()]
+    console.log(userEvent)
+    let uniqueArray = [...new Map(userEvent.map(item => [item._id, item])).values()]
     userEvent = uniqueArray;
+    
 
     res.status(200).json({
         status: 'success',
