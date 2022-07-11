@@ -72,6 +72,7 @@ function App() {
     getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res.data.userEvent))
+      console.log(res)
     })
   }, [needsUpdate])
 
