@@ -43,6 +43,7 @@ import MenuProfil from './components/navbar/top/MenuProfil';
 import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
+import Error from './pages/error/Error';
 import useGetEvents from "./hooks/useGetEvents";
 import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
 
@@ -104,6 +105,7 @@ function App() {
               <Routes>
                 <Route path="/*" element={<Error404/>} />
                 <Route path="/" element={<Homepage />} />
+                <Route path="/error" element={<Error />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/event-pass" element={<EventPass />} />
                 <Route path="/profil" element={<Profil />} />
@@ -115,6 +117,9 @@ function App() {
                 <Route path="/event/:id/information" element={<Information />} />
                 <Route path="/event/:id" element={<Information />} />
                 <Route path="/event/:id/golden-book" element={<GoldenBook />} />
+                {/* <Route path="/event/:id/fresco" element={<Fresco />} /> */}
+                {/* <Route path="/event/:id/fireworks" element={<Fireworks />} /> */}
+                {/* <Route path="/event/:id/announce" element={<Announce />} /> */}
                 <Route path="/event/:id/guest-list" element={<GuestList />} />
                 <Route path="/event/:id/alert" element={<Alert />} />
                 <Route path="/event/:id/photo" element={<Photo />} />

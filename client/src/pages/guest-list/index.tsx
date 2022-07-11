@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
+import { useAppSelector } from "../../hooks/reduxHooks";
 import GuestCard from "./GuestCard";
 import ModalAddGuest from "./ModalAddGuest";
 
 export default function GuestList() {
+    const navigate = useNavigate();
+    const targetEventData = useAppSelector((state) => state.targetEvent.data);
+    const userConnectedData = useAppSelector((state) => state.userConnected);
+    //@ts-ignore
+    const userAdminId = targetEventData.userId;
+    const isAdmin = userConnectedData.id === userAdminId;
+    // navigate("/error")
+    useEffect(() => {
+      if (!isAdmin) {
+        navigate("/error");
+      }
+    });
 
     const [displayModalAddGuest, setDisplayModalAddGuest] = useState<boolean>(false);
     let [mailGuest, setMailGuest] = useState<string>("");
