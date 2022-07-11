@@ -9,6 +9,8 @@ import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
 import useGetUserById from "../../hooks/useGetUserById";
 import { useParams } from "react-router";
 
+const moment = require("moment");
+
 const { io } = require("socket.io-client");
 const socket = io.connect("http://localhost:3031");
 let receiveFile = false;
@@ -141,7 +143,7 @@ export default function Photo() {
                                     <img src={file!.content} />
                                 </div>
                                 <span>Photo de {file!.firstname}</span>
-                                <span>Postée le {file!.date}</span>
+                                <span>Postée le {moment(file!.date).format("DD/MM/YYYY")}</span>
                             </div>
                                 )
                             })}
