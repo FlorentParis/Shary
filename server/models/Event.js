@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-
 const EventSchema = new mongoose.Schema({
     userId: {
         type:String,
@@ -13,7 +12,7 @@ const EventSchema = new mongoose.Schema({
     },
     type : {
         type: String,
-        enum: ['mariage', 'anniversaire', "soirée", "workshop", "escapade"],
+        enum: ['Mariage', 'Anniversaire', "Soirée", "Workshop", "Escapades"],
         required:[true, "Please provide the event's type"]
     },
     description : {
@@ -21,7 +20,7 @@ const EventSchema = new mongoose.Schema({
     },
     banniere:{
         type: String,
-        default:null
+        default:""
     },
     status: {
         type: String,
@@ -73,13 +72,14 @@ const EventSchema = new mongoose.Schema({
         }
     },
     contacts:{
-        type:Map,
-        of: {
+        contact0 : {
             name:{
-                type:String
+                type:String,
+                default:""
             },
             phone:{
-                type:String
+                type:String,
+                default:""
             },
             appel :{
                 type: Boolean,
@@ -88,8 +88,26 @@ const EventSchema = new mongoose.Schema({
             sms : {
                 type : Boolean,
                 default : false
-            }
-        }
+            },
+        },
+        contact1 : {
+            name:{
+                type:String,
+                default:""
+            },
+            phone:{
+                type:String,
+                default:""
+            },
+            appel :{
+                type: Boolean,
+                default: false
+            },
+            sms : {
+                type : Boolean,
+                default : false
+            },
+        },
     },
     notifications:{
         inviteAccepted:{

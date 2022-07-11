@@ -10,6 +10,12 @@
 
 @media only screen and (max-width: 425px) {
     .page-container {
+        padding: 0;
+
+        > div {
+            background-color: transparent;
+        }
+
         > div.page-event-to-come, div.page-event-pass, div.page-guest-list, div.page-moderation {
             background-color: transparent;
         }

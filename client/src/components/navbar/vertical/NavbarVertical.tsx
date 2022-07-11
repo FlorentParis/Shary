@@ -16,13 +16,18 @@ export default function NavbarVertical(props: any) {
   const eventId = targetEventData._id;
 
   let isModerator = false;
-
-  for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
-    //@ts-ignore
-    if (targetEventData.participants[i].userId == userConnectedData.id) {
-      isModerator = true;
+  
+  //@ts-ignore
+  if(targetEventData.participants && targetEventData.participants.userId){
+    console.log(targetEventData)
+    for(let i = 0; i < Object.keys(targetEventData.participants).length ; i++) {
+      //@ts-ignore
+      if (targetEventData.participants[i].userId == userConnectedData.id) {
+        isModerator = true;
+      }
     }
   }
+  
 
   const pageLocation = splittedPath[splittedPath.length - 1];
 

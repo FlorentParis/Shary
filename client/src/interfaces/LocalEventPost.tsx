@@ -16,4 +16,12 @@ export interface LocalEventPost {
     inviteAccepted: any,
     inviteRefused: any,
     announcement: any,
+    date: any,
+    description:any,
+    photoVideo: any,
+    chat: any,
+    livre: any,
+    artifice: any,
+    fresque: any,
+    playlist: any
 }

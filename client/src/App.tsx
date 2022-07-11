@@ -45,6 +45,7 @@ import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
 import Error from './pages/error/Error';
 import useGetEvents from "./hooks/useGetEvents";
+import useGetEventsByUser from "./hooks/useGetEventsByUser";
 import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
 
 function App() {
@@ -55,7 +56,8 @@ function App() {
 
   const dispatch = useAppDispatch()
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
-  const getEvents = useGetEvents();
+
+  const getEvents = useGetEventsByUser();
   const eventsData = useAppSelector((state) => state.events.data);
 
   const userConnected = useAppSelector((state) => state.userConnected);
@@ -71,11 +73,11 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents().then(res => dispatch(setEventsData(res)))
+    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
   }, []);
 
   useEffect(() => {
-    getEvents()
+    getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res))
     })
@@ -114,8 +116,9 @@ function App() {
                 
                 {/* //EVENTS */}
                 <Route path="/event/*" element={<Error404/>} />
+                <Route path="/event/:id/modules" element={<Modules />} />
                 <Route path="/event/:id/information" element={<Information />} />
-                <Route path="/event/:id" element={<Information />} />
+                <Route path="/event/information" element={<Information />} />
                 <Route path="/event/:id/golden-book" element={<GoldenBook />} />
                 {/* <Route path="/event/:id/fresco" element={<Fresco />} /> */}
                 {/* <Route path="/event/:id/fireworks" element={<Fireworks />} /> */}
@@ -124,7 +127,6 @@ function App() {
                 <Route path="/event/:id/alert" element={<Alert />} />
                 <Route path="/event/:id/photo" element={<Photo />} />
                 <Route path="/event/:id/playlist" element={<Playlist />} />
-                <Route path="/event/:id/modules" element={<Modules />} />
                 <Route path="/event/:id/moderation" element={<Moderation />} />
                 <Route path="/event/:id/chat" element={<Chat />} />
               </Routes>

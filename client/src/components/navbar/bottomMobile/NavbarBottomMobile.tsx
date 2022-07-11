@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface NavbarBottomMobileInterface {
     displayMenuProfil: boolean,
@@ -6,6 +6,12 @@ interface NavbarBottomMobileInterface {
 }
 
 export default function NavbarBottomMobile({displayMenuProfil, setDisplayMenuProfil}: NavbarBottomMobileInterface) {
+
+    /* Page location */
+    const location = useLocation();
+    const pathname = location.pathname;
+    const splittedPath = pathname.split("/");
+    const pageLocation = splittedPath[splittedPath.length - 1];
 
     const closeProfileNav= () => {
         if (displayMenuProfil == true) {
@@ -27,9 +33,16 @@ export default function NavbarBottomMobile({displayMenuProfil, setDisplayMenuPro
             <Link to="/event-pass">
                 <img src="/icons/event-pass.svg" alt="" />
             </Link>
-            <div onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
-                <img src="/icons/user.svg" alt="" />
-            </div>
+            {splittedPath[1] == 'event' ? 
+                <div onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
+                    <img src="/icons/burger.svg" alt="" />
+                </div>
+                :
+                <div onClick={() => setDisplayMenuProfil(!displayMenuProfil)}>
+                    <img src="/icons/user.svg" alt="" />
+                </div>
+            }
+            
         </div>
     )
 }

@@ -36,6 +36,11 @@ const createEvent = catchAsync(async(req, res) => {
             }
         }
     }
+    console.log(data.start)
+    console.log(data.eventStartHour)
+    data.start = new Date(data.start + " " + data.eventStartHour)
+    data.end = new Date(data.end + " " + data.eventEndHour)
+    data.alertDate = new Date(data.alertDate + " " + data.alertHour)
 
     contacts = Object.assign({}, contact, contact2)
     console.log("Contacts : ", contacts)
@@ -82,6 +87,7 @@ const createEvent = catchAsync(async(req, res) => {
         }
     }
     const event = await Event.create(eventInfo)
+    console.log(event)
     return res.status(200).json({
         status: 'success',
         data: {
@@ -149,25 +155,23 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
     let data = req.query
     console.log(data)
     let events = await Event.find({})
-    let userEvent = {}
+    let userEvent = []
 
-    let creationEvent = []
     events.forEach(function(event){
         if(event.userId == data._id){
-            return creationEvent.push(event)
+            userEvent.push(event)
+            delete event
         }
     });
-    userEvent.creator = creationEvent
 
-    let participationEvent = []
     events.forEach(event =>
         event.participants.forEach(function(participant){
             if(participant.userId == data._id && participant.status == "Accepted"){
-                return participationEvent.push(event)
+                userEvent.push(event)
+                delete event
             }
         })
     );
-    userEvent.participant = participationEvent
 
     res.status(200).json({
         status: 'success',
@@ -196,34 +200,39 @@ const getEventsByStatus = catchAsync(async(req, res) => {
 
 const updateEvent = catchAsync(async(req, res) => {
     const data = req.body
+    console.log(data._id)
+
     let contact = {}
     let contact2 = {}
     let contacts = {}
-    if(data.contactName !== "" && data.contactPhone !== "") {
-        //console.log("Contact 1 créé")
-        contact = {
-            "0": {
-                "name": data.contactName,
-                "phone": data.contactPhone,
-                "appel": data.contactCall,
-                "sms": data.contactText
-            }
+
+    //console.log("Contact 1 créé")
+    contact = {
+        "0": {
+            "name": data.contactName,
+            "phone": data.contactPhone,
+            "appel": data.contactCall,
+            "sms": data.contactText
         }
     }
-    if(data.contactNameSec !== "" && data.contactPhoneSec !== "") {
-        //console.log("Contact créé 2")
-        contact2 = {
-            "1": {
-                "name": data.contactNameSec,
-                "phone": data.contactPhoneSec,
-                "appel": data.contactCallSec,
-                "sms": data.contactTextSec
-            }
+    
+    //console.log("Contact créé 2")
+    contact2 = {
+        "1": {
+            "name": data.contactNameSec,
+            "phone": data.contactPhoneSec,
+            "appel": data.contactCallSec,
+            "sms": data.contactTextSec
         }
     }
 
+    data.start = new Date(data.start + " " + data.eventStartHour)
+    data.end = new Date(data.end + " " + data.eventEndHour)
+    data.alertDate = new Date(data.alertDate + " " + data.alertHour)
+
     contacts = Object.assign({}, contact, contact2)
     console.log("Contacts : ", contacts)
+    
 
     let eventInfo = {}
     eventInfo = {
@@ -270,6 +279,8 @@ const updateEvent = catchAsync(async(req, res) => {
         new: true, //true to return the modified document rather than the original, defaults to false
         runValidators: true
     })
+    console.log(event)
+
     res.status(200).json({
         status: 'success',
         data: {
@@ -294,9 +305,7 @@ const addParticipant = catchAsync(async(req, res, next) => {
 
 
     let userInfo = await User.find({
-        firstname: data.user.firstname,
-        name: data.user.name,
-        email: data.user.email
+        email: data.email
     })
 
     let userInfoObject = {}
@@ -305,12 +314,12 @@ const addParticipant = catchAsync(async(req, res, next) => {
         userInfoObject = {
             userId: userInfo[0]._id,
             email: userInfo[0].email,
-            role: data.user.role
+            role: "user"
         }
     }else{
         userInfoObject = {
-            email: data.user.email,
-            role: data.user.role
+            email: data.email,
+            role: "user"
         }
     }
 

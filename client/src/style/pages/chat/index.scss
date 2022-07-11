@@ -147,3 +147,33 @@
         }
     }
 }
+
+@media only screen and (max-width: 425px) {
+    .page-chat {
+        > .message-container {
+            padding: 0 20px;
+            padding-top: 20px;
+            box-sizing: border-box;
+
+            > div {
+                >.message-container {
+                    padding-bottom: 20px;
+
+                    .message {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        > .form-chat {
+            padding: 0 20px 20px 20px;
+
+            > div {
+                > input {
+                    margin: 0 10px;
+                }
+            }
+        }
+    }
+}

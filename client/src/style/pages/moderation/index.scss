@@ -11,6 +11,9 @@
 
 @media only screen and (max-width: 425px) {
     .page-moderation {
+        padding: 40px;
+        box-sizing: border-box;
+
         .grid-moderation-cart {
             grid-template-columns: 1fr;
             padding: 0;

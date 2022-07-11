@@ -39,12 +39,12 @@ const ModulesSchema = new mongoose.Schema({
         },
 
         medias_display_time : {
-            type : String, //remettre un Number quand on aura la soluce 
+            type : String,
             required:true
         },
 
         module_display_time : {
-            type : String, //remettre un Number quand on aura la soluce 
+            type : String,
             required:true
         },
 
@@ -118,7 +118,7 @@ const ModulesSchema = new mongoose.Schema({
         }, 
 
         module_display_time : {
-            type : String,  //remettre un Number quand on aura la soluce 
+            type : String,
             required:true
         },
 
@@ -167,7 +167,7 @@ const ModulesSchema = new mongoose.Schema({
         }, 
 
         module_display_time : {
-            type : String, //remettre un Number quand on aura la soluce 
+            type : String,
             required:true
         }, 
 

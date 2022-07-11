@@ -90,10 +90,10 @@ const getUserById = catchAsync(async(req, res, next)=> {
     //console.log("GET USER BY ID : " + user)
 
     res.status(200).json({
-            status: 'success',
-            data: {
-                user
-            }
+        status: 'success',
+        data: {
+            user
+        }
     })
 })
 

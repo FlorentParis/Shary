@@ -109,7 +109,18 @@
 
 @media only screen and (max-width: 425px) {
     .page-alert {
+        padding: 40px 20px;
+        box-sizing: border-box;
+
+        form {
+            background-color: #fff;
+            border-radius: 0 0 15px 15px;
+        }
+
         > div {
+            background-color: #fff;
+            border-radius: 15px 15px 0 0;
+
             > div:first-of-type {
                 input {
                     width: 100%;
