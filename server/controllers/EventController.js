@@ -481,23 +481,14 @@ const sendMail = async(userInfo,event) =>{
 const cookieInvitation = catchAsync(async(req, res, next) => {
     console.log("Function cookie Invitation")
     const data = req.query
-    res.cookie('eventInvitation', data.eventId, {
+    await res.cookie('eventInvitation', data.eventId, {
         httpOnly: true
     })
     const result = await acceptInvitation(req, res, data.eventId);
     if(result === 401){
-        res.redirect("http://localhost:3000/")
-        return next(new AppError("Tu n'es pas connecté", 401))
+        return next(new AppError("Veuillez vous connectez avant d'accepter l'invitation", 401))
     }
-    res.status(200).json({
-        status: 'success',
-        message : "abcdef",
-        data: {
-            result
-        },
-    })
     res.redirect("http://localhost:3000/")
-
 })
 
 const deleteEvent = catchAsync(async(req, res) => {
