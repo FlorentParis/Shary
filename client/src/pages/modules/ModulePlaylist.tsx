@@ -40,7 +40,6 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
         }else{
             setModulePlaylistActive(false);
         }
-        console.log(modulePlaylistActive)
     }
 
     const dispatch = useAppDispatch();
@@ -65,7 +64,6 @@ export default function ModulePlaylist({displayMenuModule, setDisplayMenuModule,
                 [target.name]: target.value
             })) 
         }
-        console.log(formInput);
     }
 
     return (

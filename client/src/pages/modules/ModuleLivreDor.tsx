@@ -44,7 +44,6 @@ export default function ModuleLivreDor({displayMenuModule,
         }else{
             setModuleLivreDorActive(false);
         }
-        console.log(moduleLivreDorActive)
     }
 
     const dispatch = useAppDispatch();
@@ -76,16 +75,13 @@ export default function ModuleLivreDor({displayMenuModule,
                 [target.name]: target.value
             })) 
         }
-        console.log(formInput);
     }
 
     const [words, setWords] = useState<any>([]);
 
     const handleSubmit = (e:any) => {
         e.preventDefault();
-        if (!formTermes.replace(/\s/g, '').length){
-            console.log("que des espaces")
-        }else{
+        if (formTermes.replace(/\s/g, '').length){
             setWords((prevState:any) => [{terme: formTermes}, ...prevState])
             let temp:any = formInput["blacklist"];
             temp.push(formTermes);
@@ -94,7 +90,6 @@ export default function ModuleLivreDor({displayMenuModule,
                 ["blacklist"]: temp
             })) 
         }
-        console.log(formInput)
     }
 
     const [formTermes, setFormTermes] = useState('');

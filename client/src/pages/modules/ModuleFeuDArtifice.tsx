@@ -38,7 +38,6 @@ export default function ModuleFeuDArtifice({displayMenuModule,
                 [container.name]: true
             })) 
         }
-        console.log(formInput)
         
     }
 
@@ -61,7 +60,6 @@ export default function ModuleFeuDArtifice({displayMenuModule,
         }else{
             setModuleFeuDArtificeActive(false);
         }
-        console.log(moduleFeuDArtificeActive)
     }
 
     const dispatch = useAppDispatch();

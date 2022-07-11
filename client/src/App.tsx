@@ -73,13 +73,13 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
+    getEvents(userConnected.id).then(res => dispatch(setEventsData(res.data.userEvent)))
   }, []);
 
   useEffect(() => {
     getEvents(userConnected.id)
     .then(res => {
-      dispatch(setEventsData(res))
+      dispatch(setEventsData(res.data.userEvent))
     })
   }, [needsUpdate])
 
