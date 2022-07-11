@@ -104,7 +104,7 @@ export default function Information() {
         }else{
             eventForm.userId = userConnected
             createEvent(eventForm).then((res:any) => {
-                createModules(res.data.event._id).then(res => console.log(res))
+                createModules(res.data.event._id)
             })  
         }
         setUpdate(false);
