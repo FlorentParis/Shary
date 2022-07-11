@@ -10,10 +10,8 @@ const ModulesSchema = new mongoose.Schema({
     },
 
     photos_videos : {
-
         availability_time : {
-            type : Date, 
-            required:true
+            type : Date
         }, 
 
         medias : {
@@ -39,13 +37,11 @@ const ModulesSchema = new mongoose.Schema({
         },
 
         medias_display_time : {
-            type : String,
-            required:true
+            type : String
         },
 
         module_display_time : {
-            type : String,
-            required:true
+            type : String
         },
 
         videos : {
@@ -56,22 +52,14 @@ const ModulesSchema = new mongoose.Schema({
 
         loop : {
             type : Boolean, 
-            default : false,
-            required:true
+            default : false
         },
     }, 
 
     livre_d_or : {
-
         availability_time : {
             type : Date, 
-            required:true
         }, 
-
-        videos : {
-            type : Boolean,
-            default : false
-        },
 
         messages : {
             type : Map, 
@@ -111,15 +99,12 @@ const ModulesSchema = new mongoose.Schema({
     },
     
     fresque : {
-
         availability_time : {
             type : Date, 
-            required:true
-        }, 
+        },
 
         module_display_time : {
-            type : String,
-            required:true
+            type : String
         },
 
         usable_graphic_elems : {
@@ -160,22 +145,18 @@ const ModulesSchema = new mongoose.Schema({
     },
 
     playlist : {
-
         availability_time : {
             type : Date, 
-            required:true
         }, 
 
         module_display_time : {
-            type : String,
-            required:true
+            type : String
         }, 
 
         authorized_users : {
-            type : Boolean,
-            required:true
+            type : Boolean
         },
-
+        
         songs : {
             type : Map,
             of : {
@@ -199,7 +180,6 @@ const ModulesSchema = new mongoose.Schema({
     }, 
 
     chat : {
-
         messages : {
             type : Map, 
             of : {

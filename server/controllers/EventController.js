@@ -486,6 +486,7 @@ const cookieInvitation = catchAsync(async(req, res, next) => {
     })
     const result = await acceptInvitation(req, res, data.eventId);
     if(result === 401){
+        res.redirect("http://localhost:3000/")
         return next(new AppError("Tu n'es pas connecté", 401))
     }
     res.status(200).json({
@@ -495,7 +496,7 @@ const cookieInvitation = catchAsync(async(req, res, next) => {
             result
         },
     })
-    // res.redirect("http://localhost:3000/")
+    res.redirect("http://localhost:3000/")
 
 })
 

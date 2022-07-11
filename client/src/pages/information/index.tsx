@@ -10,6 +10,7 @@ import { create } from "domain";
 import useUpdateEvent from "../../hooks/useUpdateEvent";
 import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
 import useUploadCloudinary from "../../hooks/useUploadCloudinary";
+import useCreateModules from "../../hooks/useCreateModules";
 
 export default function Information() {
 
@@ -94,14 +95,17 @@ export default function Information() {
     }
 
     const updateEvent = useUpdateEvent();
-    const createEvent = useCreateEvent()
+    const createEvent = useCreateEvent();
+    const createModules = useCreateModules();
 
     const sendForm = () => {
         if(eventId){
             updateEvent(eventForm)
         }else{
             eventForm.userId = userConnected
-            createEvent(eventForm)
+            createEvent(eventForm).then((res:any) => {
+                createModules(res.data.event._id).then(res => console.log(res))
+            })  
         }
         setUpdate(false);
     }
