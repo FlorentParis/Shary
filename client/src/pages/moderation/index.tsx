@@ -1,24 +1,8 @@
 import PageBanner from "../../components/common/PageBanner";
 import PageContainer from "../../components/common/PageContainer";
 import MediaCard from "./MediaCard";
-import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 export default function Moderation() {
-  const navigate = useNavigate();
-  const targetEventData = useAppSelector((state) => state.targetEvent.data);
-  const userConnectedData = useAppSelector((state) => state.userConnected);
-  //@ts-ignore
-  const userAdminId = targetEventData.userId;
-  const isAdmin = userConnectedData.id === userAdminId;
-  // navigate("/error")
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate("/error");
-    }
-  });
-
   return (
     <>
       <PageBanner
