@@ -64,15 +64,12 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    getEvents(userConnected.id).then(res => dispatch(setEventsData(res.data.userEvent)))
-  }, []);
+  getEvents(userConnected.id).then(res => dispatch(setEventsData(res.data.userEvent)))
 
   useEffect(() => {
     getEvents(userConnected.id)
     .then(res => {
       dispatch(setEventsData(res.data.userEvent))
-      console.log(res)
     })
   }, [needsUpdate])
 

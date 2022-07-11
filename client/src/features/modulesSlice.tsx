@@ -57,7 +57,6 @@ const modulesSlice = createSlice({
     addModules: (state, {payload}) => {
       state = payload
     },
-   
   }
 })
 

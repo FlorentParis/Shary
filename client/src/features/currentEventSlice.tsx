@@ -32,10 +32,11 @@ const currentEventSlice = createSlice({
     addTargetEvent: (state, {payload}) => {
       state.data = payload
     },
+    resetTargetEvent: (state) => state = initialState
   }
 })
 
-  export const { setCurrentEventData, addTargetEvent } = currentEventSlice.actions
+  export const { setCurrentEventData, addTargetEvent, resetTargetEvent } = currentEventSlice.actions
   
   
   export default currentEventSlice.reducer;

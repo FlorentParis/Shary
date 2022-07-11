@@ -31,10 +31,11 @@ const initialState = {
       addEvents: (state, {payload}) => {
         state.data = payload
       },
+      resetEvents: (state) => state = initialState
     }
   })
 
-  export const { setEventsData, addEvents } = eventsSlice.actions
+  export const { setEventsData, addEvents, resetEvents } = eventsSlice.actions
   export const getAllEvents = (state: any) => state.data
   
   

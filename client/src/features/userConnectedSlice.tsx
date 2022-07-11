@@ -49,7 +49,7 @@ const userSlice = createSlice({
             state.lastName = action.payload.data.userUpdated.lastname;
             state.img = action.payload.data.userUpdated.img;
         },
-        logoutLoggedUser: () => initialState
+        logoutLoggedUser: (state) => state = initialState
     },
     extraReducers: (builder) => {
         builder.addCase(signupUser.fulfilled, (state, {payload}) => {

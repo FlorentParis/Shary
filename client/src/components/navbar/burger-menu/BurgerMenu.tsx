@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
+import { resetTargetEvent } from "../../../features/currentEventSlice";
+import { resetEvents } from "../../../features/eventsSlice";
 import { logoutLoggedUser } from "../../../features/userConnectedSlice";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
 import useEraseCookie from "../../../hooks/useEraseCookie";
@@ -36,6 +38,8 @@ export default function BurgerMenu() {
 
     const disconnect = () => {
         eraseCookie();
+        dispatch(resetEvents());
+        dispatch(resetTargetEvent());
         dispatch(logoutLoggedUser());
     }
 

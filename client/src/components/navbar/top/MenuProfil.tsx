@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { resetTargetEvent } from "../../../features/currentEventSlice";
+import { resetEvents } from "../../../features/eventsSlice";
 import { logoutLoggedUser } from "../../../features/userConnectedSlice";
 import { useAppDispatch } from "../../../hooks/reduxHooks";
 import useEraseCookie from "../../../hooks/useEraseCookie";
@@ -11,6 +13,8 @@ export default function MenuProfil() {
 
     const disconnect = () => {
         eraseCookie();
+        dispatch(resetEvents());
+        dispatch(resetTargetEvent());
         dispatch(logoutLoggedUser());
     }
 
