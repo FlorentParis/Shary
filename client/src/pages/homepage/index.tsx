@@ -33,37 +33,38 @@ export default function Homepage() {
                 className="wrapper"
                 style={{ gridTemplateColumns: "repeat(12, 1fr)" }}
               >
-                {eventsData?.map((event: any, index: number) => {
-                  const eventStart = moment(event.start);
-                  const eventEnd = moment(event.end);
-
-                  return (
-                    <>
-                      {" "}
-                      {moment().isBetween(eventStart, eventEnd) ? (
-                        <Link
-                          className="item"
-                          to={`/event/${event._id}/information`}
-                          onClick={(e) => dispatch(setCurrentEventData(event))}
-                        >
-                          <div
-                            style={{
-                              backgroundImage: "url('/img/upload-demo.png')",
-                            }}
+                {eventsData.length > 0 ? 
+                  eventsData?.map((event: any, index: number) => {
+                    const eventStart = moment(event.start);
+                    const eventEnd = moment(event.end);
+                    return (
+                      <>
+                        {" "}
+                        {moment().isBetween(eventStart, eventEnd) ? (
+                          <Link
+                            className="item"
+                            to={`/event/${event._id}/information`}
+                            onClick={(e) => dispatch(setCurrentEventData(event))}
                           >
-                            <div>
-                              <span>{event.name}</span>
-                              <p>Cliquez pour participez à cet évènement</p>
+                            <div
+                              style={{
+                                backgroundImage: "url('/img/upload-demo.png')",
+                              }}
+                            >
+                              <div>
+                                <span>{event.name}</span>
+                                <p>Cliquez pour participez à cet évènement</p>
+                              </div>
                             </div>
-                          </div>
-                          <div>
-                            <span>{eventStart.format("DD/MM/YYYY")}</span>
-                          </div>
-                        </Link>
-                      ) : null}
-                    </>
-                  );
-                })}
+                            <div>
+                              <span>{eventStart.format("DD/MM/YYYY")}</span>
+                            </div>
+                          </Link>
+                        ) : null}
+                      </>
+                    );
+                  })
+                : ''}
               </div>
             </div>
           </div>
@@ -74,36 +75,38 @@ export default function Homepage() {
                 className="wrapper"
                 style={{ gridTemplateColumns: "repeat(12, 1fr)" }}
               >
-                {eventsData?.map((event: any, index: number) => {
-                  const eventStart = moment(event.start);
+                {eventsData.length > 0 ? 
+                  eventsData?.map((event: any, index: number) => {
+                    const eventStart = moment(event.start);
 
-                  return (
-                    <>
-                      {" "}
-                      {eventStart.isAfter(moment()) ? (
-                        <Link
-                          className="item"
-                          to={`/event/${event._id}/information`}
-                          onClick={(e) => dispatch(setCurrentEventData(event))}
-                        >
-                          <div
-                            style={{
-                              backgroundImage: `url('${event.banniere}')`,
-                            }}
+                    return (
+                      <>
+                        {" "}
+                        {eventStart.isAfter(moment()) ? (
+                          <Link
+                            className="item"
+                            to={`/event/${event._id}/information`}
+                            onClick={(e) => dispatch(setCurrentEventData(event))}
                           >
-                            <div>
-                              <span>{event.name}</span>
-                              <p>Cliquez pour participez à cet évènement</p>
+                            <div
+                              style={{
+                                backgroundImage: `url('${event.banniere}')`,
+                              }}
+                            >
+                              <div>
+                                <span>{event.name}</span>
+                                <p>Cliquez pour participez à cet évènement</p>
+                              </div>
                             </div>
-                          </div>
-                          <div>
-                            <span>{eventStart.format("DD/MM/YYYY")}</span>
-                          </div>
-                        </Link>
-                      ) : null}
-                    </>
-                  );
-                })}
+                            <div>
+                              <span>{eventStart.format("DD/MM/YYYY")}</span>
+                            </div>
+                          </Link>
+                        ) : null}
+                      </>
+                    );
+                  })
+                : ''}
               </div>
             </div>
           </div>
