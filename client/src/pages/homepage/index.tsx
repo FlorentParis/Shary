@@ -14,8 +14,6 @@ const moment = require("moment");
 export default function Homepage() {
   const dispatch = useAppDispatch();
 
-  const userConnected = useAppSelector((state) => state.userConnected);
-
   /* Events */
   const eventsData = useAppSelector((state) => state.events.data);
 

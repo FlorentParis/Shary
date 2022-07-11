@@ -34,10 +34,36 @@ export default function NavbarVertical(props: any) {
     switch (splittedPath.length) {
       case 2:
         //@ts-ignore
+        return (
+          <>
+            <Link to="/event/information">
+              <button>+</button>
+            </Link>
+            <Link to="/">
+              <img src={pageLocation == "" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
+            </Link>
+            <Link to="/event-to-come">
+              <img src={pageLocation == "event-to-come" ? "/icons/gradient/event-to-come-gradient.svg" : "/icons/event-to-come.svg"} alt="" />
+            </Link>
+            <Link to="/event-pass">
+              <img src={pageLocation == "event-pass" ? "/icons/gradient/event-pass-gradient.svg" : "/icons/event-pass.svg"} alt="" />
+            </Link>{" "}
+          </>
+        );
+      case 3:
+        //@ts-ignore
         if (splittedPath[1] === "event" && isAdmin) {
           return (
             <>
-              {" "}
+              <Link to="/">
+                <img src={pageLocation == "" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
+              </Link>
+              <Link to="/event-to-come">
+                <img src={pageLocation == "event-to-come" ? "/icons/gradient/event-to-come-gradient.svg" : "/icons/event-to-come.svg"} alt="" />
+              </Link>
+              <Link to="/event-pass">
+                <img src={pageLocation == "event-pass" ? "/icons/gradient/event-pass-gradient.svg" : "/icons/event-pass.svg"} alt="" />
+              </Link>
               <span className="line"></span>
               <Link to="/information">
                 <img src={pageLocation == "information" ? "/icons/gradient/infos-gradient.svg" : "/icons/infos.svg"} alt="" />
@@ -47,7 +73,9 @@ export default function NavbarVertical(props: any) {
         } else {
           return (
             <>
-              <button>+</button>
+              <Link to="/event/information">
+                <button>+</button>
+              </Link>
               <Link to="/">
                 <img src={pageLocation == "" ? "/icons/gradient/home-gradient.svg" : "/icons/home.svg"} alt="" />
               </Link>
@@ -60,8 +88,6 @@ export default function NavbarVertical(props: any) {
             </>
           );
         }
-
-      case 3:
       case 4:
         if (splittedPath[1] === "event" && (isAdmin || isModerator )) {
           return (

@@ -13,10 +13,13 @@ import useUploadCloudinary from "../../hooks/useUploadCloudinary";
 
 export default function Information() {
 
+    const [update, setUpdate] = useState<boolean>(false);
+
     const navigate = useNavigate();
     const eventId = useParams().id;
     const userConnected = useAppSelector((state) => state.userConnected.id)
     const eventsData = useAppSelector((state) => state.events.data);
+
     const [file,setFile] = useState<any>();
     const [eventForm, setEventForm] = useState<any>({
         _id:'',
@@ -74,6 +77,7 @@ export default function Information() {
     });
 
     const handleChange = ({target}: any) => {
+        setUpdate(true);
         if(eventForm.userId === userConnected || !eventForm.userId) {
             setEventForm((prev: any) => ({
                 ...prev,
@@ -92,14 +96,14 @@ export default function Information() {
     const updateEvent = useUpdateEvent();
     const createEvent = useCreateEvent()
 
-    const sendForm = (e:any) => {
-        e.preventDefault()
+    const sendForm = () => {
         if(eventId){
             updateEvent(eventForm)
         }else{
             eventForm.userId = userConnected
             createEvent(eventForm)
         }
+        setUpdate(false);
     }
 
     useEffect(() => {
@@ -125,16 +129,16 @@ export default function Information() {
                     precision: event.place.access.precision,
             
                     // PERSONNE A CONTACTER
-                    contactName: event.contacts[0].name,
-                    contactPhone: event.contacts[0].phone,
-                    contactCall: event.contacts[0].appel,
-                    contactText: event.contacts[0].sms,
+                    contactName: event.contacts.contact0.name,
+                    contactPhone: event.contacts.contact0.phone,
+                    contactCall: event.contacts.contact0.appel,
+                    contactText: event.contacts.contact0.sms,
             
                     // PERSONNE A CONTACTER 2
-                    contactNameSec: event.contacts[1].name,
-                    contactPhoneSec: event.contacts[1].phone,
-                    contactCallSec: event.contacts[1].appel,
-                    contactTextSec: event.contacts[1].sms,
+                    contactNameSec: event.contacts.contact1.name,
+                    contactPhoneSec: event.contacts.contact1.phone,
+                    contactCallSec: event.contacts.contact1.appel,
+                    contactTextSec: event.contacts.contact1.sms,
             
                     //DRESSCODE
                     dresscode: event.dresscode,
@@ -194,7 +198,13 @@ export default function Information() {
     return (
         <>
             <PageBanner imgSrc="/icons/gradient/infos-gradient.svg" title="Informations" desc="Informations relatives à l'évènement" />
-            <form action="">
+            {update ? 
+                <div className="button-save">
+                    <div onClick={() => sendForm()}>
+                        <img src="/icons/save.svg" />
+                    </div>
+                </div>
+            : ''}
             <GridContainer>
                 <div>
                     <div className="grid-card gc-4 gr-2">
@@ -205,7 +215,7 @@ export default function Information() {
                             <select onChange={handleChange} name="type"  value={eventForm.type}>  
                                 <option>Type d’évènement</option>
                                 <option>Mariage</option>
-                                <option >Anniversaires</option>
+                                <option >Anniversaire</option>
                                 <option>Workshops</option>
                                 <option>Escapades</option>
                             </select>
@@ -347,8 +357,6 @@ export default function Information() {
                     </div>
                 </div>  
             </GridContainer>
-            <button onClick={sendForm}>send</button>
-            </form>
         </>
     )
 }

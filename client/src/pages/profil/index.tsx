@@ -63,6 +63,7 @@ export default function Profil() {
             dispatch(updateUser(profilInfo))
                 .then(res => {
                     dispatch(setUpdateUser(res.payload))
+                    setUpdate(false);
                     window.location.reload();
                 })
         }

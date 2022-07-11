@@ -1,14 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Auth from "./pages/authentification/Auth";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { AppDispatch } from "./store";
-import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { setEventsData } from "./features/eventsSlice";
-/* import { setUsersData } from "./features/usersSlice";
-import { setModulesData } from "./features/modulesSlice"; */
-
-
 
 /* Pages */
 import Homepage from "./pages/homepage";
@@ -44,7 +38,6 @@ import useGetTokenInCookies from './hooks/useGetTokenInCookies';
 import { setLoggedUser } from './features/userConnectedSlice';
 import Error404 from './pages/error/Error404';
 import Error from './pages/error/Error';
-import useGetEvents from "./hooks/useGetEvents";
 import useGetEventsByUser from "./hooks/useGetEventsByUser";
 import ContainerModalDiapo from "./components/diapo/containerModalDiapo";
 
@@ -58,7 +51,6 @@ function App() {
   const [displayMenuProfil, setDisplayMenuProfil] = useState<boolean>(false);
 
   const getEvents = useGetEventsByUser();
-  const eventsData = useAppSelector((state) => state.events.data);
 
   const userConnected = useAppSelector((state) => state.userConnected);
 
