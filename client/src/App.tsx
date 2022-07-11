@@ -5,6 +5,8 @@ import { AppDispatch } from "./store";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { setEventsData } from "./features/eventsSlice";
+import { useNavigate, useParams } from "react-router";
+
 /* import { setUsersData } from "./features/usersSlice";
 import { setModulesData } from "./features/modulesSlice"; */
 
@@ -62,6 +64,18 @@ function App() {
 
   const userConnected = useAppSelector((state) => state.userConnected);
 
+  const navigate = useNavigate();
+  const targetEventData = useAppSelector((state) => state.targetEvent.data);
+  const userConnectedData = useAppSelector((state) => state.userConnected);
+  //@ts-ignore
+  const userAdminId = targetEventData.userId;
+  const isAdmin = userConnectedData.id === userAdminId;
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     navigate("/401");
+  //   }
+  // });
+
   if(token) {
     dispatch(setLoggedUser(token));
   }
@@ -73,7 +87,10 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents(userConnected.id).then(res => dispatch(setEventsData(res)))
+    getEvents(userConnected.id).then(res => {
+      dispatch(setEventsData(res));
+      console.log(res)
+    })
   }, []);
 
   useEffect(() => {
@@ -106,8 +123,8 @@ function App() {
             <div className="main-layout">
               <Routes>
                 <Route path="/*" element={<Error404/>} />
-                <Route path="/" element={<Homepage />} />
-                <Route path="/error" element={<Error />} />
+                {/* <Route path="/" element={<Homepage />} /> */}
+                <Route path="/401" element={<Error />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/event-pass" element={<EventPass />} />
                 <Route path="/profil" element={<Profil />} />
@@ -116,7 +133,7 @@ function App() {
                 
                 {/* //EVENTS */}
                 <Route path="/event/*" element={<Error404/>} />
-                <Route path="/event/:id/modules" element={<Modules />} />
+                <Route path="/event/:id/modules" element={isAdmin ? <Modules /> : <Error/>} />
                 <Route path="/event/:id/information" element={<Information />} />
                 <Route path="/event/information" element={<Information />} />
                 <Route path="/event/:id/golden-book" element={<GoldenBook />} />
@@ -124,10 +141,11 @@ function App() {
                 {/* <Route path="/event/:id/fireworks" element={<Fireworks />} /> */}
                 {/* <Route path="/event/:id/announce" element={<Announce />} /> */}
                 <Route path="/event/:id/guest-list" element={<GuestList />} />
-                <Route path="/event/:id/alert" element={<Alert />} />
+                <Route path="/event/:id/alert" element={isAdmin ? <Alert /> : <Error/>} />
                 <Route path="/event/:id/photo" element={<Photo />} />
+                {/* //INVITED */}
                 <Route path="/event/:id/playlist" element={<Playlist />} />
-                <Route path="/event/:id/moderation" element={<Moderation />} />
+                <Route path="/event/:id/moderation" element={isAdmin ? <Moderation /> : <Error/>} />
                 <Route path="/event/:id/chat" element={<Chat />} />
               </Routes>
             </div>
