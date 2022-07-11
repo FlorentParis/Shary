@@ -5,18 +5,18 @@ import PageContainer from "../../components/common/PageContainer";
 import { useAppSelector } from "../../hooks/reduxHooks";
 
 export default function Alert() {
-  const navigate = useNavigate();
-  const targetEventData = useAppSelector((state) => state.targetEvent.data);
-  const userConnectedData = useAppSelector((state) => state.userConnected);
-  //@ts-ignore
-  const userAdminId = targetEventData.userId;
-  const isAdmin = userConnectedData.id === userAdminId;
-  // navigate("/error")
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate("/error");
-    }
-  });
+  // const navigate = useNavigate();
+  // const targetEventData = useAppSelector((state) => state.targetEvent.data);
+  // const userConnectedData = useAppSelector((state) => state.userConnected);
+  // //@ts-ignore
+  // const userAdminId = targetEventData.userId;
+  // const isAdmin = userConnectedData.id === userAdminId;
+  // // navigate("/error")
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     navigate("/error");
+  //   }
+  // });
   return (
     <div className="container-alert">
       <div>

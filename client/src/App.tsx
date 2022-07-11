@@ -87,16 +87,13 @@ function App() {
   };
 
   useEffect(() => {
-    getEvents(userConnected.id).then(res => {
-      dispatch(setEventsData(res));
-      console.log(res)
-    })
+    getEvents(userConnected.id).then(res => dispatch(setEventsData(res.data.userEvent)))
   }, []);
 
   useEffect(() => {
     getEvents(userConnected.id)
     .then(res => {
-      dispatch(setEventsData(res))
+      dispatch(setEventsData(res.data.userEvent))
     })
   }, [needsUpdate])
 
@@ -123,7 +120,7 @@ function App() {
             <div className="main-layout">
               <Routes>
                 <Route path="/*" element={<Error404/>} />
-                {/* <Route path="/" element={<Homepage />} /> */}
+                <Route path="/" element={<Homepage />} />
                 <Route path="/401" element={<Error />} />
                 <Route path="/event-to-come" element={<EventToCome />} />
                 <Route path="/event-pass" element={<EventPass />} />

@@ -11,7 +11,7 @@ const initialState = {
     firstName: "",
     lastName: "",
     img: "",
-    token: "azerty",
+    token: "",
     isFetching: false,
     isSuccess: false,
     isError: false,

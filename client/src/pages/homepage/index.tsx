@@ -8,7 +8,6 @@ import {
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { Link } from "react-router-dom";
-import useGetEvents from "../../hooks/useGetEvents";
 
 const moment = require("moment");
 
@@ -18,21 +17,7 @@ export default function Homepage() {
   const userConnected = useAppSelector((state) => state.userConnected);
 
   /* Events */
-  const getEvents = useGetEvents();
   const eventsData = useAppSelector((state) => state.events.data);
-
-  /* useEffect(() => {
-    getEvents().then((res) => {
-      dispatch(setEventsData(res));
-    });
-    // //@ts-ignore
-    // const sortedAsc = eventsData.sort((objA, objB) => 
-    //   //@ts-ignore
-    //   objA.start.getTime() - objB.start.getTime()
-    // );
-
-    // console.log(sortedAsc, "EVTDATA");
-  }, []); */
 
   return (
     <>

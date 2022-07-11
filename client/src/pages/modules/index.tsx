@@ -13,18 +13,18 @@ import ModulePlaylist from "./ModulePlaylist";
 import ModuleBLANC from "./ModuleBLANC";
 
 export default function Modules() {
-  const navigate = useNavigate();
-  const targetEventData = useAppSelector((state) => state.targetEvent.data);
-  const userConnectedData = useAppSelector((state) => state.userConnected);
-  //@ts-ignore
-  const userAdminId = targetEventData.userId;
-  const isAdmin = userConnectedData.id === userAdminId;
-  // navigate("/error")
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate("/error");
-    }
-  });
+  // const navigate = useNavigate();
+  // const targetEventData = useAppSelector((state) => state.targetEvent.data);
+  // const userConnectedData = useAppSelector((state) => state.userConnected);
+  // //@ts-ignore
+  // const userAdminId = targetEventData.userId;
+  // const isAdmin = userConnectedData.id === userAdminId;
+  // // navigate("/error")
+  // useEffect(() => {
+  //   if (!isAdmin) {
+  //     navigate("/error");
+  //   }
+  // });
 
   const [displayMenuModule, setDisplayMenuModule] = useState<boolean>(false);
 

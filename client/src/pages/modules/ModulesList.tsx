@@ -140,7 +140,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModulePhotoVideoActive(false);
         }
-        console.log(modulePhotoVideoActive)
     }
 
     useEffect(() => {
@@ -172,7 +171,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModuleChatActive(false);
         }
-        console.log(moduleChatActive)
     }
 
     useEffect(() => {
@@ -204,7 +202,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModuleLivreDorActive(false);
         }
-        console.log(moduleLivreDorActive)
     }
 
     useEffect(() => {
@@ -236,7 +233,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModuleFresqueActive(false);
         }
-        console.log(moduleFresqueActive)
     }
 
     useEffect(() => {
@@ -268,7 +264,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModuleFeuDArtificeActive(false);
         }
-        console.log(moduleFeuDArtificeActive)
     }
 
     useEffect(() => {
@@ -300,7 +295,6 @@ export default function ModulesList({setDisplayMenuModule,
         }else{
             setModulePlaylistActive(false);
         }
-        console.log(modulePlaylistActive)
     }
 
 

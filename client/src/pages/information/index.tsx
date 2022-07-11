@@ -74,7 +74,6 @@ export default function Information() {
     });
 
     const handleChange = ({target}: any) => {
-        console.log(eventForm)
         if(eventForm.userId === userConnected || !eventForm.userId) {
             setEventForm((prev: any) => ({
                 ...prev,
@@ -99,7 +98,6 @@ export default function Information() {
             updateEvent(eventForm)
         }else{
             eventForm.userId = userConnected
-            console.log(eventForm)
             createEvent(eventForm)
         }
     }
@@ -107,7 +105,6 @@ export default function Information() {
     useEffect(() => {
         let good;
         const fetchData = async (event:any) => {
-            console.log(event)
             setEventForm(
                 {
                     _id: event._id,
@@ -172,10 +169,7 @@ export default function Information() {
                         fetchData(event)
                 }
             })
-            good ? console.log("good") : navigate("/404")
-            console.log("Page informations d'event")
-        } else {
-            console.log("Page creation d'event")
+            good ? console.log() : navigate("/404")
         }
         
     }, [])
@@ -189,19 +183,13 @@ export default function Information() {
             uploadCloud("image", formData)
             .then(res=> {
                 const fileURL = res.url
-                console.log(fileURL)
                 setEventForm((prev: any) => ({
                     ...prev,
                     img: fileURL
                 }))
-                console.log(eventForm)
             })
         }
     }, [file])
-
-    useEffect(() => {
-        console.log(eventForm)
-    }, [eventForm])
 
     return (
         <>
