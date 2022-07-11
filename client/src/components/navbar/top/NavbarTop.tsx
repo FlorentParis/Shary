@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom";
 import { useAppSelector } from "../../../hooks/reduxHooks";
 
 interface NavbarTopInterface {
@@ -21,10 +22,10 @@ export default function NavbarTop({displayMenuProfil, setDisplayMenuProfil}: Nav
             <div className="navbar-top">
                 <img src="/logo/Shary_LogoFinal.svg" alt="Logo" />
                 <div>
-                    <button id="btn-add-event">
+                    <Link to="/event/information" id="btn-add-event">
                         <span>+&nbsp;</span>
                         Créer un évènement
-                    </button>
+                    </Link>
                     <div>
                         <img src="/icons/bell.svg" alt="pic bell" />
                         <span>4</span>

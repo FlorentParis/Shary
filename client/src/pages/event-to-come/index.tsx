@@ -37,11 +37,13 @@ export default function EventToCome() {
                         </ul>
                     </div>
                     <div className="grid-event-card">
-                        {eventsData?.map((event: any, index: number) => {
-                            if(moment().isBefore(event.end)) {
-                                return <EventCard event={event} key={index} />
-                            }
-                        })}
+                        {eventsData.length > 0 ? 
+                            eventsData?.map((event: any, index: number) => {
+                                if(moment().isBefore(event.end)) {
+                                    return <EventCard event={event} key={index} />
+                                }
+                            })
+                        : ''}
                         <BtnAddEvent />
                     </div>
                 </div>
