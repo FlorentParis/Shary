@@ -153,14 +153,13 @@ const getAllEventsByParticipant = catchAsync(async(req, res) => {
 
 const getAllEventsByUser = catchAsync(async(req, res) => {
     let data = req.query
-    console.log(data)
     let events = await Event.find({})
     let userEvent = []
 
     events.forEach(function(event){
         if(event.userId == data._id){
             userEvent.push(event)
-            delete event
+            event = undefined
         }
     });
 
@@ -168,10 +167,13 @@ const getAllEventsByUser = catchAsync(async(req, res) => {
         event.participants.forEach(function(participant){
             if(participant.userId == data._id && participant.status == "Accepted"){
                 userEvent.push(event)
-                delete event
+                event = undefined
             }
         })
     );
+
+    let uniqueArray = [...new Map(userEvent.map(item => [item.userId, item])).values()]
+    userEvent = uniqueArray;
 
     res.status(200).json({
         status: 'success',
