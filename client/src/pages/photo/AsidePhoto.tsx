@@ -46,6 +46,7 @@ export default function AsidePhoto(props:any) {
             <a href={props.file.content} download onClick={e => download(e)}>Télécharger</a>
             {/* <button>Télécharger</button> */}
             <span>Signaler cette photo</span>
+            <img className="close" onClick={() => props.setDisplayAside(false)} src="/icons/cross.svg" />
         </div>
     )
 }

@@ -25,6 +25,7 @@
         justify-content: center;
         border-radius: 15px;
         margin-bottom: 15px;
+        background-color: #000;
 
         > img {
             width: 100%;
@@ -62,6 +63,12 @@
         font-weight: 500;
         font-size: 8px;
         color: rgba(255, 0, 0, 0.5);
+    }
+
+    .close {
+        position: absolute;
+        top: 25px;
+        right: 25px;
     }
 }
 

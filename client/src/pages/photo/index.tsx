@@ -149,7 +149,7 @@ export default function Photo() {
                     }
                 </div>
             </PageContainer>
-            {displayAside ? <AsidePhoto file={fileSelectionned}/> : ""}
+            {displayAside ? <AsidePhoto file={fileSelectionned} setDisplayAside={setDisplayAside} /> : ""}
         </>
     )
 }
