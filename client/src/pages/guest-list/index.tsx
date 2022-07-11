@@ -35,7 +35,10 @@ export default function GuestList() {
     }
 
     const handleSubmit = () => {
-        addParticipants(id_event, mailGuest)
+        if(mailGuest.length > 4) {
+            addParticipants(id_event, mailGuest)
+            setMailGuest("");
+        }
     }
 
     const participantsEvent = useAppSelector((state) => state.targetEvent.data.participants);
