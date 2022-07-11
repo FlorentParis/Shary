@@ -9,7 +9,7 @@ export default function ContainerModalDiapo(props: any) {
     return (
         <div className="container-modal-diapo">
             <ModalConfirmationDiapo setModalDiapo={props.setModalDiapo} setDifuseDiapo={setDifuseDiapo} />
-            {difuseDiapo ? <Diapo /> : ''}
+            {difuseDiapo ? <Diapo setModalDiapo={props.setModalDiapo} /> : ''}
         </div>
     )
 }

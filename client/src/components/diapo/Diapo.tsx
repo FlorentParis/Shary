@@ -3,7 +3,7 @@ import { useLocation } from "react-router";
 import useGetModuleByEventId from "../../hooks/useGetModuleByEventId";
 import useGetUserById from "../../hooks/useGetUserById";
 
-export default function Diapo() {
+export default function Diapo(props: any) {
 
     const arrayQuery = useLocation().pathname.split('/');
     const id_event = arrayQuery[2];
@@ -48,6 +48,7 @@ export default function Diapo() {
                     <img src={array[count].content} />
                 </div>
             : ''}
+            <img onClick={() => props.setModalDiapo(false)} src="/icons/cross.svg" />
         </div>
     )
 }
